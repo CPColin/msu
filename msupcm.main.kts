@@ -7,6 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
+import java.io.OutputStream
+import kotlin.math.log10
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 val CHANNELS = 2
 
@@ -16,11 +20,34 @@ val SAMPLE_BYTES = 2
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Msu(
+    /**
+     * Target root-mean-square normalization, in decibels. This value applies whenever [Track.normalization] is `null`.
+     */
+    val normalization: Double,
+
     @JsonProperty("output_prefix")
     val outputPrefix: String,
 
     val tracks: List<Track>
 )
+
+/**
+ * A sequence that converts the given [pcmData] from bytes into 16-bit, little-endian, signed samples. The returned
+ * samples are from the left channel when the [left] flag is `true` and from the right channel otherwise.
+ */
+class SampleSequence(private val pcmData: ByteArray, private val left: Boolean): Sequence<Int> {
+    override fun iterator() = object : Iterator<Int> {
+        var index = if (left) 0 else 2
+
+        override fun hasNext() = index < pcmData.size
+
+        override fun next(): Int {
+            index += 4
+
+            return bytesToSample(pcmData, index - 4)
+        }
+    }
+}
 
 data class Track(
     @JsonProperty("file")
@@ -28,6 +55,11 @@ data class Track(
 
     @JsonProperty("loop")
     val loopPoint: Int,
+
+    /**
+     * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
+     */
+    val normalization: Double?,
 
     val title: String,
 
@@ -41,7 +73,33 @@ data class Track(
     val trimStart: Int
 )
 
+/**
+ * Converts the bytes starting at the given [index] of the given [pcmData] into a 16-bit, little-endian sample.
+ */
+fun bytesToSample(pcmData: ByteArray, index: Int) =
+    (pcmData[index + 1].toInt() shl 8) or
+            (pcmData[index].toInt() and 0xff)
+
 fun bytesToSamples(bytes: Int) = bytes / SAMPLE_BYTES / CHANNELS
+
+/**
+ * Computes and returns the (linear) Root Mean Square of the given [pcmData].
+ */
+fun computeRootMeanSquare(pcmData: ByteArray) =
+    (computeRootMeanSquare(pcmData, true) + computeRootMeanSquare(pcmData, false)) / 2.0
+
+fun computeRootMeanSquare(pcmData: ByteArray, left: Boolean) =
+    SampleSequence(pcmData, left)
+        // Square
+        .map { it.toDouble().pow(2) }
+        // Total
+        .sum()
+        // Mean
+        .let { it / bytesToSamples(pcmData.size) }
+        // Root Mean Square
+        .let { sqrt(it) }
+        // Relative to maximum value of a 16-bit signed sample
+        .let { it / ((1 shl 15) - 1) }
 
 fun convertToPcmData(filename: String): ByteArray {
     val process = ProcessBuilder(
@@ -60,6 +118,37 @@ fun convertToPcmData(filename: String): ByteArray {
         .start()
 
     return process.getInputStream().readBytes()
+}
+
+/**
+ * Converts the given value from [decibels] (relative to maximum) to its linear power equivalent.
+ */
+fun decibelsToLinear(decibels: Double): Double = 10.0.pow(decibels / 20.0)
+
+fun linearToDecibels(linear: Double) = 20.0 * log10(linear)
+
+/**
+ * Normalizes the given [pcmData] by multiplying each sample such that the resulting RMS value will match the given
+ * [normalization] value, as specified in decibels. Overwrites (and returns) the original array.
+ */
+fun normalizePcmData(pcmData: ByteArray, normalization: Double): ByteArray {
+    val factor = decibelsToLinear(normalization) / computeRootMeanSquare(pcmData)
+    var index = 0
+
+    println("  Normalization factor: $factor")
+
+    while (index < pcmData.size) {
+        val sample = bytesToSample(pcmData, index)
+        val normalizedSample = (sample.toDouble() * factor).toInt()
+        val bytes = sampleToBytes(normalizedSample)
+
+        pcmData[index] = bytes.first
+        pcmData[index + 1] = bytes.second
+
+        index += 2
+    }
+
+    return pcmData
 }
 
 fun printUsage() {
@@ -104,6 +193,11 @@ fun processTracks(filename: String) {
     msu.tracks.forEach { processTrack(msu, it) }
 }
 
+/**
+ * Converts the given 16-bit [sample] into its consituent bytes, in little-endian order.
+ */
+fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
+
 fun samplesToBytes(samples: Int) = samples * SAMPLE_BYTES * CHANNELS
 
 fun trimPcmData(pcmData: ByteArray, samplesStart: Int, samplesEnd: Int?) =
@@ -142,10 +236,11 @@ fun writeMsuPcm(msu: Msu, track: Track, pcmData: ByteArray, raw: Boolean) {
             it.write(loopPoint shr 8)
             it.write(loopPoint shr 16)
             it.write(loopPoint shr 24)
-            
-            // Write the audio data
-            it.write(pcmData1)
-            it.write(pcmData2)
+
+            // Normalize and write the audio data
+            val normalizedPcmData = normalizePcmData(pcmData1 + pcmData2, track.normalization ?: msu.normalization)
+
+            it.write(normalizedPcmData)
         }
     }
 }
