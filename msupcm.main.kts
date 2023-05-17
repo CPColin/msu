@@ -50,11 +50,23 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
 }
 
 data class Track(
+    /**
+     * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
+     */
+    @JsonProperty("fade_in")
+    val fadeIn: Int?,
+
+    /**
+     * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
+     */
+    @JsonProperty("fade_out")
+    val fadeOut: Int?,
+
     @JsonProperty("file")
     val filename: String,
 
     @JsonProperty("loop")
-    val loopPoint: Int,
+    val loopPoint: Int?,
 
     /**
      * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
@@ -73,6 +85,8 @@ data class Track(
     val trimStart: Int
 )
 
+fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
+
 /**
  * Converts the bytes starting at the given [index] of the given [pcmData] into a 16-bit, little-endian sample.
  */
@@ -80,7 +94,34 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
     (pcmData[index + 1].toInt() shl 8) or
             (pcmData[index].toInt() and 0xff)
 
-fun bytesToSamples(bytes: Int) = bytes / SAMPLE_BYTES / CHANNELS
+/**
+ * Computes and returns the amplification factor such that the resulting RMS value for the track will match the given
+ * [normalization] value, as specified in decibels.
+ */
+fun computeAmplification(pcmData: ByteArray, normalization: Double) =
+    decibelsToLinear(normalization) / computeRootMeanSquare(pcmData)
+
+/**
+ * Computes and returns the fade factor resulting from the given parameters. The factor fades in and out linearly
+ * between `0.0` and `1.0` when close to the ends of the track and a fade is specified. Note that it's possible for both
+ * fades to overlap, in which case both fades are applied successively.
+ */
+fun computeFade(fadeIn: Int?, fadeOut: Int?, sampleIndex: Int, totalSampleCount: Int): Double {
+    // Start with 1.0 to represent no fade being applied.
+    var fade = 1.0
+
+    if (fadeIn is Int && fadeIn < sampleIndex) {
+        // We are within fadeIn samples from the start of the track, so fade in linearly.
+        fade = fade * sampleIndex / fadeIn
+    }
+
+    if (fadeOut is Int && sampleIndex > (totalSampleCount - fadeOut)) {
+        // We are within fadeOut samples from the end of the track, so fade out linearly.
+        fade = fade * (totalSampleCount - sampleIndex) / fadeOut
+    }
+
+    return fade
+}
 
 /**
  * Computes and returns the (linear) Root Mean Square of the given [pcmData].
@@ -95,7 +136,7 @@ fun computeRootMeanSquare(pcmData: ByteArray, left: Boolean) =
         // Total
         .sum()
         // Mean
-        .let { it / bytesToSamples(pcmData.size) }
+        .let { it / byteCountToSampleCount(pcmData.size) }
         // Root Mean Square
         .let { sqrt(it) }
         // Relative to maximum value of a 16-bit signed sample
@@ -128,27 +169,27 @@ fun decibelsToLinear(decibels: Double): Double = 10.0.pow(decibels / 20.0)
 fun linearToDecibels(linear: Double) = 20.0 * log10(linear)
 
 /**
- * Normalizes the given [pcmData] by multiplying each sample such that the resulting RMS value will match the given
- * [normalization] value, as specified in decibels. Overwrites (and returns) the original array.
+ * Performs mixing on the given [pcmData] by converting each sample to a [Double], applying requested processing,
+ * converting the sample back to a 16-bit value, and writing it back into the array. We're doing the mixing in floating
+ * point because repeated conversion back into [Int] values could lose precision.
  */
-fun normalizePcmData(pcmData: ByteArray, normalization: Double): ByteArray {
-    val factor = decibelsToLinear(normalization) / computeRootMeanSquare(pcmData)
+fun mixPcmData(pcmData: ByteArray, msu: Msu, track: Track) {
+    val amplification = computeAmplification(pcmData, track.normalization ?: msu.normalization)
     var index = 0
-
-    println("  Normalization factor: $factor")
+    val totalSampleCount = byteCountToSampleCount(pcmData.size)
 
     while (index < pcmData.size) {
-        val sample = bytesToSample(pcmData, index)
-        val normalizedSample = (sample.toDouble() * factor).toInt()
-        val bytes = sampleToBytes(normalizedSample)
+        val sampleIndex = byteCountToSampleCount(index)
+        val sample = bytesToSample(pcmData, index) *
+                amplification *
+                computeFade(track.fadeIn, track.fadeOut, sampleIndex, totalSampleCount)
+        val bytes = sampleToBytes(sample.toInt())
 
         pcmData[index] = bytes.first
         pcmData[index + 1] = bytes.second
 
         index += 2
     }
-
-    return pcmData
 }
 
 fun printUsage() {
@@ -193,34 +234,39 @@ fun processTracks(filename: String) {
     msu.tracks.forEach { processTrack(msu, it) }
 }
 
+fun sampleCountToByteCount(sampleCount: Int) = sampleCount * SAMPLE_BYTES * CHANNELS
+
 /**
  * Converts the given 16-bit [sample] into its consituent bytes, in little-endian order.
  */
 fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
 
-fun samplesToBytes(samples: Int) = samples * SAMPLE_BYTES * CHANNELS
+fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?) =
+    pcmData.copyOfRange(
+        sampleCountToByteCount(sampleCountStart),
+        sampleCountEnd?.let { sampleCountToByteCount(it) } ?: pcmData.size
+    )
 
-fun trimPcmData(pcmData: ByteArray, samplesStart: Int, samplesEnd: Int?) =
-    pcmData.copyOfRange(samplesToBytes(samplesStart), samplesEnd?.let { samplesToBytes(it) } ?: pcmData.size)
-
-fun writeMsuPcm(msu: Msu, track: Track, pcmData: ByteArray, raw: Boolean) {
+fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
     val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
 
     File(outputFilename).outputStream().use {
         if (raw) {
-            it.write(pcmData)
+            it.write(rawPcmData)
         } else {
-            val (pcmData1, pcmData2) = if (track.loopPoint >= track.trimStart) {
-                // Everything is in the right order already, so leave one section empty and add everything to the other
-                // one.
-                ByteArray(0) to trimPcmData(pcmData, track.trimStart, track.trimEnd)
+            val pcmData = if (track.loopPoint == null || track.loopPoint >= track.trimStart) {
+                // Everything is in the right order already.
+                trimPcmData(rawPcmData, track.trimStart, track.trimEnd)
             } else {
                 // We're starting from a point inside what we want to loop, so flip the sections around so
                 // [trimStart:timEnd] plays first and [loopPoint:trimStart] follows.
-                trimPcmData(pcmData, track.trimStart, track.trimEnd) to
-                        trimPcmData(pcmData, track.loopPoint, track.trimStart)
+                trimPcmData(rawPcmData, track.trimStart, track.trimEnd) +
+                        trimPcmData(rawPcmData, track.loopPoint, track.trimStart)
             }
-            val loopPoint = if (track.loopPoint >= track.trimStart) {
+            val loopPoint = if (track.loopPoint == null) {
+                // We didn't specify a loop point, so loop the whole (trimmed) file.
+                0
+            } else if (track.loopPoint >= track.trimStart) {
                 // If we're offsetting the start of the track, we have to adjust the loop point to account for that.
                 track.loopPoint - track.trimStart
             } else {
@@ -237,10 +283,10 @@ fun writeMsuPcm(msu: Msu, track: Track, pcmData: ByteArray, raw: Boolean) {
             it.write(loopPoint shr 16)
             it.write(loopPoint shr 24)
 
-            // Normalize and write the audio data
-            val normalizedPcmData = normalizePcmData(pcmData1 + pcmData2, track.normalization ?: msu.normalization)
+            mixPcmData(pcmData, msu, track)
 
-            it.write(normalizedPcmData)
+            // Write the processed audio data
+            it.write(pcmData)
         }
     }
 }
