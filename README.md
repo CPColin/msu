@@ -21,6 +21,8 @@ Run the script with no arguments to see usage notes.
 
 My current workflow involves adding a track to the JSON, running the script with the track number and the `-raw` option, and importing the resulting (headerless) PCM into Audacity to look for loop points.
 
+Add `JAVA_OPTS="-Xmx1g"` to the start of the command to run the script if it runs out of heap space while processing a large file.
+
 ### `playmsu.main.kts`
 
 This script plays an MSU-compatible PCM file.
