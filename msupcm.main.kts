@@ -110,7 +110,7 @@ fun computeFade(fadeIn: Int?, fadeOut: Int?, sampleIndex: Int, totalSampleCount:
     // Start with 1.0 to represent no fade being applied.
     var fade = 1.0
 
-    if (fadeIn is Int && fadeIn < sampleIndex) {
+    if (fadeIn is Int && sampleIndex < fadeIn) {
         // We are within fadeIn samples from the start of the track, so fade in linearly.
         fade = fade * sampleIndex / fadeIn
     }
