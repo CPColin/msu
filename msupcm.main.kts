@@ -178,6 +178,8 @@ fun mixPcmData(pcmData: ByteArray, msu: Msu, track: Track) {
     var index = 0
     val totalSampleCount = byteCountToSampleCount(pcmData.size)
 
+    println("  Amplification: $amplification")
+
     while (index < pcmData.size) {
         val sampleIndex = byteCountToSampleCount(index)
         val sample = bytesToSample(pcmData, index) *
