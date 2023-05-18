@@ -73,6 +73,20 @@ data class Track(
      */
     val normalization: Double?,
 
+    /**
+     * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
+     * be placed within these silent samples.
+     */
+    @JsonProperty("pad_end")
+    val padEnd: Int?,
+
+    /**
+     * When specified, indicates that this track should start with the given number of silent samples. The [loopPoint]
+     * is relative to the start of the _unpadded_ track and thus may not be placed within these silent samples.
+     */
+    @JsonProperty("pad_start")
+    val padStart: Int?,
+
     val title: String,
 
     @JsonProperty("track_number")
@@ -251,6 +265,8 @@ fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?)
 
 fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
     val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
+    val padEnd = track.padEnd ?: 0
+    val padStart = track.padStart ?: 0
 
     File(outputFilename).outputStream().use {
         if (raw) {
@@ -270,11 +286,13 @@ fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
                 0
             } else if (track.loopPoint >= track.trimStart) {
                 // If we're offsetting the start of the track, we have to adjust the loop point to account for that.
-                track.loopPoint - track.trimStart
+                track.loopPoint - track.trimStart + padStart
             } else {
                 // We flipped the sections around above, so we can loop the entire file.
-                0
+                0 + padStart
             }
+
+            mixPcmData(pcmData, msu, track)
 
             // Write the magic number
             it.write(MSU_MAGIC.toByteArray())
@@ -285,10 +303,10 @@ fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
             it.write(loopPoint shr 16)
             it.write(loopPoint shr 24)
 
-            mixPcmData(pcmData, msu, track)
-
             // Write the processed audio data
+            it.write(ByteArray(sampleCountToByteCount(padStart)))
             it.write(pcmData)
+            it.write(ByteArray(sampleCountToByteCount(padEnd)))
         }
     }
 }
