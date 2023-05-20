@@ -179,7 +179,6 @@ fun seekSample(file: RandomAccessFile, sample: UInt) {
  * discontinuity between the two samples at the exact middle.
  */
 fun writeLoop(filename: String, outputFilename: String) {
-    val audio = openAudio()
     val buffer = loadLoopAudio(filename)
 
     File(outputFilename).outputStream().use {

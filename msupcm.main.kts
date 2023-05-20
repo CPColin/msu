@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
-import java.io.OutputStream
+import java.io.FileWriter
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -20,6 +20,8 @@ val SAMPLE_BYTES = 2
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Msu(
+    val game: String,
+
     /**
      * Target root-mean-square normalization, in decibels. This value applies whenever [Track.normalization] is `null`.
      */
@@ -28,7 +30,11 @@ data class Msu(
     @JsonProperty("output_prefix")
     val outputPrefix: String,
 
-    val tracks: List<Track>
+    val pack: String,
+
+    val tracks: List<Track>,
+
+    val url: String
 )
 
 /**
@@ -172,7 +178,7 @@ fun convertToPcmData(filename: String): ByteArray {
         .redirectInput(ProcessBuilder.Redirect.INHERIT)
         .start()
 
-    return process.getInputStream().readBytes()
+    return process.inputStream.readBytes()
 }
 
 /**
@@ -248,12 +254,15 @@ fun processTracks(filename: String) {
     val msu = mapper.readValue<Msu>(File(filename))
 
     msu.tracks.forEach { processTrack(msu, it) }
+
+    writeMsuFile(msu)
+    writeMsuTrackList(msu)
 }
 
 fun sampleCountToByteCount(sampleCount: Int) = sampleCount * SAMPLE_BYTES * CHANNELS
 
 /**
- * Converts the given 16-bit [sample] into its consituent bytes, in little-endian order.
+ * Converts the given 16-bit [sample] into its constituent bytes, in little-endian order.
  */
 fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
 
@@ -263,15 +272,22 @@ fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?)
         sampleCountEnd?.let { sampleCountToByteCount(it) } ?: pcmData.size
     )
 
+/**
+ * Creates the empty `.msu` file necessary for emulators to recognize this as an MSU pack.
+ */
+fun writeMsuFile(msu: Msu) {
+    File(msu.outputPrefix + ".msu").createNewFile()
+}
+
 fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
     val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
-    val padEnd = track.padEnd ?: 0
-    val padStart = track.padStart ?: 0
 
     File(outputFilename).outputStream().use {
         if (raw) {
             it.write(rawPcmData)
         } else {
+            val padEnd = track.padEnd ?: 0
+            val padStart = track.padStart ?: 0
             val pcmData = if (track.loopPoint == null || track.loopPoint >= track.trimStart) {
                 // Everything is in the right order already.
                 trimPcmData(rawPcmData, track.trimStart, track.trimEnd)
@@ -311,12 +327,23 @@ fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
     }
 }
 
+fun writeMsuTrackList(msu: Msu) {
+    FileWriter(msu.outputPrefix + ".txt").use {
+        it.write("Track list for MSU pack: ${msu.pack}\n")
+        it.write("For game: ${msu.game}\n")
+        it.write("From source URL(s):\n")
+        msu.url.split(";").forEach { url -> it.write("  $url\n") }
+        it.write("\n")
+        msu.tracks.forEach { track -> it.write("${track.trackNumber} - ${track.title} - ${track.filename}\n") }
+    }
+}
+
 if (args.size == 1) {
     processTracks(args[0])
 } else if (args.size == 2) {
     processTrack(args[0], args[1].toInt())
 } else if (args.size == 3 && args[2] == "-raw"){
-    processTrack(args[0], args[1].toInt(), true) // TODO: should ignore trims
+    processTrack(args[0], args[1].toInt(), true)
 } else {
     printUsage()
 }
