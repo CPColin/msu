@@ -1,7 +1,21 @@
-# MSU Scripts and Packs
+# MSU Packs and Scripts
 
-I'm making an MSU pack for the [SMZ3 Cas' Randomizer](https://github.com/Vivelin/SMZ3Randomizer/) for the first time and I'm doing it in Linux so none of the usual tools are working.
-So, since I too am a tool, I'm making my own workflow for this.
+I made an MSU pack for the [SMZ3 Cas' Randomizer](https://github.com/Vivelin/SMZ3Randomizer/) for the first time and did it in Linux so none of the usual tools worked.
+So, since I too am a tool, I made my own workflow for this.
+
+## Packs
+
+### [Trials and Secrets](https://www.crappycomic.com/msu/Trials%20and%20Secrets.zip)
+
+Songs from Secret of Mana and Trials of Mana, with the former being used in Super Metroid and the latter being used in ALttP.
+This pack is compatible with SMZ3 Cas' Randomizer version 9.1.0, at least.
+There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/trials_and_secrets_msu.txt).
+
+ALttpR (Trials of Hyrule) and SM (Secret of Zebes) standalone packs coming soon (hopefully)!
+
+#### Version history
+
+* **v1.0, 2023-05-20:** Initial release.
 
 ## Scripts
 
@@ -31,3 +45,8 @@ The file must have a valid MSU header; that is, the `MSU1` magic number and a fo
 When run with a single argument, the script will play the given track indefinitely.
 Add the `-loop` argument to play the bit of audio surrounding the loop point over and over, to check for pops.
 Add the `-writeloop` and a filename to write the above audio to a separate PCM file that can be imported into Audacity and visually inspected for pops.
+
+## Contact
+
+* GitHub: https://github.com/CPColin/msu
+* Twitter: https://twitter.com/CPColin
