@@ -4,6 +4,8 @@
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
@@ -32,7 +34,7 @@ data class Msu(
 
     val pack: String,
 
-    val tracks: List<Track>,
+    val tracks: List<TrackBase>,
 
     val url: String
 )
@@ -55,55 +57,120 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
     }
 }
 
+@JsonSubTypes(JsonSubTypes.Type(Track::class), JsonSubTypes.Type(TrackCopy::class))
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+sealed interface TrackBase {
+    /**
+     * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
+     */
+    val fadeIn: Int?
+
+    /**
+     * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
+     */
+    val fadeOut: Int?
+
+    val filename: String
+
+    val loopPoint: Int?
+
+    /**
+     * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
+     */
+    val normalization: Double?
+
+    /**
+     * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
+     * be placed within these silent samples.
+     */
+    val padEnd: Int?
+
+    /**
+     * When specified, indicates that this track should start with the given number of silent samples. The [loopPoint]
+     * is relative to the start of the _unpadded_ track and thus may not be placed within these silent samples.
+     */
+    val padStart: Int?
+
+    val title: String
+
+    val trackNumber: Int
+
+    val trimEnd: Int?
+
+    val trimStart: Int
+}
+
 data class Track(
     /**
      * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
      */
     @JsonProperty("fade_in")
-    val fadeIn: Int?,
+    override val fadeIn: Int?,
 
     /**
      * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
      */
     @JsonProperty("fade_out")
-    val fadeOut: Int?,
+    override val fadeOut: Int?,
 
     @JsonProperty("file")
-    val filename: String,
+    override val filename: String,
 
     @JsonProperty("loop")
-    val loopPoint: Int?,
+    override val loopPoint: Int?,
 
     /**
      * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
      */
-    val normalization: Double?,
+    override val normalization: Double?,
 
     /**
      * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
      * be placed within these silent samples.
      */
     @JsonProperty("pad_end")
-    val padEnd: Int?,
+    override val padEnd: Int?,
 
     /**
      * When specified, indicates that this track should start with the given number of silent samples. The [loopPoint]
      * is relative to the start of the _unpadded_ track and thus may not be placed within these silent samples.
      */
     @JsonProperty("pad_start")
-    val padStart: Int?,
+    override val padStart: Int?,
 
-    val title: String,
+    override val title: String,
 
     @JsonProperty("track_number")
-    val trackNumber: Int,
+    override val trackNumber: Int,
 
     @JsonProperty("trim_end")
-    val trimEnd: Int?,
+    override val trimEnd: Int?,
 
     @JsonProperty("trim_start")
-    val trimStart: Int
-)
+    override val trimStart: Int
+) : TrackBase
+
+data class TrackCopy(
+    @JsonProperty("copy_of")
+    val copyOf: Int,
+
+    override val title: String,
+
+    @JsonProperty("track_number")
+    override val trackNumber: Int
+) : TrackBase {
+    lateinit var track: TrackBase
+
+    override val fadeIn get() = track.fadeIn
+    override val fadeOut get() = track.fadeOut
+    override val filename get() = track.filename
+    override val loopPoint get() = track.loopPoint
+    override val normalization get() = track.normalization
+    override val padEnd get() = track.padEnd
+    override val padStart get() = track.padStart
+    override val trimEnd get() = track.trimEnd
+    override val trimStart get() = track.trimStart
+}
 
 fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
 
@@ -189,11 +256,26 @@ fun decibelsToLinear(decibels: Double): Double = 10.0.pow(decibels / 20.0)
 fun linearToDecibels(linear: Double) = 20.0 * log10(linear)
 
 /**
+ * Loads and returns the [Msu] with the given [filename], filling in any [TrackCopy] values with their source [Track]
+ * values.
+ */
+fun loadMsu(filename: String): Msu {
+    val mapper = jacksonObjectMapper()
+    val msu = mapper.readValue<Msu>(File(filename))
+
+    msu.tracks.filterIsInstance<TrackCopy>().forEach { trackCopy ->
+        trackCopy.track = msu.tracks.find { it.trackNumber == trackCopy.copyOf }!!
+    }
+
+    return msu
+}
+
+/**
  * Performs mixing on the given [pcmData] by converting each sample to a [Double], applying requested processing,
  * converting the sample back to a 16-bit value, and writing it back into the array. We're doing the mixing in floating
  * point because repeated conversion back into [Int] values could lose precision.
  */
-fun mixPcmData(pcmData: ByteArray, msu: Msu, track: Track) {
+fun mixPcmData(pcmData: ByteArray, msu: Msu, track: TrackBase) {
     val amplification = computeAmplification(pcmData, track.normalization ?: msu.normalization)
     var index = 0
     val totalSampleCount = byteCountToSampleCount(pcmData.size)
@@ -235,13 +317,12 @@ fun printUsage() {
 }
 
 fun processTrack(filename: String, trackNumber: Int, raw: Boolean = false) {
-    val mapper = jacksonObjectMapper()
-    val msu = mapper.readValue<Msu>(File(filename))
+    val msu = loadMsu(filename)
 
     processTrack(msu, msu.tracks.find { it.trackNumber == trackNumber }!!, raw)
 }
 
-fun processTrack(msu: Msu, track: Track, raw: Boolean = false) {
+fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
     println("Processing #${track.trackNumber} - ${track.title}")
 
     val pcmData = convertToPcmData(track.filename)
@@ -250,8 +331,7 @@ fun processTrack(msu: Msu, track: Track, raw: Boolean = false) {
 }
 
 fun processTracks(filename: String) {
-    val mapper = jacksonObjectMapper()
-    val msu = mapper.readValue<Msu>(File(filename))
+    val msu = loadMsu(filename)
 
     msu.tracks.forEach { processTrack(msu, it) }
 
@@ -279,7 +359,7 @@ fun writeMsuFile(msu: Msu) {
     File(msu.outputPrefix + ".msu").createNewFile()
 }
 
-fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
+fun writeMsuPcm(msu: Msu, track: TrackBase, rawPcmData: ByteArray, raw: Boolean) {
     val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
 
     File(outputFilename).outputStream().use {
@@ -288,21 +368,21 @@ fun writeMsuPcm(msu: Msu, track: Track, rawPcmData: ByteArray, raw: Boolean) {
         } else {
             val padEnd = track.padEnd ?: 0
             val padStart = track.padStart ?: 0
-            val pcmData = if (track.loopPoint == null || track.loopPoint >= track.trimStart) {
+            val pcmData = if (track.loopPoint == null || track.loopPoint!! >= track.trimStart) {
                 // Everything is in the right order already.
                 trimPcmData(rawPcmData, track.trimStart, track.trimEnd)
             } else {
                 // We're starting from a point inside what we want to loop, so flip the sections around so
                 // [trimStart:timEnd] plays first and [loopPoint:trimStart] follows.
                 trimPcmData(rawPcmData, track.trimStart, track.trimEnd) +
-                        trimPcmData(rawPcmData, track.loopPoint, track.trimStart)
+                        trimPcmData(rawPcmData, track.loopPoint!!, track.trimStart)
             }
             val loopPoint = if (track.loopPoint == null) {
                 // We didn't specify a loop point, so loop the whole (trimmed) file.
                 0
-            } else if (track.loopPoint >= track.trimStart) {
+            } else if (track.loopPoint!! >= track.trimStart) {
                 // If we're offsetting the start of the track, we have to adjust the loop point to account for that.
-                track.loopPoint - track.trimStart + padStart
+                track.loopPoint!! - track.trimStart + padStart
             } else {
                 // We flipped the sections around above, so we can loop the entire file.
                 0 + padStart
