@@ -22,6 +22,12 @@ val SAMPLE_BYTES = 2
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Msu(
+    /**
+     * When specified, indicates this pack is the child of the pack with the given filename.
+     */
+    @JsonProperty("child_of")
+    val childOf: String?,
+
     val game: String,
 
     /**
@@ -57,7 +63,11 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
     }
 }
 
-@JsonSubTypes(JsonSubTypes.Type(Track::class), JsonSubTypes.Type(TrackCopy::class))
+@JsonSubTypes(
+    JsonSubTypes.Type(Track::class),
+    JsonSubTypes.Type(TrackCopy::class),
+    JsonSubTypes.Type(TrackImport::class)
+)
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 sealed interface TrackBase {
     /**
@@ -172,6 +182,27 @@ data class TrackCopy(
     override val trimStart get() = track.trimStart
 }
 
+data class TrackImport(
+    @JsonProperty("import_from")
+    val importFrom: Int,
+
+    @JsonProperty("track_number")
+    override val trackNumber: Int
+) : TrackBase {
+    lateinit var track: TrackBase
+
+    override val fadeIn get() = track.fadeIn
+    override val fadeOut get() = track.fadeOut
+    override val filename get() = track.filename
+    override val loopPoint get() = track.loopPoint
+    override val normalization get() = track.normalization
+    override val padEnd get() = track.padEnd
+    override val padStart get() = track.padStart
+    override val title get() = track.title
+    override val trimEnd get() = track.trimEnd
+    override val trimStart get() = track.trimStart
+}
+
 fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
 
 /**
@@ -262,6 +293,14 @@ fun linearToDecibels(linear: Double) = 20.0 * log10(linear)
 fun loadMsu(filename: String): Msu {
     val mapper = jacksonObjectMapper()
     val msu = mapper.readValue<Msu>(File(filename))
+
+    if (msu.childOf != null) {
+        val parentMsu = loadMsu(msu.childOf)
+
+        msu.tracks.filterIsInstance<TrackImport>().forEach { trackImport ->
+            trackImport.track = parentMsu.tracks.find { it.trackNumber == trackImport.importFrom }!!
+        }
+    }
 
     msu.tracks.filterIsInstance<TrackCopy>().forEach { trackCopy ->
         trackCopy.track = msu.tracks.find { it.trackNumber == trackCopy.copyOf }!!
