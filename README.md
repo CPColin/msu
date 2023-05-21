@@ -11,11 +11,15 @@ Songs from Secret of Mana and Trials of Mana, with the former being used in Supe
 This pack is compatible with SMZ3 Cas' Randomizer version 9.1.0, at least.
 There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/trials_and_secrets_msu.txt).
 
-ALttpR (Trials of Hyrule) and SM (Secret of Zebes) standalone packs coming soon (hopefully)!
+Also available as (as yet untested) standalone packs:
+
+* **SM:** [Secret of Zebes](https://www.crappycomic.com/msu/Secret%20of%20Zebes.zip) ([track list](https://www.crappycomic.com/msu/secret_of_zebes_msu.txt))
+* **Z3:** [Trials of Hyrule](https://www.crappycomic.com/msu/Trials%20of%20Hyrule.zip) ([track list](https://www.crappycomic.com/msu/trials_of_hyrule_msu.txt))
 
 #### Version history
 
-* **v1.0, 2023-05-20:** Initial release.
+* **2023-05-20, v1.0:** Initial release
+* **2023-05-21, v1.0.1:** Standalone packs released
 
 ## Scripts
 
