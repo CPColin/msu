@@ -5,7 +5,7 @@
   "url": "https://fi.zophar.net/soundfiles/nintendo-snes-spc/seiken-densetsu-3/kuscmnve/Seiken%20Densetsu%203%20%28MP3%29.zophar.zip;Seiken Densetsu 3 Soundtrack CD",
   "artist": "Hiroki Kikuta",
   "output_prefix": "Trials of Hyrule/trials_of_hyrule_msu",
-  "normalization": -26.0,
+  "rms_target": -26.0,
   "tracks": [
     {
       "track_number": 1,
@@ -27,7 +27,7 @@
       "trim_end": 3267140,
       "trim_start": 23300,
       "loop": 23378,
-      "normalization": -24
+      "rms_target": -24
     },
     {
       "track_number": 4,

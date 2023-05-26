@@ -23,6 +23,13 @@ val SAMPLE_BYTES = 2
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Msu(
     /**
+     * Amplification that should be applied to tracks in this pack, in decibels or linear power. This value overrides
+     * the [rmsTarget] value. Individual tracks may override this value by specifying either [Track.rmsTarget] or
+     * [Track.amplification].
+     */
+    val amplification: Double?,
+
+    /**
      * When specified, indicates this pack is the child of the pack with the given filename.
      */
     @JsonProperty("child_of")
@@ -30,15 +37,17 @@ data class Msu(
 
     val game: String,
 
-    /**
-     * Target root-mean-square normalization, in decibels. This value applies whenever [Track.normalization] is `null`.
-     */
-    val normalization: Double,
-
     @JsonProperty("output_prefix")
     val outputPrefix: String,
 
     val pack: String,
+
+    /**
+     * Target root-mean-square value, in decibels or linear power. Individual tracks may override this value by
+     * specifying either [Track.rmsTarget] or [Track.amplification].
+     */
+    @JsonProperty("rms_target")
+    val rmsTarget: Double?,
 
     val tracks: List<TrackBase>,
 
@@ -71,6 +80,12 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 sealed interface TrackBase {
     /**
+     * Amplification that should be applied to this track, in decibels or linear power. This value overrides
+     * [rmsTarget], [Msu.amplification], and [Msu.rmsTarget].
+     */
+    val amplification: Double?
+
+    /**
      * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
      */
     val fadeIn: Int?
@@ -85,11 +100,6 @@ sealed interface TrackBase {
     val loopPoint: Int?
 
     /**
-     * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
-     */
-    val normalization: Double?
-
-    /**
      * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
      * be placed within these silent samples.
      */
@@ -101,6 +111,12 @@ sealed interface TrackBase {
      */
     val padStart: Int?
 
+    /**
+     * Target root-mean-square normalization value, in decibels or linear power. Overrides both [Msu.rmsTarget] and
+     * [Msu.amplification], when present.
+     */
+    val rmsTarget: Double?
+
     val title: String
 
     val trackNumber: Int
@@ -111,15 +127,11 @@ sealed interface TrackBase {
 }
 
 data class Track(
-    /**
-     * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
-     */
+    override val amplification: Double?,
+
     @JsonProperty("fade_in")
     override val fadeIn: Int?,
 
-    /**
-     * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
-     */
     @JsonProperty("fade_out")
     override val fadeOut: Int?,
 
@@ -129,24 +141,14 @@ data class Track(
     @JsonProperty("loop")
     override val loopPoint: Int?,
 
-    /**
-     * Target root-mean-square normalization, in decibels. Defaults to [Msu.normalization] when `null`.
-     */
-    override val normalization: Double?,
-
-    /**
-     * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
-     * be placed within these silent samples.
-     */
     @JsonProperty("pad_end")
     override val padEnd: Int?,
 
-    /**
-     * When specified, indicates that this track should start with the given number of silent samples. The [loopPoint]
-     * is relative to the start of the _unpadded_ track and thus may not be placed within these silent samples.
-     */
     @JsonProperty("pad_start")
     override val padStart: Int?,
+
+    @JsonProperty("rms_target")
+    override val rmsTarget: Double?,
 
     override val title: String,
 
@@ -171,13 +173,14 @@ data class TrackCopy(
 ) : TrackBase {
     lateinit var track: TrackBase
 
+    override val amplification get() = track.amplification
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
     override val filename get() = track.filename
     override val loopPoint get() = track.loopPoint
-    override val normalization get() = track.normalization
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
+    override val rmsTarget get() = track.rmsTarget
     override val trimEnd get() = track.trimEnd
     override val trimStart get() = track.trimStart
 }
@@ -191,13 +194,14 @@ data class TrackImport(
 ) : TrackBase {
     lateinit var track: TrackBase
 
+    override val amplification get() = track.amplification
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
     override val filename get() = track.filename
     override val loopPoint get() = track.loopPoint
-    override val normalization get() = track.normalization
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
+    override val rmsTarget get() = track.rmsTarget
     override val title get() = track.title
     override val trimEnd get() = track.trimEnd
     override val trimStart get() = track.trimStart
@@ -213,11 +217,26 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
             (pcmData[index].toInt() and 0xff)
 
 /**
- * Computes and returns the amplification factor such that the resulting RMS value for the track will match the given
- * [normalization] value, as specified in decibels.
+ * Computes and returns the amplification factor, in linear power, appropriate for the given [pcmData] using the values
+ * from the given [Msu] pack and [Track], choosing the first available value, with the following priority:
+ *
+ * - [TrackBase.amplification]
+ * - [TrackBase.rmsTarget]
+ * - [Msu.amplification]
+ * - [Msu.rmsTarget]
+ * - `1.0` (no change from input)
+ *
+ * If one of the `rmsTarget` values is chosen, the current RMS value of the [pcmData] is computed and the returned
+ * amplification value is what's needed to hit the chosen RMS target.
  */
-fun computeAmplification(pcmData: ByteArray, normalization: Double) =
-    normalization.toLinear() / computeRootMeanSquare(pcmData)
+fun computeAmplification(pcmData: ByteArray, msu: Msu, track: TrackBase) =
+    when {
+        track.amplification != null -> track.amplification!!.toLinear()
+        track.rmsTarget != null -> track.rmsTarget!!.toLinear() / computeRootMeanSquare(pcmData)
+        msu.amplification != null -> msu.amplification.toLinear()
+        msu.rmsTarget != null -> msu.rmsTarget.toLinear() / computeRootMeanSquare(pcmData)
+        else -> 1.0
+    }
 
 /**
  * Computes and returns the fade factor resulting from the given parameters. The factor fades in and out linearly
@@ -318,7 +337,7 @@ fun loadMsu(filename: String): Msu {
  * point because repeated conversion back into [Int] values could lose precision.
  */
 fun mixPcmData(pcmData: ByteArray, msu: Msu, track: TrackBase) {
-    val amplification = computeAmplification(pcmData, track.normalization ?: msu.normalization)
+    val amplification = computeAmplification(pcmData, msu, track)
     var index = 0
     val totalSampleCount = byteCountToSampleCount(pcmData.size)
 
