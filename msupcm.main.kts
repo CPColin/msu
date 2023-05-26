@@ -372,10 +372,10 @@ fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
 fun processTracks(filename: String) {
     val msu = loadMsu(filename)
 
-    msu.tracks.forEach { processTrack(msu, it) }
-
     writeMsuFile(msu)
     writeMsuTrackList(msu)
+
+    msu.tracks.forEach { processTrack(msu, it) }
 }
 
 fun sampleCountToByteCount(sampleCount: Int) = sampleCount * SAMPLE_BYTES * CHANNELS
@@ -392,10 +392,14 @@ fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?)
     )
 
 /**
- * Creates the empty `.msu` file necessary for emulators to recognize this as an MSU pack.
+ * Creates the empty `.msu` file necessary for emulators to recognize this as an MSU pack. Also creates containing
+ * directories, if the [output prefix][Msu.outputPrefix] names any.
  */
 fun writeMsuFile(msu: Msu) {
-    File(msu.outputPrefix + ".msu").createNewFile()
+    val file = File(msu.outputPrefix + ".msu")
+
+    file.parentFile?.mkdirs()
+    file.createNewFile()
 }
 
 fun writeMsuPcm(msu: Msu, track: TrackBase, rawPcmData: ByteArray, raw: Boolean) {
