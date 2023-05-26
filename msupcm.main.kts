@@ -217,7 +217,7 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
  * [normalization] value, as specified in decibels.
  */
 fun computeAmplification(pcmData: ByteArray, normalization: Double) =
-    decibelsToLinear(normalization) / computeRootMeanSquare(pcmData)
+    normalization.toLinear() / computeRootMeanSquare(pcmData)
 
 /**
  * Computes and returns the fade factor resulting from the given parameters. The factor fades in and out linearly
@@ -280,11 +280,14 @@ fun convertToPcmData(filename: String): ByteArray {
 }
 
 /**
- * Converts the given value from [decibels] (relative to maximum) to its linear power equivalent.
+ * Converts this value to decibels, if it isn't in decibels already (as assumed when the value is negative).
  */
-fun decibelsToLinear(decibels: Double): Double = 10.0.pow(decibels / 20.0)
+fun Double.toDecibels(): Double = if (this < 0) { this } else { 20.0 * log10(this) }
 
-fun linearToDecibels(linear: Double) = 20.0 * log10(linear)
+/**
+ * Converts this value to linear power, if it isn't linear already (as assumed when the value is nonnegative).
+ */
+fun Double.toLinear(): Double = if (this >= 0) { this } else { 10.0.pow(this / 20.0) }
 
 /**
  * Loads and returns the [Msu] with the given [filename], filling in any [TrackCopy] values with their source [Track]
