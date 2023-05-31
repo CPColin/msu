@@ -453,6 +453,10 @@ fun writeMsuPcm(msu: Msu, track: TrackBase, rawPcmData: ByteArray, raw: Boolean)
                 0 + padStart
             }
 
+            require(loopPoint < padStart + byteCountToSampleCount(pcmData.size) + padEnd) {
+                "Loop point is at or beyond last sample of audio. Resulting file would crash emulators!"
+            }
+
             mixPcmData(pcmData, msu, track)
 
             // Write the magic number
