@@ -2,6 +2,7 @@
 
 @file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -75,7 +76,8 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
 @JsonSubTypes(
     JsonSubTypes.Type(Track::class),
     JsonSubTypes.Type(TrackCopy::class),
-    JsonSubTypes.Type(TrackImport::class)
+    JsonSubTypes.Type(TrackImport::class),
+    JsonSubTypes.Type(TrackMix::class)
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 sealed interface TrackBase {
@@ -94,8 +96,6 @@ sealed interface TrackBase {
      * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
      */
     val fadeOut: Int?
-
-    val filename: String
 
     val loopPoint: Int?
 
@@ -117,9 +117,9 @@ sealed interface TrackBase {
      */
     val rmsTarget: Double?
 
-    val title: String
+    val title: String?
 
-    val trackNumber: Int
+    val trackNumber: Int?
 
     val trimEnd: Int?
 
@@ -136,7 +136,7 @@ data class Track(
     override val fadeOut: Int?,
 
     @JsonProperty("file")
-    override val filename: String,
+    val filename: String,
 
     @JsonProperty("loop")
     override val loopPoint: Int?,
@@ -150,10 +150,10 @@ data class Track(
     @JsonProperty("rms_target")
     override val rmsTarget: Double?,
 
-    override val title: String,
+    override val title: String?,
 
     @JsonProperty("track_number")
-    override val trackNumber: Int,
+    override val trackNumber: Int?,
 
     @JsonProperty("trim_end")
     override val trimEnd: Int?,
@@ -176,7 +176,6 @@ data class TrackCopy(
     override val amplification get() = track.amplification
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
-    override val filename get() = track.filename
     override val loopPoint get() = track.loopPoint
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
@@ -197,7 +196,6 @@ data class TrackImport(
     override val amplification get() = track.amplification
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
-    override val filename get() = track.filename
     override val loopPoint get() = track.loopPoint
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
@@ -207,14 +205,55 @@ data class TrackImport(
     override val trimStart get() = track.trimStart
 }
 
+data class TrackMix(
+    override val amplification: Double?,
+
+    @JsonProperty("fade_in")
+    override val fadeIn: Int?,
+
+    @JsonProperty("fade_out")
+    override val fadeOut: Int?,
+
+    @JsonProperty("loop")
+    override val loopPoint: Int?,
+
+    @JsonProperty("pad_end")
+    override val padEnd: Int?,
+
+    @JsonProperty("pad_start")
+    override val padStart: Int?,
+
+    @JsonProperty("rms_target")
+    override val rmsTarget: Double?,
+
+    @JsonProperty("sub_tracks")
+    val subTracks: List<TrackBase>,
+
+    override val title: String?,
+
+    @JsonProperty("track_number")
+    override val trackNumber: Int?,
+
+    @JsonProperty("trim_end")
+    override val trimEnd: Int?,
+
+    @JsonProperty("trim_start")
+    override val trimStart: Int
+) : TrackBase
+
 fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
 
 /**
  * Converts the bytes starting at the given [index] of the given [pcmData] into a 16-bit, little-endian sample.
+ * Returns zero if the index is out-of-range.
  */
 fun bytesToSample(pcmData: ByteArray, index: Int) =
-    (pcmData[index + 1].toInt() shl 8) or
-            (pcmData[index].toInt() and 0xff)
+    if (index >= pcmData.size) {
+        0
+    } else {
+        (pcmData[index + 1].toInt() shl 8) or
+                (pcmData[index].toInt() and 0xff)
+    }
 
 /**
  * Computes and returns the amplification factor, in linear power, appropriate for the given [pcmData] using the values
@@ -353,7 +392,7 @@ fun mixPcmData(pcmData: ByteArray, msu: Msu, track: TrackBase) {
         pcmData[index] = bytes.first
         pcmData[index + 1] = bytes.second
 
-        index += 2
+        index += SAMPLE_BYTES
     }
 }
 
@@ -386,9 +425,10 @@ fun processTrack(filename: String, trackNumber: Int, raw: Boolean = false) {
 fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
     println("Processing #${track.trackNumber} - ${track.title}")
 
-    val pcmData = convertToPcmData(track.filename)
+    val rawPcmData = track.loadPcmData(msu)
+    val (pcmData, loopPoint) = renderTrack(msu, track, rawPcmData)
 
-    writeMsuPcm(msu, track, pcmData, raw)
+    writeMsuPcm(msu, track, pcmData, loopPoint, raw)
 }
 
 fun processTracks(filename: String) {
@@ -400,12 +440,100 @@ fun processTracks(filename: String) {
     msu.tracks.forEach { processTrack(msu, it) }
 }
 
+fun renderSubTracks(msu: Msu, subTracks: List<TrackBase>): ByteArray {
+    val pcmDatas = subTracks.map { renderTrack(msu, it, it.loadPcmData(msu)).first }
+    val pcmData = ByteArray(pcmDatas.maxOf { it.size })
+
+    var index = 0
+
+    while (index < pcmData.size) {
+        val sample = pcmDatas.sumOf { bytesToSample(it, index) }
+        val bytes = sampleToBytes(sample.toInt())
+
+        pcmData[index] = bytes.first
+        pcmData[index + 1] = bytes.second
+
+        index += SAMPLE_BYTES
+    }
+
+    return pcmData
+}
+
+fun renderTrack(msu: Msu, track: TrackBase, rawPcmData: ByteArray): Pair<ByteArray, Int> {
+    val padEnd = track.padEnd ?: 0
+    val padStart = track.padStart ?: 0
+    val pcmData = if (track.loopPoint == null || track.loopPoint!! >= track.trimStart) {
+        // Everything is in the right order already.
+        trimPcmData(rawPcmData, track.trimStart, track.trimEnd)
+    } else {
+        // We're starting from a point inside what we want to loop, so flip the sections around so
+        // [trimStart:timEnd] plays first and [loopPoint:trimStart] follows.
+        trimPcmData(rawPcmData, track.trimStart, track.trimEnd) +
+                trimPcmData(rawPcmData, track.loopPoint!!, track.trimStart)
+    }
+    val loopPoint = if (track.loopPoint == null) {
+        // We didn't specify a loop point, so loop the whole (trimmed) file.
+        0
+    } else if (track.loopPoint!! >= track.trimStart) {
+        // If we're offsetting the start of the track, we have to adjust the loop point to account for that.
+        track.loopPoint!! - track.trimStart + padStart
+    } else {
+        // We flipped the sections around above, so we can loop the entire file.
+        0 + padStart
+    }
+
+    require(loopPoint < padStart + byteCountToSampleCount(pcmData.size) + padEnd) {
+        "Loop point is at or beyond last sample of audio. Resulting file would crash emulators!"
+    }
+
+    mixPcmData(pcmData, msu, track)
+
+    val padEndBytes = sampleCountToByteCount(padStart)
+    val padStartBytes = sampleCountToByteCount(padStart)
+    val paddedPcmData = ByteArray(padStartBytes + pcmData.size + padEndBytes)
+
+    pcmData.copyInto(paddedPcmData, padStartBytes)
+
+    return paddedPcmData to loopPoint
+}
+
 fun sampleCountToByteCount(sampleCount: Int) = sampleCount * SAMPLE_BYTES * CHANNELS
 
 /**
  * Converts the given 16-bit [sample] into its constituent bytes, in little-endian order.
  */
 fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
+
+/**
+ * Loads the PCM data for this track, be it from the source file, the copied or imported track, or from mixing the
+ * sub-tracks of this track.
+ *
+ * This would be a member of [TrackBase], but that makes Jackson get very confused about the subtypes, for some reason.
+ * I'm sick of trying to get Jackson to play along when I'd rather bang my head against *actual* functionality, so hell
+ * with it.
+ */
+fun TrackBase.loadPcmData(msu: Msu): ByteArray =
+    when (this) {
+        is Track -> convertToPcmData(this.filename)
+        is TrackCopy -> this.track.loadPcmData(msu)
+        is TrackImport -> this.track.loadPcmData(msu)
+        is TrackMix -> renderSubTracks(msu, this.subTracks)
+        else -> error("TrackBase is sealed, so we shouldn't need this")
+    }
+
+/**
+ * Returns the source of the audio data for this track.
+ *
+ * This would also be part of [TrackBase], but would likely lead to the same Jackson problems.
+ */
+fun TrackBase.source(): String =
+    when (this) {
+        is Track -> this.filename
+        is TrackCopy -> this.track.source()
+        is TrackImport -> this.track.source()
+        is TrackMix -> this.subTracks.joinToString(", ") { it.source() }
+        else -> error("TrackBase is sealed, so we shouldn't need this")
+    }
 
 fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?) =
     pcmData.copyOfRange(
@@ -424,41 +552,13 @@ fun writeMsuFile(msu: Msu) {
     file.createNewFile()
 }
 
-fun writeMsuPcm(msu: Msu, track: TrackBase, rawPcmData: ByteArray, raw: Boolean) {
+fun writeMsuPcm(msu: Msu, track: TrackBase, pcmData: ByteArray, loopPoint: Int, raw: Boolean) {
     val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
 
     File(outputFilename).outputStream().use {
         if (raw) {
-            it.write(rawPcmData)
+            it.write(pcmData)
         } else {
-            val padEnd = track.padEnd ?: 0
-            val padStart = track.padStart ?: 0
-            val pcmData = if (track.loopPoint == null || track.loopPoint!! >= track.trimStart) {
-                // Everything is in the right order already.
-                trimPcmData(rawPcmData, track.trimStart, track.trimEnd)
-            } else {
-                // We're starting from a point inside what we want to loop, so flip the sections around so
-                // [trimStart:timEnd] plays first and [loopPoint:trimStart] follows.
-                trimPcmData(rawPcmData, track.trimStart, track.trimEnd) +
-                        trimPcmData(rawPcmData, track.loopPoint!!, track.trimStart)
-            }
-            val loopPoint = if (track.loopPoint == null) {
-                // We didn't specify a loop point, so loop the whole (trimmed) file.
-                0
-            } else if (track.loopPoint!! >= track.trimStart) {
-                // If we're offsetting the start of the track, we have to adjust the loop point to account for that.
-                track.loopPoint!! - track.trimStart + padStart
-            } else {
-                // We flipped the sections around above, so we can loop the entire file.
-                0 + padStart
-            }
-
-            require(loopPoint < padStart + byteCountToSampleCount(pcmData.size) + padEnd) {
-                "Loop point is at or beyond last sample of audio. Resulting file would crash emulators!"
-            }
-
-            mixPcmData(pcmData, msu, track)
-
             // Write the magic number
             it.write(MSU_MAGIC.toByteArray())
 
@@ -469,9 +569,7 @@ fun writeMsuPcm(msu: Msu, track: TrackBase, rawPcmData: ByteArray, raw: Boolean)
             it.write(loopPoint shr 24)
 
             // Write the processed audio data
-            it.write(ByteArray(sampleCountToByteCount(padStart)))
             it.write(pcmData)
-            it.write(ByteArray(sampleCountToByteCount(padEnd)))
         }
     }
 }
@@ -483,7 +581,7 @@ fun writeMsuTrackList(msu: Msu) {
         it.write("From source URL(s):\n")
         msu.url.split(";").forEach { url -> it.write("  $url\n") }
         it.write("\n")
-        msu.tracks.forEach { track -> it.write("${track.trackNumber} - ${track.title} - ${track.filename}\n") }
+        msu.tracks.forEach { track -> it.write("${track.trackNumber} - ${track.title} - ${track.source()}\n") }
     }
 }
 
