@@ -2,7 +2,6 @@
 
 @file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -24,11 +23,23 @@ val SAMPLE_BYTES = 2
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Msu(
     /**
+     * The name of the album that the music in this pack came from. Individual tracks may override this value by
+     * specifying a [Track.album] value.
+     */
+    val album: String?,
+
+    /**
      * Amplification that should be applied to tracks in this pack, in decibels or linear power. This value overrides
      * the [rmsTarget] value. Individual tracks may override this value by specifying either [Track.rmsTarget] or
      * [Track.amplification].
      */
     val amplification: Double?,
+
+    /**
+     * The original artist who composed the music in this pack. Individual tracks may override this value by specifying
+     * a [Track.artist] value.
+     */
+    val artist: String?,
 
     /**
      * When specified, indicates this pack is the child of the pack with the given filename.
@@ -41,7 +52,20 @@ data class Msu(
     @JsonProperty("output_prefix")
     val outputPrefix: String,
 
-    val pack: String,
+    /**
+     * The author of this pack.
+     */
+    @JsonProperty("pack_author")
+    val packAuthor: String?,
+
+    /**
+     * The name of this pack.
+     */
+    @JsonProperty("pack_name")
+    val packName: String,
+
+    @JsonProperty("pack_version")
+    val packVersion: Int?,
 
     /**
      * Target root-mean-square value, in decibels or linear power. Individual tracks may override this value by
@@ -82,10 +106,20 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 sealed interface TrackBase {
     /**
+     * The name of the album that the music in this track came from. This value overrides [Msu.album].
+     */
+    val album: String?
+
+    /**
      * Amplification that should be applied to this track, in decibels or linear power. This value overrides
      * [rmsTarget], [Msu.amplification], and [Msu.rmsTarget].
      */
     val amplification: Double?
+
+    /**
+     * The original artist who composed this track. This value overrides [Msu.artist].
+     */
+    val artist: String?
 
     /**
      * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
@@ -96,6 +130,11 @@ sealed interface TrackBase {
      * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
      */
     val fadeOut: Int?
+
+    /**
+     * The key that should be used for this track in the track list.
+     */
+    val key: String?
 
     val loopPoint: Int?
 
@@ -127,7 +166,11 @@ sealed interface TrackBase {
 }
 
 data class Track(
+    override val album: String?,
+
     override val amplification: Double?,
+
+    override val artist: String?,
 
     @JsonProperty("fade_in")
     override val fadeIn: Int?,
@@ -137,6 +180,8 @@ data class Track(
 
     @JsonProperty("file")
     val filename: String,
+
+    override val key: String?,
 
     @JsonProperty("loop")
     override val loopPoint: Int?,
@@ -166,20 +211,23 @@ data class TrackCopy(
     @JsonProperty("copy_of")
     val copyOf: Int,
 
-    override val title: String,
+    override val key: String,
 
     @JsonProperty("track_number")
     override val trackNumber: Int
 ) : TrackBase {
     lateinit var track: TrackBase
 
+    override val album get() = track.album
     override val amplification get() = track.amplification
+    override val artist get() = track.artist
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
     override val loopPoint get() = track.loopPoint
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
     override val rmsTarget get() = track.rmsTarget
+    override val title get() = track.title
     override val trimEnd get() = track.trimEnd
     override val trimStart get() = track.trimStart
 }
@@ -193,9 +241,12 @@ data class TrackImport(
 ) : TrackBase {
     lateinit var track: TrackBase
 
+    override val album get() = track.album
     override val amplification get() = track.amplification
+    override val artist get() = track.artist
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
+    override val key get() = track.key
     override val loopPoint get() = track.loopPoint
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
@@ -206,13 +257,19 @@ data class TrackImport(
 }
 
 data class TrackMix(
+    override val album: String?,
+
     override val amplification: Double?,
+
+    override val artist: String?,
 
     @JsonProperty("fade_in")
     override val fadeIn: Int?,
 
     @JsonProperty("fade_out")
     override val fadeOut: Int?,
+
+    override val key: String?,
 
     @JsonProperty("loop")
     override val loopPoint: Int?,
@@ -423,7 +480,7 @@ fun processTrack(filename: String, trackNumber: Int, raw: Boolean = false) {
 }
 
 fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
-    println("Processing #${track.trackNumber} - ${track.title}")
+    println("Processing #${track.trackNumber} - ${track.key}")
 
     val rawPcmData = track.loadPcmData(msu)
     val (pcmData, loopPoint) = renderTrack(msu, track, rawPcmData)
@@ -448,7 +505,7 @@ fun renderSubTracks(msu: Msu, subTracks: List<TrackBase>): ByteArray {
 
     while (index < pcmData.size) {
         val sample = pcmDatas.sumOf { bytesToSample(it, index) }
-        val bytes = sampleToBytes(sample.toInt())
+        val bytes = sampleToBytes(sample)
 
         pcmData[index] = bytes.first
         pcmData[index + 1] = bytes.second
@@ -575,13 +632,19 @@ fun writeMsuPcm(msu: Msu, track: TrackBase, pcmData: ByteArray, loopPoint: Int, 
 }
 
 fun writeMsuTrackList(msu: Msu) {
-    FileWriter(msu.outputPrefix + ".txt").use {
-        it.write("Track list for MSU pack: ${msu.pack}\n")
-        it.write("For game: ${msu.game}\n")
-        it.write("From source URL(s):\n")
-        msu.url.split(";").forEach { url -> it.write("  $url\n") }
-        it.write("\n")
-        msu.tracks.forEach { track -> it.write("${track.trackNumber} - ${track.title} - ${track.source()}\n") }
+    FileWriter(msu.outputPrefix + ".yml").use { file ->
+        file.write("pack_name: ${msu.packName}\n")
+        file.write("pack_author: ${msu.packAuthor}\n")
+        msu.packVersion?.let { file.write("pack_version: $it\n") }
+        msu.artist?.let { file.write("artist: $it\n") }
+        msu.album?.let { file.write("album: $it\n") }
+        file.write("tracks:\n")
+        msu.tracks.forEach { track ->
+            file.write("  ${track.key}:\n")
+            file.write("    name: ${track.title ?: track.source()}\n")
+            track.artist?.let { file.write("    artist: $it\n") }
+            track.album?.let { file.write("    album: $it\n") }
+        }
     }
 }
 
