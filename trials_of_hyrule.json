@@ -3,12 +3,11 @@
   "pack_name": "Trials of Hyrule",
   "pack_author": "CPColin",
   "pack_version": 1,
-  "child_of": "trials_and_secrets.json",
   "url": "https://fi.zophar.net/soundfiles/nintendo-snes-spc/seiken-densetsu-3/kuscmnve/Seiken%20Densetsu%203%20%28MP3%29.zophar.zip;Seiken Densetsu 3 Soundtrack CD",
   "album": "Trials of Mana",
   "artist": "Hiroki Kikuta",
   "output_prefix": "Trials of Hyrule/trials_of_hyrule_msu",
-  "rms_target": -26.0,
+  "rms_target": -24,
   "tracks": [
     {
       "track_number": 1,
@@ -18,11 +17,17 @@
       "trim_start": 6592453,
       "fade_in": 25,
       "trim_end": 7154743,
-      "loop": 7154740
+      "loop": 7154740,
+      "rms_target": -26
     },
     {
       "track_number": 2,
-      "import_from": 2
+      "key": "light_world",
+      "title": "Whiz Kid",
+      "file": "ToM/Disc1/04 - Whiz Kid.flac",
+      "trim_end": 5282905,
+      "loop": 23361,
+      "trim_start": 23361
     },
     {
       "track_number": 3,
@@ -31,16 +36,26 @@
       "file": "ToM/Disc1/14 - Innocent Sea.flac",
       "trim_end": 3267140,
       "trim_start": 23300,
-      "loop": 23378,
-      "rms_target": -24
+      "loop": 23378
     },
     {
       "track_number": 4,
-      "import_from": 4
+      "key": "bunny_theme",
+      "title": "Person's Die",
+      "file": "ToM/Disc2/02 - Person's Die.flac",
+      "trim_end": 3977627,
+      "loop": 24032,
+      "trim_start": 24000,
+      "rms_target": -26
     },
     {
       "track_number": 5,
-      "import_from": 5
+      "key": "lost_woods",
+      "title": "Evening Star",
+      "file": "ToM/Disc1/17 - Evening Star.flac",
+      "trim_end": 4453825,
+      "loop": 23364,
+      "trim_start": 23364
     },
     {
       "track_number": 6,
@@ -49,79 +64,162 @@
       "file": "ToM/Disc1/02 - Where Angel Fear to Tread.flac",
       "trim_end": 5189579,
       "fade_out": 176400,
-      "trim_start": 23729
+      "trim_start": 23729,
+      "rms_target": -26
     },
     {
       "track_number": 7,
-      "import_from": 7
+      "key": "kakariko",
+      "title": "Little Sweet Cafe",
+      "file": "ToM/Disc1/07 - Little Sweet Cafe.flac",
+      "trim_end": 3880414,
+      "loop": 23554,
+      "trim_start": 23554
     },
     {
       "track_number": 8,
-      "import_from": 8
+      "key": "mirror",
+      "title": "Flammie Approaches",
+      "file": "ToM/995 Flammie Approaches.mp3",
+      "rms_target": -26
     },
     {
       "track_number": 9,
-      "import_from": 9
+      "key": "dark_world",
+      "title": "Harvest November",
+      "file": "ToM/Disc2/03 - Harvest November.flac",
+      "trim_end": 5428606,
+      "loop": 46834,
+      "trim_start": 22946
     },
     {
       "track_number": 10,
-      "import_from": 10
+      "key": "pedestal_pull",
+      "title": "Positive",
+      "file": "ToM/Disc2/11 - Positive.flac",
+      "trim_start": 23611,
+      "trim_end": 413995,
+      "fade_out": 88200
     },
     {
       "track_number": 11,
-      "import_from": 11
+      "key": "zelda_game_over",
+      "title": "Long Goodbye",
+      "file": "ToM/Disc3/20 - Long Goodbye.flac",
+      "trim_end": 2241212,
+      "loop": 23489,
+      "trim_start": 23489,
+      "rms_target": -30.0
     },
     {
       "track_number": 12,
-      "import_from": 12
+      "key": "guards",
+      "title": "Frenzy",
+      "file": "ToM/Disc2/21 - Frenzy.flac",
+      "trim_end": 3666713,
+      "loop": 118462,
+      "trim_start": 23927,
+      "rms_target": -23
     },
     {
       "track_number": 13,
-      "import_from": 13
+      "key": "dark_death_mountain",
+      "title": "Lefthanded Wolf",
+      "file": "ToM/Disc2/01 - Lefthanded Wolf.flac",
+      "trim_end": 3593802,
+      "loop": 45392,
+      "trim_start": 45300
     },
     {
       "track_number": 14,
-      "import_from": 14
+      "key": "minigame",
+      "title": "Splash Hop",
+      "file": "ToM/Disc2/14 - Splash Hop.flac",
+      "trim_start": 119736,
+      "trim_end": 2951177,
+      "loop": 163617
     },
     {
       "track_number": 15,
-      "import_from": 15
+      "key": "dark_woods",
+      "title": "Swivel",
+      "file": "ToM/Disc1/15 - Swivel.flac",
+      "trim_end": 2148776,
+      "loop": 23586,
+      "trim_start": 23500
     },
     {
       "track_number": 16,
-      "import_from": 16
+      "key": "hyrule_castle",
+      "title": "Walls and Steels",
+      "file": "ToM/Disc1/05 - Walls and Steels.flac",
+      "trim_end": 3793385,
+      "loop": 286971,
+      "trim_start": 23693,
+      "rms_target": -22
     },
     {
       "track_number": 17,
-      "import_from": 17
+      "key": "pendant_dungeon",
+      "copy_of": 36
     },
     {
       "track_number": 18,
-      "import_from": 18
+      "key": "cave_1",
+      "title": "Three of Darkside (B section)",
+      "file": "ToM/Disc2/17 - Three of Darkside.flac",
+      "trim_start": 3852023,
+      "trim_end": 5568016,
+      "loop": 2795587,
+      "rms_target": -22
     },
     {
       "track_number": 19,
-      "import_from": 19
+      "key": "boss_victory",
+      "title": "And Other",
+      "file": "ToM/Disc3/09 - And Other.flac",
+      "trim_start": 23725,
+      "trim_end": 464725,
+      "fade_out": 88200,
+      "rms_target": -25
     },
     {
       "track_number": 20,
-      "import_from": 20
+      "key": "sanctuary",
+      "title": "Fable",
+      "file": "ToM/Disc1/19 - Fable.flac",
+      "trim_end": 4900984,
+      "loop": 23010,
+      "trim_start": 23010
     },
     {
       "track_number": 21,
-      "import_from": 21
+      "key": "zelda_boss_battle",
+      "copy_of": 50
     },
     {
       "track_number": 22,
-      "import_from": 22
+      "key": "crystal_dungeon",
+      "copy_of": 40
     },
     {
       "track_number": 23,
-      "import_from": 23
+      "key": "shop",
+      "title": "Don't Hunt The Fairy",
+      "file": "ToM/Disc1/18 - Don't Hunt The Fairy.flac",
+      "trim_end": 3178957,
+      "loop": 23436,
+      "trim_start": 23400
     },
     {
       "track_number": 24,
-      "import_from": 24
+      "key": "cave_2",
+      "title": "Three of Darkside (A section)",
+      "file": "ToM/Disc2/17 - Three of Darkside.flac",
+      "trim_start": 1739825,
+      "trim_end": 3852023,
+      "loop": 1739825,
+      "rms_target": -22
     },
     {
       "track_number": 25,
@@ -130,154 +228,343 @@
       "file": "ToM/Disc2/16 - Delicate Affection.flac",
       "trim_start": 23549,
       "trim_end": 5775396,
-      "loop": 5775394
+      "loop": 5775394,
+      "rms_target": -26
     },
     {
       "track_number": 26,
-      "import_from": 26
+      "key": "crystal_retrieved",
+      "title": "Treasure!",
+      "file": "ToM/99a Treasure!.mp3",
+      "trim_end": 51920,
+      "loop": 51900,
+      "rms_target": -30
     },
     {
       "track_number": 27,
-      "import_from": 27
+      "key": "fairy",
+      "title": "Closed Garden",
+      "file": "ToM/Disc2/13 - Closed Garden.flac",
+      "trim_end": 702402,
+      "loop": 23286,
+      "trim_start": 23286
     },
     {
       "track_number": 28,
-      "import_from": 28
+      "key": "agahnims_floor",
+      "title": "Sacrifice Part One",
+      "file": "ToM/Disc3/13 - Sacrifice Part One.flac",
+      "trim_start": 1152855,
+      "trim_end": 2901800,
+      "loop": 1152855
     },
     {
       "track_number": 29,
-      "import_from": 29
+      "key": "ganon_reveal",
+      "title": "Sacrifice Part One",
+      "file": "ToM/Disc3/13 - Sacrifice Part One.flac",
+      "trim_start": 752410,
+      "trim_end": 1152855,
+      "loop": 1152524
     },
     {
       "track_number": 30,
-      "import_from": 30
+      "key": "ganons_message",
+      "title": "Sacrifice Part One",
+      "file": "ToM/Disc3/13 - Sacrifice Part One.flac",
+      "trim_start": 2901800,
+      "trim_end": 3193244,
+      "loop": 2901800
     },
     {
       "track_number": 31,
-      "import_from": 31
+      "key": "ganon_battle",
+      "title": "Sacrifice Part Three",
+      "file": "ToM/Disc3/15 - Sacrifice Part Three.flac",
+      "trim_end": 10077081,
+      "loop": 23586,
+      "trim_start": 23500,
+      "rms_target": -25
     },
     {
       "track_number": 32,
-      "import_from": 32
+      "key": "triforce_room",
+      "title": "Meridian Child",
+      "file": "ToM/Disc2/12 - Meridian Child.flac",
+      "trim_end": 7107434,
+      "loop": 6406496,
+      "trim_start": 23630
     },
     {
       "track_number": 33,
-      "import_from": 33
+      "key": "epilogue",
+      "title": "Can You Fly Sister?",
+      "file": "ToM/Disc3/01 - Can You Fly Sister?.flac",
+      "trim_start": 43008,
+      "pad_start": 220500
     },
     {
       "track_number": 34,
       "key": "zelda_credits",
       "title": "Return to Forever",
       "file": "ToM/Disc3/19 - Return to Forever.flac",
-      "trim_start": 22463
+      "trim_start": 22463,
+      "rms_target": -26
     },
     {
       "track_number": 35,
-      "import_from": 35
+      "key": "eastern_palace",
+      "title": "Female Turbulence",
+      "file": "ToM/Disc2/05 - Female Turbulence.flac",
+      "trim_end": 7620506,
+      "trim_start": 23458,
+      "loop": 253612
     },
     {
       "track_number": 36,
-      "import_from": 36
+      "key": "desert_palace",
+      "title": "Last Audience",
+      "file": "ToM/Disc2/18 - Last Audience.flac",
+      "trim_end": 5092770,
+      "loop": 23736,
+      "trim_start": 23700
     },
     {
       "track_number": 37,
-      "import_from": 37
+      "key": "agahnims_tower",
+      "title": "Religion Thunder",
+      "file": "ToM/Disc3/11 - Religion Thunder.flac",
+      "trim_end": 3773620,
+      "loop": 124038,
+      "trim_start": 21670,
+      "rms_target": -27
     },
     {
       "track_number": 38,
-      "import_from": 38
+      "key": "swamp_palace",
+      "title": "Ancient Dolphin",
+      "file": "ToM/Disc1/10 - Ancient Dolphin.flac",
+      "trim_end": 7179517,
+      "loop": 23765,
+      "trim_start": 23700
     },
     {
       "track_number": 39,
-      "import_from": 39
+      "key": "palace_of_darkness",
+      "title": "Electric Talk (A section)",
+      "file": "ToM/Disc3/10 - Electric Talk.flac",
+      "trim_end": 2632054,
+      "loop": 64020,
+      "trim_start": 23674,
+      "rms_target": -26
     },
     {
       "track_number": 40,
-      "import_from": 40
+      "key": "misery_mire",
+      "title": "Powell",
+      "file": "ToM/Disc2/08 - Powell.flac",
+      "trim_end": 5346119,
+      "loop": 23770,
+      "trim_start": 23700,
+      "rms_target": -26
     },
     {
       "track_number": 41,
-      "import_from": 41
+      "key": "skull_woods",
+      "title": "Intolerance",
+      "file": "ToM/Disc2/06 - Intolerance.flac",
+      "trim_end": 4344437,
+      "loop": 23366,
+      "trim_start": 23300
     },
     {
       "track_number": 42,
-      "import_from": 42
+      "key": "ice_palace",
+      "title": "Another Winter",
+      "file": "ToM/Disc1/09 - Another Winter.flac",
+      "trim_end": 6016993,
+      "loop": 23736,
+      "trim_start": 23700
     },
     {
       "track_number": 43,
-      "import_from": 43
+      "key": "tower_of_hera",
+      "title": "Raven",
+      "file": "ToM/Disc1/12 - Raven.flac",
+      "trim_end": 4581204,
+      "loop": 23408,
+      "trim_start": 23408
     },
     {
       "track_number": 44,
-      "import_from": 44
+      "key": "thieves_town",
+      "title": "Breezin",
+      "file": "ToM/Disc3/18 - Breezin.flac",
+      "trim_end": 6343003,
+      "loop": 23419,
+      "trim_start": 23400
     },
     {
       "track_number": 45,
-      "import_from": 45
+      "key": "turtle_rock",
+      "title": "Decision Bell",
+      "file": "ToM/Disc3/02 - Decision Bell.flac",
+      "trim_end": 4104208,
+      "loop": 23797,
+      "trim_start": 23700
     },
     {
       "track_number": 46,
-      "import_from": 46
+      "key": "ganons_tower",
+      "title": "Weird Counterpoint",
+      "file": "ToM/Disc3/05 - Weird Counterpoint.flac",
+      "trim_end": 6400405,
+      "loop": 45487,
+      "trim_start": 21002,
+      "rms_target": -21
     },
     {
       "track_number": 47,
-      "import_from": 47
+      "key": "armos_knights",
+      "title": "Axe Bring Storm",
+      "file": "ToM/Disc1/06 - Axe Bring Storm.flac",
+      "trim_end": 5916893,
+      "loop": 213994,
+      "trim_start": 22672
     },
     {
       "track_number": 48,
-      "import_from": 48
+      "key": "lanmolas",
+      "title": "Faith Total Machine",
+      "file": "ToM/Disc3/04 - Faith Total Machine.flac",
+      "trim_end": 3825009,
+      "loop": 783599,
+      "trim_start": 23246
     },
     {
       "track_number": 49,
-      "import_from": 49
+      "key": "agahnim_1",
+      "title": "Sacrifice Part Two (A section)",
+      "file": "ToM/Disc3/14 - Sacrifice Part Two.flac",
+      "trim_end": 1949020,
+      "loop": 23420,
+      "trim_start": 23400,
+      "rms_target": -21
     },
     {
       "track_number": 50,
-      "import_from": 50
+      "key": "arrghus",
+      "title": "Nuclear Fusion",
+      "file": "ToM/Disc2/10 - Nuclear Fusion.flac",
+      "trim_end": 3969579,
+      "loop": 49564,
+      "trim_start": 24021
     },
     {
       "track_number": 51,
-      "import_from": 51
+      "key": "helmasaur_king",
+      "title": "Electric Talk (B section)",
+      "file": "ToM/Disc3/10 - Electric Talk.flac",
+      "trim_end": 7126780,
+      "loop": 5200045,
+      "trim_start": 5200045,
+      "rms_target": -22
     },
     {
       "track_number": 52,
-      "import_from": 52
+      "key": "vitreous",
+      "title": "Black Soup",
+      "file": "ToM/Disc3/07 - Black Soup.flac",
+      "trim_end": 4497889,
+      "loop": 324436,
+      "trim_start": 23761
     },
     {
       "track_number": 53,
-      "import_from": 53
+      "key": "mothula",
+      "title": "Strange Medicine (B section)",
+      "file": "ToM/Disc2/20 - Strange Medicine.flac",
+      "trim_end": 2828172,
+      "loop": 2127100,
+      "trim_start": 2127100,
+      "rms_target": -22
     },
     {
       "track_number": 54,
-      "import_from": 54
+      "key": "kholdstare",
+      "title": "Rolling Cradle",
+      "file": "ToM/Disc3/06 - Rolling Cradle.flac",
+      "trim_end": 4492241,
+      "loop": 23558,
+      "trim_start": 23500,
+      "rms_target": -22
     },
     {
       "track_number": 55,
-      "import_from": 55
+      "key": "moldorm",
+      "title": "Damn Damn Drum",
+      "file": "ToM/Disc1/13 - Damn Damn Drum.flac",
+      "trim_end": 3266643,
+      "loop": 23734,
+      "trim_start": 23734
     },
     {
       "track_number": 56,
-      "import_from": 56
+      "key": "blind",
+      "title": "Strange Medicine (A section)",
+      "file": "ToM/Disc2/20 - Strange Medicine.flac",
+      "trim_end": 1009184,
+      "loop": 23700,
+      "trim_start": 23500
     },
     {
       "track_number": 57,
-      "import_from": 57
+      "key": "trinexx",
+      "title": "Hightension Wire",
+      "file": "ToM/Disc3/08 - Hightension Wire.flac",
+      "trim_end": 4103512,
+      "loop": 200658,
+      "trim_start": 22825,
+      "rms_target": -23
     },
     {
       "track_number": 58,
-      "import_from": 58
+      "key": "agahnim_2",
+      "title": "Sacrifice Part Two (B section)",
+      "file": "ToM/Disc3/14 - Sacrifice Part Two.flac",
+      "trim_end": 5159611,
+      "loop": 1949156,
+      "trim_start": 3875648,
+      "rms_target": -21
     },
     {
       "track_number": 59,
-      "import_from": 59
+      "key": "ganons_tower_climb",
+      "title": "Secret of Mana",
+      "file": "ToM/Disc3/03 - Secret of Mana.flac",
+      "trim_end": 4036119,
+      "loop": 23425,
+      "trim_start": 23400,
+      "rms_target": -23
     },
     {
       "track_number": 60,
-      "import_from": 60
+      "key": "light_world_2",
+      "title": "Reincarnation",
+      "file": "ToM/Disc3/16 - Reincarnation.flac",
+      "trim_end": 3737411,
+      "loop": 138116,
+      "trim_start": 23300
     },
     {
       "track_number": 61,
-      "import_from": 61
+      "key": "dark_world_2",
+      "title": "Different Road",
+      "file": "ToM/Disc2/07 - Different Road.flac",
+      "trim_end": 5947854,
+      "loop": 23540,
+      "trim_start": 23500,
+      "rms_target": -25
     }
   ]
 }
