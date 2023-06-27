@@ -139,6 +139,11 @@ sealed interface TrackBase {
     val loopPoint: Int?
 
     /**
+     * The [Msu] pack this track belongs to.
+     */
+    val msu: Msu
+
+    /**
      * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
      * be placed within these silent samples.
      */
@@ -205,7 +210,9 @@ data class Track(
 
     @JsonProperty("trim_start")
     override val trimStart: Int
-) : TrackBase
+) : TrackBase {
+    override lateinit var msu: Msu
+}
 
 data class TrackCopy(
     @JsonProperty("copy_of")
@@ -224,6 +231,7 @@ data class TrackCopy(
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
     override val loopPoint get() = track.loopPoint
+    override val msu get() = track.msu
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
     override val rmsTarget get() = track.rmsTarget
@@ -233,21 +241,25 @@ data class TrackCopy(
 }
 
 data class TrackImport(
+    /**
+     * Indicates which parent JSON file and track number, separated by `#` to import this track from.
+     */
     @JsonProperty("import_from")
-    val importFrom: Int,
+    val importFrom: String,
 
     @JsonProperty("track_number")
     override val trackNumber: Int
 ) : TrackBase {
     lateinit var track: TrackBase
 
-    override val album get() = track.album
+    override val album get() = track.album ?: track.msu.album
     override val amplification get() = track.amplification
-    override val artist get() = track.artist
+    override val artist get() = track.artist ?: track.msu.artist
     override val fadeIn get() = track.fadeIn
     override val fadeOut get() = track.fadeOut
     override val key get() = track.key
     override val loopPoint get() = track.loopPoint
+    override val msu get() = track.msu
     override val padEnd get() = track.padEnd
     override val padStart get() = track.padStart
     override val rmsTarget get() = track.rmsTarget
@@ -296,7 +308,9 @@ data class TrackMix(
 
     @JsonProperty("trim_start")
     override val trimStart: Int
-) : TrackBase
+) : TrackBase {
+    override lateinit var msu: Msu
+}
 
 fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
 
@@ -314,7 +328,7 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
 
 /**
  * Computes and returns the amplification factor, in linear power, appropriate for the given [pcmData] using the values
- * from the given [Msu] pack and [Track], choosing the first available value, with the following priority:
+ * from the given [Track] and its [Msu] pack, choosing the first available value, with the following priority:
  *
  * - [TrackBase.amplification]
  * - [TrackBase.rmsTarget]
@@ -325,12 +339,12 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
  * If one of the `rmsTarget` values is chosen, the current RMS value of the [pcmData] is computed and the returned
  * amplification value is what's needed to hit the chosen RMS target.
  */
-fun computeAmplification(pcmData: ByteArray, msu: Msu, track: TrackBase) =
+fun computeAmplification(pcmData: ByteArray, track: TrackBase) =
     when {
         track.amplification != null -> track.amplification!!.toLinear()
         track.rmsTarget != null -> track.rmsTarget!!.toLinear() / computeRootMeanSquare(pcmData)
-        msu.amplification != null -> msu.amplification.toLinear()
-        msu.rmsTarget != null -> msu.rmsTarget.toLinear() / computeRootMeanSquare(pcmData)
+        track.msu.amplification != null -> track.msu.amplification!!.toLinear()
+        track.msu.rmsTarget != null -> track.msu.rmsTarget!!.toLinear() / computeRootMeanSquare(pcmData)
         else -> 1.0
     }
 
@@ -411,17 +425,25 @@ fun Double.toLinear(): Double = if (this >= 0) { this } else { 10.0.pow(this / 2
 fun loadMsu(filename: String): Msu {
     val mapper = jacksonObjectMapper()
     val msu = mapper.readValue<Msu>(File(filename))
+    val parentMsus = mutableMapOf<String, Msu>()
 
-    if (msu.childOf != null) {
-        val parentMsu = loadMsu(msu.childOf)
+    msu.tracks.forEach { track ->
+        when (track) {
+            is Track -> track.msu = msu
+            is TrackCopy -> track.track = msu.tracks.find { it.trackNumber == track.copyOf }!!
+            is TrackImport -> {
+                val (parentFilename, parentTrackNumber) = track.importFrom.split("#")
+                val parentMsu = parentMsus.getOrPut(parentFilename) { loadMsu(parentFilename) }
 
-        msu.tracks.filterIsInstance<TrackImport>().forEach { trackImport ->
-            trackImport.track = parentMsu.tracks.find { it.trackNumber == trackImport.importFrom }!!
+                track.track = parentMsu.tracks.find { it.trackNumber.toString() == parentTrackNumber }!!
+            }
+            is TrackMix -> {
+                track.msu = msu
+                // Assuming sub-tracks don't copy or import, for now.
+                track.subTracks.forEach { (it as Track).msu = msu }
+            }
+            else -> error("TrackBase is sealed, so we shouldn't need this")
         }
-    }
-
-    msu.tracks.filterIsInstance<TrackCopy>().forEach { trackCopy ->
-        trackCopy.track = msu.tracks.find { it.trackNumber == trackCopy.copyOf }!!
     }
 
     return msu
@@ -432,8 +454,8 @@ fun loadMsu(filename: String): Msu {
  * converting the sample back to a 16-bit value, and writing it back into the array. We're doing the mixing in floating
  * point because repeated conversion back into [Int] values could lose precision.
  */
-fun mixPcmData(pcmData: ByteArray, msu: Msu, track: TrackBase) {
-    val amplification = computeAmplification(pcmData, msu, track)
+fun mixPcmData(pcmData: ByteArray, track: TrackBase) {
+    val amplification = computeAmplification(pcmData, track)
     var index = 0
     val totalSampleCount = byteCountToSampleCount(pcmData.size)
 
@@ -482,8 +504,8 @@ fun processTrack(filename: String, trackNumber: Int, raw: Boolean = false) {
 fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
     println("Processing #${track.trackNumber} - ${track.key}")
 
-    val rawPcmData = track.loadPcmData(msu)
-    val (pcmData, loopPoint) = renderTrack(msu, track, rawPcmData)
+    val rawPcmData = track.loadPcmData()
+    val (pcmData, loopPoint) = renderTrack(track, rawPcmData)
 
     writeMsuPcm(msu, track, pcmData, loopPoint, raw)
 }
@@ -497,8 +519,8 @@ fun processTracks(filename: String) {
     msu.tracks.forEach { processTrack(msu, it) }
 }
 
-fun renderSubTracks(msu: Msu, subTracks: List<TrackBase>): ByteArray {
-    val pcmDatas = subTracks.map { renderTrack(msu, it, it.loadPcmData(msu)).first }
+fun renderSubTracks(subTracks: List<TrackBase>): ByteArray {
+    val pcmDatas = subTracks.map { renderTrack(it, it.loadPcmData()).first }
     val pcmData = ByteArray(pcmDatas.maxOf { it.size })
 
     var index = 0
@@ -516,7 +538,7 @@ fun renderSubTracks(msu: Msu, subTracks: List<TrackBase>): ByteArray {
     return pcmData
 }
 
-fun renderTrack(msu: Msu, track: TrackBase, rawPcmData: ByteArray): Pair<ByteArray, Int> {
+fun renderTrack(track: TrackBase, rawPcmData: ByteArray): Pair<ByteArray, Int> {
     val padEnd = track.padEnd ?: 0
     val padStart = track.padStart ?: 0
     val pcmData = if (track.loopPoint == null || track.loopPoint!! >= track.trimStart) {
@@ -543,7 +565,7 @@ fun renderTrack(msu: Msu, track: TrackBase, rawPcmData: ByteArray): Pair<ByteArr
         "Loop point is at or beyond last sample of audio. Resulting file would crash emulators!"
     }
 
-    mixPcmData(pcmData, msu, track)
+    mixPcmData(pcmData, track)
 
     val padEndBytes = sampleCountToByteCount(padStart)
     val padStartBytes = sampleCountToByteCount(padStart)
@@ -569,12 +591,12 @@ fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
  * I'm sick of trying to get Jackson to play along when I'd rather bang my head against *actual* functionality, so hell
  * with it.
  */
-fun TrackBase.loadPcmData(msu: Msu): ByteArray =
+fun TrackBase.loadPcmData(): ByteArray =
     when (this) {
         is Track -> convertToPcmData(this.filename)
-        is TrackCopy -> this.track.loadPcmData(msu)
-        is TrackImport -> this.track.loadPcmData(msu)
-        is TrackMix -> renderSubTracks(msu, this.subTracks)
+        is TrackCopy -> this.track.loadPcmData()
+        is TrackImport -> this.track.loadPcmData()
+        is TrackMix -> renderSubTracks(this.subTracks)
         else -> error("TrackBase is sealed, so we shouldn't need this")
     }
 
@@ -642,8 +664,12 @@ fun writeMsuTrackList(msu: Msu) {
         msu.tracks.forEach { track ->
             file.write("  ${track.key}:\n")
             file.write("    name: ${track.title ?: track.source()}\n")
-            track.artist?.let { file.write("    artist: $it\n") }
-            track.album?.let { file.write("    album: $it\n") }
+            if (track.artist is String && track.artist != msu.artist) {
+                file.write("    artist: ${track.artist}\n")
+            }
+            if (track.album is String && track.album != msu.album) {
+                file.write("    album: ${track.album}\n")
+            }
         }
     }
 }

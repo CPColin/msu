@@ -21,7 +21,8 @@ Also available as standalone packs (SM has not been specficially tested):
 * **2023-05-20, v1.0:** Initial release
 * **2023-05-21, v1.0.1:** Standalone packs released
 * **2023-06-12, v1.0.2:** Corrected track name for "Lost Woods" and using new sub-track feature for a few tracks (no audible changes)
-* **2023-06-25, v1.1:** Updated to be compatible with SMZ3 Cas' Randomizer version 9.3.0 and (presumably) mainline SMZ3 (no audible changes)
+* **2023-06-25, v1.0.3:** Updated to be compatible with SMZ3 Cas' Randomizer version 9.3.0 and (presumably) mainline SMZ3 (no audible changes)
+* **2023-06-28, v1.1:** Fixed an issue in the script that was giving the standalone packs slight volume differences from the combined pack
 
 ## Scripts
 
