@@ -567,7 +567,7 @@ fun renderTrack(track: TrackBase, rawPcmData: ByteArray): Pair<ByteArray, Int> {
 
     mixPcmData(pcmData, track)
 
-    val padEndBytes = sampleCountToByteCount(padStart)
+    val padEndBytes = sampleCountToByteCount(padEnd)
     val padStartBytes = sampleCountToByteCount(padStart)
     val paddedPcmData = ByteArray(padStartBytes + pcmData.size + padEndBytes)
 
