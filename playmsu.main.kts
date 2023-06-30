@@ -6,13 +6,17 @@ import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.SourceDataLine
 
+val BITS_PER_BYTE = 8
+
 val CHANNELS = 2
 
 val MSU_MAGIC = "MSU1"
 
+val MSU_MAGIC_SIZE = MSU_MAGIC.toByteArray().size
+
 val LOOP_POINT_SIZE = 4
 
-val SAMPLE_BYTES = 2
+val SAMPLE_SIZE = 2
 
 val SAMPLE_RATE = 44100
 
@@ -46,7 +50,7 @@ fun loadLoopAudio(filename: String): ByteArray {
  * - little-endian
  */
 fun openAudio(): SourceDataLine {
-    val audioFormat = AudioFormat(SAMPLE_RATE.toFloat(), SAMPLE_BYTES * 8, CHANNELS, true, false)
+    val audioFormat = AudioFormat(SAMPLE_RATE.toFloat(), SAMPLE_SIZE * BITS_PER_BYTE, CHANNELS, true, false)
     val sourceDataLine = AudioSystem.getSourceDataLine(audioFormat)
 
     sourceDataLine.open()
@@ -140,7 +144,7 @@ fun printUsage() {
  * Reads and returns the four-byte, little-endian loop point from the given [file].
  */
 fun readLoopPoint(file: RandomAccessFile): UInt {
-    val bytes = ByteArray(4)
+    val bytes = ByteArray(LOOP_POINT_SIZE)
 
     file.readFully(bytes)
 
@@ -154,7 +158,7 @@ fun readLoopPoint(file: RandomAccessFile): UInt {
  * Reads the [magic number][MSU_MAGIC] from the given [file] and throws an exception if it isn't found.
  */
 fun readMagicNumber(file: RandomAccessFile) {
-    val msuMagicBytes = ByteArray(4)
+    val msuMagicBytes = ByteArray(MSU_MAGIC_SIZE)
 
     file.readFully(msuMagicBytes)
 
@@ -170,7 +174,7 @@ fun readMagicNumber(file: RandomAccessFile) {
  * MSU PCM header.
  */
 fun seekSample(file: RandomAccessFile, sample: UInt) {
-    file.seek(MSU_MAGIC.length + LOOP_POINT_SIZE + (sample.toLong() * SAMPLE_BYTES * CHANNELS))
+    file.seek(MSU_MAGIC_SIZE + LOOP_POINT_SIZE + (sample.toLong() * SAMPLE_SIZE * CHANNELS))
 }
 
 /**
