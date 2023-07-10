@@ -632,9 +632,11 @@ fun writeMsuFile(msu: Msu) {
 }
 
 fun writeMsuPcm(msu: Msu, track: TrackBase, pcmData: ByteArray, loopPoint: Int, raw: Boolean) {
-    val outputFilename = "${msu.outputPrefix}-${track.trackNumber}.pcm"
+    val outputFile = File("${msu.outputPrefix}-${track.trackNumber}.pcm")
 
-    File(outputFilename).outputStream().use {
+    outputFile.parentFile?.mkdirs()
+
+    outputFile.outputStream().use {
         if (raw) {
             it.write(pcmData)
         } else {
