@@ -389,20 +389,20 @@
     {
       "track_number": 43,
       "key": "tower_of_hera",
+      "title": "Few Paths Forbidden",
+      "file": "ToM/Disc2/04 - Few Paths Forbidden.flac",
+      "loop": 23800,
+      "trim_start": 23700,
+      "trim_end": 3974373
+    },
+    {
+      "track_number": 44,
+      "key": "thieves_town",
       "title": "Raven",
       "file": "ToM/Disc1/12 - Raven.flac",
       "trim_end": 4581204,
       "loop": 23408,
       "trim_start": 23408
-    },
-    {
-      "track_number": 44,
-      "key": "thieves_town",
-      "title": "Breezin",
-      "file": "ToM/Disc3/18 - Breezin.flac",
-      "trim_end": 6343003,
-      "loop": 23419,
-      "trim_start": 23400
     },
     {
       "track_number": 45,

@@ -24,6 +24,7 @@ Also available as standalone packs (SM has not been specfically tested):
 * **2023-06-25, v1.0.3:** Updated to be compatible with SMZ3 Cas' Randomizer version 9.3.0 and (presumably) mainline SMZ3 (no audible changes)
 * **2023-06-28, v1.1:** Fixed an issue in the script that was giving the standalone packs slight volume differences from the combined pack
 * **2023-06-30, v1.2:** Fixed an issue in the script that was applying `pad_start` at the end, too, instead of `pad_end`, causing the Mother Brain tracks to pause before looping
+* **2023-07-10, v1.3:** Moved "Raven" from Tower of Hera to Thieves' Town (replacing "Breezin") and added "Few Paths Forbidden" to Tower of Hera
 
 ## Scripts
 
