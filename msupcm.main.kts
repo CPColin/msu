@@ -62,7 +62,7 @@ data class Msu(
      * The name of this pack.
      */
     @JsonProperty("pack_name")
-    val packName: String,
+    val packName: String?,
 
     @JsonProperty("pack_version")
     val packVersion: Int?,
@@ -621,6 +621,11 @@ fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?)
     )
 
 /**
+ * Wraps this string in quotation marks and escapes any existing quotation marks, for YAML.
+ */
+fun String.wrap() = "\"${this.replace("\"", "\\\"")}\""
+
+/**
  * Creates the empty `.msu` file necessary for emulators to recognize this as an MSU pack. Also creates containing
  * directories, if the [output prefix][Msu.outputPrefix] names any.
  */
@@ -657,21 +662,17 @@ fun writeMsuPcm(msu: Msu, track: TrackBase, pcmData: ByteArray, loopPoint: Int, 
 
 fun writeMsuTrackList(msu: Msu) {
     FileWriter(msu.outputPrefix + ".yml").use { file ->
-        file.write("pack_name: ${msu.packName}\n")
-        file.write("pack_author: ${msu.packAuthor}\n")
+        msu.packName?.let { file.write("pack_name: ${it.wrap()}\n") }
+        msu.packAuthor?.let { file.write("pack_author: ${it.wrap()}\n") }
         msu.packVersion?.let { file.write("pack_version: $it\n") }
-        msu.artist?.let { file.write("artist: $it\n") }
-        msu.album?.let { file.write("album: $it\n") }
+        msu.artist?.let { file.write("artist: ${it.wrap()}\n") }
+        msu.album?.let { file.write("album: ${it.wrap()}\n") }
         file.write("tracks:\n")
         msu.tracks.forEach { track ->
             file.write("  ${track.key}:\n")
-            file.write("    name: ${track.title ?: track.source()}\n")
-            if (track.artist is String && track.artist != msu.artist) {
-                file.write("    artist: ${track.artist}\n")
-            }
-            if (track.album is String && track.album != msu.album) {
-                file.write("    album: ${track.album}\n")
-            }
+            file.write("    name: ${track.title?.wrap() ?: track.source().wrap()}\n")
+            track.artist?.takeIf { it != msu.artist }?.let { file.write("    artist: ${it.wrap()}\n") }
+            track.album?.takeIf { it != msu.album }?.let { file.write("    album: ${it.wrap()}\n") }
         }
     }
 }
