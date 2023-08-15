@@ -353,12 +353,11 @@
     {
       "track_number": 39,
       "key": "palace_of_darkness",
-      "title": "Electric Talk (A section)",
-      "file": "ToM/Disc3/10 - Electric Talk.flac",
-      "trim_end": 2632054,
-      "loop": 64020,
-      "trim_start": 23674,
-      "rms_target": -26
+      "title": "Intolerance",
+      "file": "ToM/Disc2/06 - Intolerance.flac",
+      "trim_end": 4344437,
+      "loop": 23366,
+      "trim_start": 23300
     },
     {
       "track_number": 40,
@@ -373,11 +372,12 @@
     {
       "track_number": 41,
       "key": "skull_woods",
-      "title": "Intolerance",
-      "file": "ToM/Disc2/06 - Intolerance.flac",
-      "trim_end": 4344437,
-      "loop": 23366,
-      "trim_start": 23300
+      "title": "Electric Talk (A section)",
+      "file": "ToM/Disc3/10 - Electric Talk.flac",
+      "trim_end": 2632054,
+      "loop": 64020,
+      "trim_start": 23674,
+      "rms_target": -26
     },
     {
       "track_number": 42,
@@ -465,11 +465,11 @@
     {
       "track_number": 51,
       "key": "helmasaur_king",
-      "title": "Electric Talk (B section)",
-      "file": "ToM/Disc3/10 - Electric Talk.flac",
-      "trim_end": 7126780,
-      "loop": 5200045,
-      "trim_start": 5200045,
+      "title": "Strange Medicine (B section)",
+      "file": "ToM/Disc2/20 - Strange Medicine.flac",
+      "trim_end": 2828172,
+      "loop": 2127100,
+      "trim_start": 2127100,
       "rms_target": -22
     },
     {
@@ -484,11 +484,11 @@
     {
       "track_number": 53,
       "key": "mothula",
-      "title": "Strange Medicine (B section)",
-      "file": "ToM/Disc2/20 - Strange Medicine.flac",
-      "trim_end": 2828172,
-      "loop": 2127100,
-      "trim_start": 2127100,
+      "title": "Electric Talk (B section)",
+      "file": "ToM/Disc3/10 - Electric Talk.flac",
+      "trim_end": 7126780,
+      "loop": 5200045,
+      "trim_start": 5200045,
       "rms_target": -22
     },
     {
