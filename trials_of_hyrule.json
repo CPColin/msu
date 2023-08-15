@@ -309,6 +309,8 @@
       "title": "Return to Forever",
       "file": "ToM/Disc3/19 - Return to Forever.flac",
       "trim_start": 22463,
+      "trim_end": 10606463,
+      "fade_out": 441000,
       "rms_target": -26
     },
     {
