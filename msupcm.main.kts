@@ -669,7 +669,7 @@ fun writeMsuTrackList(msu: Msu) {
         msu.album?.let { file.write("album: ${it.wrap()}\n") }
         file.write("tracks:\n")
         msu.tracks.forEach { track ->
-            file.write("  ${track.key}:\n")
+            file.write("  ${track.key}: # ${track.trackNumber}\n")
             file.write("    name: ${track.title?.wrap() ?: track.source().wrap()}\n")
             track.artist?.takeIf { it != msu.artist }?.let { file.write("    artist: ${it.wrap()}\n") }
             track.album?.takeIf { it != msu.album }?.let { file.write("    album: ${it.wrap()}\n") }
