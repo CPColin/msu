@@ -1,0 +1,822 @@
+{
+  "game": "SMZ3 Cas' Randomizer",
+  "pack_name": "Voss Gears and New Tetris Spheres",
+  "pack_author": "CPColin",
+  "pack_version": 1,
+  "artist": "Neil Voss",
+  "url": "https://fi.zophar.net/soundfiles/nintendo-64-usf/tetrisphere/rwonrzrg/Tetrisphere%20%28FLAC%29.zophar.zip;https://fi.zophar.net/soundfiles/nintendo-64-usf/new-tetris-the/tpidixfx/New%20Tetris%2C%20The%20%28FLAC%29.zophar.zip;https://fi.zophar.net/soundfiles/gameboy-advance-gsf/racing-gears-advance/nnrikwjv/Racing%20Gears%20Advance%20%28FLAC%29.zophar.zip",
+  "output_prefix": "Voss Gears and New Tetris Spheres/voss",
+  "amplification": 1.0,
+  "tracks": [
+    {
+      "track_number": 2,
+      "key": "light_world",
+      "album": "Tetrisphere",
+      "title": "Extol",
+      "file": "Tetrisphere/14 Extol.flac",
+      "trim_end": 8594861,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 4,
+      "key": "bunny_theme",
+      "album": "Tetrisphere",
+      "title": "SnowyMushrooms",
+      "file": "Tetrisphere/19 SnowyMushrooms.flac",
+      "trim_end": 2823355,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 5,
+      "key": "lost_woods",
+      "album": "Racing Gears Advance",
+      "title": "Repeater",
+      "file": "Racing Gears Advance/16 BGM #16.flac",
+      "trim_start": 2200,
+      "trim_end": 4410707,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 7,
+      "key": "kakariko",
+      "album": "Racing Gears Advance",
+      "title": "RBBRBRNR",
+      "file": "Racing Gears Advance/15 BGM #15.flac",
+      "trim_start": 2200,
+      "trim_end": 4658679,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 8,
+      "key": "mirror",
+      "album": "Racing Gears Advance",
+      "title": "Starting Grid",
+      "file": "Racing Gears Advance/04 BGM #04.flac",
+      "trim_start": 2200,
+      "trim_end": 310900,
+      "fade_out": 44100,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 9,
+      "key": "dark_world",
+      "album": "The New Tetris",
+      "title": "Dvie",
+      "file": "The New Tetris/03 Dvie.flac",
+      "trim_end": 5659474,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 10,
+      "key": "pedestal_pull",
+      "album": "Racing Gears Advance",
+      "title": "Race Rankings",
+      "file": "Racing Gears Advance/03 BGM #03.flac",
+      "trim_start": 2200,
+      "trim_end": 413995,
+      "fade_out": 88200,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 11,
+      "key": "zelda_game_over",
+      "copy_of": 4
+    },
+    {
+      "track_number": 12,
+      "key": "guards",
+      "album": "Racing Gears Advance",
+      "title": "People Mover",
+      "file": "Racing Gears Advance/14 BGM #14.flac",
+      "trim_start": 2200,
+      "trim_end": 6831928,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 13,
+      "key": "dark_death_mountain",
+      "album": "The New Tetris",
+      "title": "Thread",
+      "file": "The New Tetris/08 Thread6.flac",
+      "trim_end": 6140365,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 14,
+      "key": "minigame",
+      "album": "Tetrisphere",
+      "title": "Zooming Car",
+      "file": "Tetrisphere/17 Zooming Car.flac",
+      "trim_end": 3048964,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 15,
+      "key": "dark_woods",
+      "album": "The New Tetris",
+      "title": "Celtic (bridge)",
+      "file": "The New Tetris/13 Celtic.flac",
+      "trim_start": 4198934,
+      "trim_end": 5365084,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 16,
+      "key": "hyrule_castle",
+      "album": "Tetrisphere",
+      "title": "Hallucid",
+      "file": "Tetrisphere/08 Hallucid.flac",
+      "trim_end": 6381448,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 18,
+      "key": "cave_1",
+      "album": "Tetrisphere",
+      "title": "Learn (A section)",
+      "file": "Tetrisphere/12 Learn.flac",
+      "trim_end": 1344431,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 19,
+      "key": "boss_victory",
+      "album": "Tetrisphere",
+      "title": "Birthday Bumps (outro)",
+      "file": "Tetrisphere/23 Birthday Bumps.flac",
+      "trim_start": 2155673,
+      "trim_end": 2596673,
+      "fade_out": 88200,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 20,
+      "key": "sanctuary",
+      "copy_of": 7
+    },
+    {
+      "track_number": 21,
+      "key": "zelda_boss_battle",
+      "copy_of": 57
+    },
+    {
+      "track_number": 23,
+      "key": "shop",
+      "album": "Racing Gears Advance",
+      "title": "Boogie Days",
+      "file": "Racing Gears Advance/05 BGM #05.flac",
+      "trim_start": 2200,
+      "trim_end": 3983160,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 24,
+      "key": "cave_2",
+      "album": "Tetrisphere",
+      "title": "Learn (B section)",
+      "file": "Tetrisphere/12 Learn.flac",
+      "trim_start": 1344431,
+      "trim_end": 4705558,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 27,
+      "key": "fairy",
+      "album": "Racing Gears Advance",
+      "title": "Race!",
+      "file": "Racing Gears Advance/02 BGM #02.flac",
+      "trim_start": 2200,
+      "trim_end": 2720232,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 28,
+      "key": "agahnims_floor",
+      "album": "Tetrisphere",
+      "title": "Martist (intro)",
+      "file": "Tetrisphere/03 Martist.flac",
+      "trim_end": 1322226,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 29,
+      "key": "ganon_reveal",
+      "album": "Racing Gears Advance",
+      "title": "Cycl (bridge)",
+      "file": "Racing Gears Advance/06 BGM #06.flac",
+      "trim_start": 3268410,
+      "trim_end": 3995106,
+      "loop": 3995100,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 30,
+      "key": "ganons_message",
+      "album": "Racing Gears Advance",
+      "title": "Cycl (outro)",
+      "file": "Racing Gears Advance/06 BGM #06.flac",
+      "trim_start": 3997084,
+      "trim_end": 5446023,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 31,
+      "key": "ganon_battle",
+      "album": "Tetrisphere",
+      "title": "SkankBowlFight",
+      "file": "Tetrisphere/22 SkankBowlFight.flac",
+      "trim_end": 3719370,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 32,
+      "key": "triforce_room",
+      "album": "Tetrisphere",
+      "title": "Cheddar Funk",
+      "file": "Tetrisphere/18 Cheddar Funk.flac",
+      "trim_end": 2837255,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 33,
+      "key": "epilogue",
+      "album": "The New Tetris",
+      "title": "Title",
+      "file": "The New Tetris/01 Title.flac",
+      "trim_end": 6095958,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 35,
+      "key": "eastern_palace",
+      "album": "Tetrisphere",
+      "title": "Flim Flam",
+      "file": "Tetrisphere/06 Flim Flam.flac",
+      "trim_end": 7977825,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 36,
+      "key": "desert_palace",
+      "album": "The New Tetris",
+      "title": "Polyasia (chill)",
+      "sub_tracks": [
+        {
+          "file": "The New Tetris/04 Polyasia.flac",
+          "trim_end": 1866172
+        },
+        {
+          "file": "The New Tetris/04 Polyasia.flac",
+          "pad_start": 1866172,
+          "trim_start": 5146598,
+          "trim_end": 6546288
+        }
+      ],
+      "amplification": -8.0
+    },
+    {
+      "track_number": 37,
+      "key": "agahnims_tower",
+      "album": "Tetrisphere",
+      "title": "Phony",
+      "file": "Tetrisphere/10 Phony.flac",
+      "trim_end": 9619122,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 38,
+      "key": "swamp_palace",
+      "album": "The New Tetris",
+      "title": "Giali",
+      "file": "The New Tetris/07 Giali.flac",
+      "trim_end": 9872720,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 39,
+      "key": "palace_of_darkness",
+      "album": "The New Tetris",
+      "title": "Japan",
+      "file": "The New Tetris/15 Japan.flac",
+      "trim_end": 6061291,
+      "loop": 4661648,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 40,
+      "key": "misery_mire",
+      "album": "The New Tetris",
+      "title": "Mayan",
+      "file": "The New Tetris/10 Mayan.flac",
+      "trim_end": 10957404,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 41,
+      "key": "skull_woods",
+      "album": "The New Tetris",
+      "title": "Celtic (A section)",
+      "file": "The New Tetris/13 Celtic.flac",
+      "trim_end": 5365084,
+      "loop": 466585,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 42,
+      "key": "ice_palace",
+      "album": "The New Tetris",
+      "title": "Haluci",
+      "file": "The New Tetris/09 Haluci.flac",
+      "trim_end": 7231485,
+      "fade_out": 10,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 43,
+      "key": "tower_of_hera",
+      "album": "The New Tetris",
+      "title": "Greek",
+      "file": "The New Tetris/11 Greek.flac",
+      "trim_end": 7525618,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 44,
+      "key": "thieves_town",
+      "album": "The New Tetris",
+      "title": "Floppy",
+      "file": "The New Tetris/05 Floppy.flac",
+      "trim_end": 7283954,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 45,
+      "key": "turtle_rock",
+      "album": "The New Tetris",
+      "title": "Africa",
+      "file": "The New Tetris/14 Africa.flac",
+      "trim_end": 9782439,
+      "fade_out": 10,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 46,
+      "key": "ganons_tower",
+      "copy_of": 37
+    },
+    {
+      "track_number": 47,
+      "key": "armos_knights",
+      "album": "Tetrisphere",
+      "title": "Dog Robot",
+      "file": "Tetrisphere/20 Dog Robot.flac",
+      "trim_end": 3387810,
+      "amplification": 2.0
+    },
+    {
+      "track_number": 48,
+      "key": "lanmolas",
+      "album": "The New Tetris",
+      "title": "Polyasia (NO CHILL)",
+      "file": "The New Tetris/04 Polyasia.flac",
+      "trim_start": 1866172,
+      "trim_end": 3280423,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 49,
+      "key": "agahnim_1",
+      "album": "Tetrisphere",
+      "title": "Martist",
+      "file": "Tetrisphere/03 Martist.flac",
+      "trim_start": 1322226,
+      "trim_end": 7936610,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 50,
+      "key": "arrghus",
+      "album": "Racing Gears Advance",
+      "title": "Hyper Maximum",
+      "file": "Racing Gears Advance/12 BGM #12.flac",
+      "trim_start": 2200,
+      "trim_end": 3587535,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 51,
+      "key": "helmasaur_king",
+      "album": "Racing Gears Advance",
+      "title": "Monotone",
+      "file": "Racing Gears Advance/09 BGM #09.flac",
+      "trim_start": 2200,
+      "trim_end": 3718450,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 52,
+      "key": "vitreous",
+      "copy_of": 32
+    },
+    {
+      "track_number": 53,
+      "key": "mothula",
+      "album": "The New Tetris",
+      "title": "Celtic (B section)",
+      "file": "The New Tetris/13 Celtic.flac",
+      "trim_start": 5365084,
+      "trim_end": 8164996,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 54,
+      "key": "kholdstare",
+      "album": "Tetrisphere",
+      "title": "Perpetuate303 (A section)",
+      "file": "Tetrisphere/09 Perpetuate303.flac",
+      "trim_end": 4421080,
+      "loop": 631102,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 55,
+      "key": "moldorm",
+      "album": "Tetrisphere",
+      "title": "Perpetuate303 (B section)",
+      "file": "Tetrisphere/09 Perpetuate303.flac",
+      "trim_start": 4421080,
+      "trim_end": 7579532,
+      "loop": 3790729,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 56,
+      "key": "blind",
+      "album": "Tetrisphere",
+      "title": "Perpetuate303 (C section)",
+      "file": "Tetrisphere/09 Perpetuate303.flac",
+      "trim_start": 7579532,
+      "trim_end": 12633699,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 57,
+      "key": "trinexx",
+      "album": "Racing Gears Advance",
+      "title": "1985",
+      "file": "Racing Gears Advance/07 BGM #07.flac",
+      "trim_start": 3152372,
+      "trim_end": 6280408,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 58,
+      "key": "agahnim_2",
+      "album": "Tetrisphere",
+      "title": "Martist",
+      "file": "Tetrisphere/03 Martist.flac",
+      "trim_start": 3968304,
+      "trim_end": 7936610,
+      "loop": 1322226,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 59,
+      "key": "ganons_tower_climb",
+      "album": "Tetrisphere",
+      "title": "ManicDrumMix",
+      "file": "Tetrisphere/07 ManicDrumMix.flac",
+      "trim_end": 11108528,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 60,
+      "key": "light_world_2",
+      "copy_of": 35
+    },
+    {
+      "track_number": 61,
+      "key": "dark_world_2",
+      "copy_of": 35
+    },
+    {
+      "track_number": 99,
+      "key": "smz3_credits",
+      "album": "The New Tetris",
+      "title": "Kalinka",
+      "file": "The New Tetris/16 Kalinka.flac",
+      "trim_end": 8135270,
+      "amplification": -5.0
+    },
+    {
+      "track_number": 101,
+      "key": "samus_fanfare",
+      "album": "Tetrisphere",
+      "title": "Birthday Bumps (intro)",
+      "file": "Tetrisphere/23 Birthday Bumps.flac",
+      "trim_end": 391574,
+      "fade_out": 22050,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 103,
+      "key": "item_acquired",
+      "copy_of": 23
+    },
+    {
+      "track_number": 104,
+      "key": "metroid_opening_with_intro",
+      "album": "Tetrisphere",
+      "title": "Prophetic",
+      "file": "Tetrisphere/01 Prophetic - Title.flac",
+      "trim_end": 10091608,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 105,
+      "key": "metroid_opening_without_intro",
+      "album": "Tetrisphere",
+      "title": "Prophetic",
+      "file": "Tetrisphere/01 Prophetic - Title.flac",
+      "loop": 0,
+      "trim_start": 387978,
+      "trim_end": 10091608,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 108,
+      "key": "crateria_space_pirates_appear",
+      "album": "Racing Gears Advance",
+      "title": "Title",
+      "file": "Racing Gears Advance/01 BGM #01.flac",
+      "trim_end": 5235726,
+      "loop": 1612378,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 109,
+      "key": "baby_incoming",
+      "album": "Tetrisphere",
+      "title": "Prophetic (intro)",
+      "file": "Tetrisphere/01 Prophetic - Title.flac",
+      "trim_end": 388244,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 110,
+      "key": "samus_aran_theme",
+      "album": "Racing Gears Advance",
+      "title": "Magnum",
+      "file": "Racing Gears Advance/13 BGM #13.flac",
+      "trim_start": 2200,
+      "trim_end": 5395974,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 111,
+      "key": "green_brinstar",
+      "album": "Tetrisphere",
+      "title": "Compliant Confuse",
+      "file": "Tetrisphere/04 Compliant Confuse.flac",
+      "trim_end": 9586848,
+      "loop": 1598449,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 112,
+      "key": "red_brinstar",
+      "album": "Tetrisphere",
+      "title": "Compliant Confuse",
+      "file": "Tetrisphere/04 Compliant Confuse.flac",
+      "trim_start": 4638388,
+      "trim_end": 9586848,
+      "loop": 1598449,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 113,
+      "key": "upper_norfair",
+      "album": "The New Tetris",
+      "title": "Morocco",
+      "file": "The New Tetris/02 Morocco.flac",
+      "trim_end": 10712368,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 114,
+      "key": "lower_norfair",
+      "album": "The New Tetris",
+      "title": "Egypt",
+      "file": "The New Tetris/12 Egypt.flac",
+      "trim_end": 8412915,
+      "amplification": -8.0
+    },
+    {
+      "track_number": 115,
+      "key": "inner_maridia",
+      "album": "Tetrisphere",
+      "title": "T. Grey (B section)",
+      "file": "Tetrisphere/11 T. Grey.flac",
+      "trim_start": 5038049,
+      "trim_end": 10581080,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 116,
+      "key": "outer_maridia",
+      "album": "Tetrisphere",
+      "title": "T. Grey (A section)",
+      "file": "Tetrisphere/11 T. Grey.flac",
+      "trim_end": 5038049,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 117,
+      "key": "tourian",
+      "album": "Tetrisphere",
+      "title": "Zyp Zyp",
+      "file": "Tetrisphere/13 Zyp Zyp.flac",
+      "trim_start": 3789573,
+      "trim_end": 11061569,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 118,
+      "key": "mother_brain_battle",
+      "album": "Tetrisphere",
+      "title": "Faze (A section)",
+      "file": "Tetrisphere/05 Faze.flac",
+      "trim_end": 5053150,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 119,
+      "key": "big_boss_battle_1",
+      "album": "Racing Gears Advance",
+      "title": "People Mover (B section)",
+      "file": "Racing Gears Advance/14 BGM #14.flac",
+      "trim_start": 3035804,
+      "trim_end": 6831928,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 120,
+      "key": "evacuation",
+      "album": "Tetrisphere",
+      "title": "Faze (B section)",
+      "file": "Tetrisphere/05 Faze.flac",
+      "trim_start": 5053150,
+      "trim_end": 9473721,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 121,
+      "key": "chozo_statue_awakens",
+      "album": "Racing Gears Advance",
+      "title": "People Mover (A section)",
+      "file": "Racing Gears Advance/14 BGM #14.flac",
+      "trim_start": 2200,
+      "trim_end": 3035804,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 122,
+      "key": "big_boss_battle_2",
+      "album": "The New Tetris",
+      "title": "Thread (B section)",
+      "file": "The New Tetris/08 Thread6.flac",
+      "trim_start": 2558388,
+      "trim_end": 6140365,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 123,
+      "key": "tension",
+      "album": "The New Tetris",
+      "title": "Thread (A section)",
+      "file": "The New Tetris/08 Thread6.flac",
+      "trim_end": 2558388,
+      "amplification": -7.0
+    },
+    {
+      "track_number": 124,
+      "key": "plant_miniboss",
+      "album": "Tetrisphere",
+      "title": "Magic Fluter",
+      "file": "Tetrisphere/15 Magic Fluter.flac",
+      "trim_end": 2396363,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 126,
+      "key": "wrecked_ship_powered_off",
+      "album": "Tetrisphere",
+      "title": "Azule Lux (intro)",
+      "file": "Tetrisphere/02 Azule Lux.flac",
+      "trim_end": 2170943,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 127,
+      "key": "wrecked_ship_powered_on",
+      "album": "Racing Gears Advance",
+      "title": "Wooly",
+      "file": "Racing Gears Advance/10 BGM #10.flac",
+      "trim_start": 2200,
+      "trim_end": 5098426,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 130,
+      "key": "metroid_credits",
+      "album": "Tetrisphere",
+      "title": "Sappy",
+      "file": "Tetrisphere/21 Sappy.flac",
+      "trim_end": 4742371,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 131,
+      "key": "kraid_incoming",
+      "album": "Racing Gears Advance",
+      "title": "Hotrod Megastyle",
+      "file": "Racing Gears Advance/11 BGM #11.flac",
+      "trim_start": 2200,
+      "trim_end": 553268,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 132,
+      "key": "kraid_battle",
+      "album": "Racing Gears Advance",
+      "title": "Hotrod Megastyle",
+      "file": "Racing Gears Advance/11 BGM #11.flac",
+      "trim_start": 526005,
+      "trim_end": 4441082,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 133,
+      "key": "phantoon_incoming",
+      "album": "Tetrisphere",
+      "title": "Azule Lux (outro)",
+      "file": "Tetrisphere/02 Azule Lux.flac",
+      "trim_start": 8820649,
+      "trim_end": 9363406,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 134,
+      "key": "phantoon_battle",
+      "album": "Tetrisphere",
+      "title": "Azule Lux",
+      "file": "Tetrisphere/02 Azule Lux.flac",
+      "trim_start": 2170943,
+      "trim_end": 8683868,
+      "amplification": -4.0
+    },
+    {
+      "track_number": 135,
+      "key": "draygon_battle",
+      "album": "Racing Gears Advance",
+      "title": "Disco Danger",
+      "file": "Racing Gears Advance/08 BGM #08.flac",
+      "trim_start": 2200,
+      "trim_end": 4361362,
+      "amplification": -3.0
+    },
+    {
+      "track_number": 136,
+      "key": "ridley_battle",
+      "album": "The New Tetris",
+      "title": "Pyramid",
+      "file": "The New Tetris/06 Pyramid.flac",
+      "trim_end": 6005501,
+      "amplification": -12.0
+    },
+    {
+      "track_number": 137,
+      "key": "baby_incoming",
+      "copy_of": 109
+    },
+    {
+      "track_number": 138,
+      "key": "the_baby",
+      "album": "Tetrisphere",
+      "title": "Spooky Baby",
+      "file": "Tetrisphere/16 Spooky Baby.flac",
+      "trim_end": 2710261,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 139,
+      "key": "hyper_beam",
+      "copy_of": 47
+    },
+    {
+      "track_number": 140,
+      "key": "metroid_game_over",
+      "copy_of": 11
+    }
+  ]
+}
