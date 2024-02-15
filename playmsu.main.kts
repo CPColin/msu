@@ -1,4 +1,4 @@
-#!/usr/bin/env /opt/msu/kotlinc/bin/kotlin
+#!/usr/bin/env kotlinc/bin/kotlin
 
 import java.io.File
 import java.io.RandomAccessFile

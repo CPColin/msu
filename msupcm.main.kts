@@ -1,4 +1,4 @@
-#!/usr/bin/env /opt/msu/kotlinc/bin/kotlin
+#!/usr/bin/env kotlinc/bin/kotlin
 
 @file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
 
