@@ -27,13 +27,23 @@ Also available as standalone packs (SM has not been specfically tested):
 * **2023-07-10, v1.3:** Moved "Raven" from Tower of Hera to Thieves' Town (replacing "Breezin") and added "Few Paths Forbidden" to Tower of Hera
 * **2023-08-15, v1.4:** Swapped PoD and Skull Woods tracks, shortened Zelda Credits, and added a BCU Easter egg
 
+### [Voss Gears and New Tetris Spheres](https://www.crappycomic.com/msu/Voss%20Gears%20and%20New%20Tetris%20Spheres.zip)
+
+Songs from games composed by Neil Voss: The New Tetris (N64), Tetrisphere (N64), and Racing Gears Advance (GBA).
+This pack is compatible with SMZ3 Cas' Randomizer version 9.3.0 and (presumably) mainline SMZ3.
+There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/voss.yml).
+
+This one is not available as standalone packs, because I was already stretching to fill out the SMZ3 track list as it was.
+
+#### Version history
+
+* **2024-02-16, v1.0:** Initial release
+
 ## Scripts
 
 I wrote a few Kotlin scripts to help out with the process.
 Download the `kotlin-compiler-(version).zip` from [GitHub](https://github.com/JetBrains/kotlin/releases/) and extract it to the same directory as the scripts.
-Edit the scripts so the "shebang" at the top points at the right location.
-I have the scripts in `/opt/msu`, so that's what I've been using in the scripts.
-You can also put the Kotlin compiler on your `PATH` environment variable.
+You can also put the Kotlin compiler on your `PATH` environment variable and remove the relative path from the "shebangs" at the top of the scripts.
 
 (Sorry I don't currently have cross-platform support here.)
 
