@@ -38,6 +38,7 @@ This one is not available as standalone packs, because I was already stretching 
 #### Version history
 
 * **2024-02-16, v1.0:** Initial release
+* **2024-02-16, v1.1:** Fixed incorrect keys in the YAML that stopped certain tracks from playing
 
 ## Scripts
 
