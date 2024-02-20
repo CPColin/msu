@@ -48,7 +48,7 @@ You can also put the Kotlin compiler on your `PATH` environment variable and rem
 
 (Sorry I don't currently have cross-platform support here.)
 
-### `msupcm.main.kts`
+### `msupcm.kts`
 
 This script converts source audio files into PCM files with the proper header for MSU support.
 The script is mostly compatible with the JSON format that [msupcm++](https://github.com/qwertymodo/msupcmplusplus/) uses.
@@ -58,7 +58,7 @@ My current workflow involves adding a track to the JSON, running the script with
 
 Add `JAVA_OPTS="-Xmx1g"` to the start of the command to run the script if it runs out of heap space while processing a large file.
 
-### `playmsu.main.kts`
+### `playmsu.kts`
 
 This script plays an MSU-compatible PCM file.
 The file must have a valid MSU header; that is, the `MSU1` magic number and a four-byte loop point.

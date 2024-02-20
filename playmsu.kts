@@ -123,16 +123,16 @@ fun printUsage() {
         """
         Usage:
         
-        playmsu.main.kts
+        playmsu.kts
             Show this usage statement
         
-        playmsu.main.kts (filename.pcm)
+        playmsu.kts (filename.pcm)
             Play the MSU PCM file with the given name, looping indefinitely
             
-        playmsu.main.kts (filename.pcm) -loop
+        playmsu.kts (filename.pcm) -loop
             Play the point of the MSU PCM file with the given name where the loop happens
             
-        playmsu.main.kts (filename.pcm) -writeloop (output filename)
+        playmsu.kts (filename.pcm) -writeloop (output filename)
             Writes the point of the MSU PCM file with the given name where the loop happens to the given output file
             
         Press Ctrl-C to quit.        
