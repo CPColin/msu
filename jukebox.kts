@@ -16,21 +16,39 @@ val BITS_PER_BYTE = 8
 
 val CHANNELS = 2
 
+val LOOP_POINT_SIZE = 4
+
 val MSU_MAGIC = "MSU1"
 
 val MSU_MAGIC_SIZE = MSU_MAGIC.toByteArray().size
 
-val LOOP_POINT_SIZE = 4
-
-val SAMPLE_SIZE = 2
+val NON_LOOPING_TRACKS = mapOf(
+    1 to "zelda_title",
+    8 to "mirror",
+    10 to "pedestal_pull",
+    19 to "boss_victory",
+    29 to "ganon_reveal",
+    33 to "epilogue",
+    34 to "zelda_credits",
+    99 to "smz3_credits",
+    101 to "samus_fanfare",
+    102 to "item_acquired",
+    129 to "death_cry",
+    130 to "metroid_credits"
+)
 
 val SAMPLE_RATE = 44100
+
+val SAMPLE_SIZE = 2
 
 // TODO: Read metadata from associated YAML and display it when playing.
 data class Track(
     val file: File
 ) : Comparable<Track> {
     val number = """.*-(\d+)\.pcm""".toRegex().find(file.name)?.groupValues?.get(1)?.toInt() ?: 0
+
+    // TODO: Currently inaccurate for SM standalone packs. Switch to using key when available.
+    val nonLooping = number in NON_LOOPING_TRACKS
 
     // TODO: Sort by MSU pack first, then track number.
     override fun compareTo(other: Track) = compareValuesBy(this, other) { it.number }
@@ -182,6 +200,10 @@ fun playTrack(track: Track) {
         audio.write(buffer, 0, bytesRead)
 
         if (file.filePointer >= file.length()) {
+            if (track.nonLooping) {
+                break@endOfTrack
+            }
+
             loopsLeft--
 
             if (started.elapsedNow() >= singleLoopMinutes.minutes) {

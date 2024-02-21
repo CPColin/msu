@@ -10,15 +10,15 @@ val BITS_PER_BYTE = 8
 
 val CHANNELS = 2
 
+val LOOP_POINT_SIZE = 4
+
 val MSU_MAGIC = "MSU1"
 
 val MSU_MAGIC_SIZE = MSU_MAGIC.toByteArray().size
 
-val LOOP_POINT_SIZE = 4
+val SAMPLE_RATE = 44100
 
 val SAMPLE_SIZE = 2
-
-val SAMPLE_RATE = 44100
 
 /**
  * Loads from the given [file][filename] the audio surrounding its loop point and returns it.
