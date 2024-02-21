@@ -69,6 +69,23 @@ var shuffle = false
 var singleLoopMinutes = 3
 
 /**
+ * Applies the given [amplification] factor to the samples in the given [buffer], in-place.
+ */
+fun amplifyBuffer(buffer: ByteArray, amplification: Double) {
+    var index = 0
+
+    while (index < buffer.size) {
+        val sample = (bytesToSample(buffer, index) * amplification).toInt()
+        val bytes = sampleToBytes(sample)
+
+        buffer[index] = bytes.first
+        buffer[index + 1] = bytes.second
+
+        index += SAMPLE_SIZE
+    }
+}
+
+/**
  * Converts the bytes starting at the given [index] of the given [buffer] into a 16-bit, little-endian sample.
  * Returns zero if the index is out-of-range.
  */
@@ -88,6 +105,12 @@ fun findTracks(path: String) =
         // TODO: Also filter for MSU magic number and loop point
         .map { Track(file = it) }
         .sorted()
+
+/**
+ * Returns `true` if the given [buffer] is silence. We're giving "silence" some wiggle room here.
+ * We're also not converting the bytes into samples first. This might cause false positives.
+ */
+fun isSilence(buffer: ByteArray) = buffer.all { it in (-5.toByte()..5.toByte()) }
 
 /**
  * Opens an [audio output line][SourceDataLine] using a format that matches the MSU PCM standard:
@@ -157,7 +180,7 @@ fun playTrack(track: Track) {
     val audio = openAudio()
     val buffer = ByteArray(audio.bufferSize)
     val (file, loopPoint) = openFile(track.file)
-    var loopsLeft = 2 // TODO: Set to zero for non-looping tracks
+    var loopsLeft = 2
 
     var fadeStarted: Duration? = null
     val started = TimeSource.Monotonic.markNow()
@@ -178,23 +201,11 @@ fun playTrack(track: Track) {
 
             val amplification = maxOf(0.0, (fadeSeconds.seconds - fadeElapsed).toDouble(DurationUnit.SECONDS) / fadeSeconds)
 
-            if (amplification == 0.0) {
-                break@endOfTrack
-            }
+            amplifyBuffer(buffer, amplification)
+        }
 
-            var index = 0
-
-            while (index < buffer.size) {
-                val sample = (bytesToSample(buffer, index) * amplification).toInt()
-                val bytes = sampleToBytes(sample)
-
-                buffer[index] = bytes.first
-                buffer[index + 1] = bytes.second
-
-                index += SAMPLE_SIZE
-            }
-
-            // TODO: Break early if amplification is still above zero but all the samples we just wrote were zero.
+        if (fadeStarted != null && isSilence(buffer)) {
+            break@endOfTrack
         }
 
         audio.write(buffer, 0, bytesRead)
