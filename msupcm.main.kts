@@ -480,16 +480,16 @@ fun printUsage() {
         """
         Usage:
         
-        msupcm.kts
+        msupcm.main.kts
             Show this usage statement
         
-        msupcm.kts (filename.json)
+        msupcm.main.kts (filename.json)
             Process all tracks in the given JSON file
             
-        msupcm.kts (filename.json) (track number)
+        msupcm.main.kts (filename.json) (track number)
             Process the track in the given JSON file with the given track number 
             
-        msupcm.kts (filename.json) (track number) -raw
+        msupcm.main.kts (filename.json) (track number) -raw
             Process the track in the given JSON file with the given track number and skip the MSU PCM header 
         """.trimIndent()
     )

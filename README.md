@@ -48,7 +48,7 @@ You can also put the Kotlin compiler on your `PATH` environment variable and rem
 
 (Sorry I don't currently have cross-platform support here.)
 
-### `msupcm.kts`
+### `msupcm.main.kts`
 
 This script converts source audio files into PCM files with the proper header for MSU support.
 The script is mostly compatible with the JSON format that [msupcm++](https://github.com/qwertymodo/msupcmplusplus/) uses.
