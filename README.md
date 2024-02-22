@@ -71,7 +71,7 @@ Add the `-writeloop` and a filename to write the above audio to a separate PCM f
 
 This script plays all the MSU-compatible PCM files you give it until either it runs out or you quit it.
 Each track will play until it hits its loop point twice, at which point it will fade out over the next ten seconds.
-Tracks that take a long time to hit their loop point the first time will start fading out as soon as they hit it
+Tracks that take a long time to hit their loop point the first time will start fading out as soon as they hit it.
 
 Run the script with no arguments to see what of the above can be tweaked to your liking.
 
