@@ -1,5 +1,14 @@
 #!/usr/bin/env kotlinc/bin/kotlin
 
+@file:DependsOn("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.0")
+@file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.io.File
 import java.io.RandomAccessFile
 import javax.sound.sampled.AudioFormat
@@ -22,39 +31,183 @@ val MSU_MAGIC = "MSU1"
 
 val MSU_MAGIC_SIZE = MSU_MAGIC.toByteArray().size
 
-val NON_LOOPING_TRACKS = mapOf(
-    1 to "zelda_title",
-    8 to "mirror",
-    10 to "pedestal_pull",
-    19 to "boss_victory",
-    29 to "ganon_reveal",
-    33 to "epilogue",
-    34 to "zelda_credits",
-    99 to "smz3_credits",
-    101 to "samus_fanfare",
-    102 to "item_acquired",
-    129 to "death_cry",
-    130 to "metroid_credits"
+val NON_LOOPING_TRACKS = setOf(
+    "zelda_title",
+    "mirror",
+    "pedestal_pull",
+    "boss_victory",
+    "ganon_reveal",
+    "epilogue",
+    "zelda_credits",
+    "smz3_credits",
+    "samus_fanfare",
+    "item_acquired",
+    "death_cry",
+    "metroid_credits"
 )
 
 val SAMPLE_RATE = 44100
 
 val SAMPLE_SIZE = 2
 
-// TODO: Read metadata from associated YAML and display it when playing.
+val TRACK_KEYS_SUPER_METROID = mapOf(
+    1 to "samus_fanfare",
+    2 to "item_acquired",
+    3 to "item_room",
+    4 to "metroid_opening_with_intro",
+    5 to "metroid_opening_without_intro",
+    6 to "crateria_landing_with_thunder",
+    7 to "crateria_landing_without_thunder",
+    8 to "crateria_space_pirates_appear",
+    9 to "golden_statues",
+    10 to "samus_aran_theme",
+    11 to "green_brinstar",
+    12 to "red_brinstar",
+    13 to "upper_norfair",
+    14 to "lower_norfair",
+    15 to "inner_maridia",
+    16 to "outer_maridia",
+    17 to "tourian",
+    18 to "mother_brain_battle",
+    19 to "big_boss_battle_1",
+    20 to "evacuation",
+    21 to "chozo_statue_awakens",
+    22 to "big_boss_battle_2",
+    23 to "tension",
+    24 to "plant_miniboss",
+    25 to "ceres_station",
+    26 to "wrecked_ship_powered_off",
+    27 to "wrecked_ship_powered_on",
+    28 to "theme_of_super_metroid",
+    29 to "death_cry",
+    30 to "metroid_credits",
+    31 to "kraid_incoming",
+    32 to "kraid_battle",
+    33 to "phantoon_incoming",
+    34 to "phantoon_battle",
+    35 to "draygon_battle",
+    36 to "ridley_battle",
+    37 to "baby_incoming",
+    38 to "the_baby",
+    39 to "hyper_beam",
+    40 to "metroid_game_over"
+)
+
+val TRACK_KEYS_ZELDA = mapOf(
+    1 to "zelda_title",
+    2 to "light_world",
+    3 to "rainy_intro",
+    4 to "bunny_theme",
+    5 to "lost_woods",
+    6 to "prologue",
+    7 to "kakariko",
+    8 to "mirror",
+    9 to "dark_world",
+    10 to "pedestal_pull",
+    11 to "zelda_game_over",
+    12 to "guards",
+    13 to "dark_death_mountain",
+    14 to "minigame",
+    15 to "dark_woods",
+    16 to "hyrule_castle",
+    17 to "pendant_dungeon",
+    18 to "cave_1",
+    19 to "boss_victory",
+    20 to "sanctuary",
+    21 to "zelda_boss_battle",
+    22 to "crystal_dungeon",
+    23 to "shop",
+    24 to "cave_2",
+    25 to "zelda_rescued",
+    26 to "crystal_retrieved",
+    27 to "fairy",
+    28 to "agahnims_floor",
+    29 to "ganon_reveal",
+    30 to "ganons_message",
+    31 to "ganon_battle",
+    32 to "triforce_room",
+    33 to "epilogue",
+    34 to "zelda_credits",
+    35 to "eastern_palace",
+    36 to "desert_palace",
+    37 to "agahnims_tower",
+    38 to "swamp_palace",
+    39 to "palace_of_darkness",
+    40 to "misery_mire",
+    41 to "skull_woods",
+    42 to "ice_palace",
+    43 to "tower_of_hera",
+    44 to "thieves_town",
+    45 to "turtle_rock",
+    46 to "ganons_tower",
+    47 to "armos_knights",
+    48 to "lanmolas",
+    49 to "agahnim_1",
+    50 to "arrghus",
+    51 to "helmasaur_king",
+    52 to "vitreous",
+    53 to "mothula",
+    54 to "kholdstare",
+    55 to "moldorm",
+    56 to "blind",
+    57 to "trinexx",
+    58 to "agahnim_2",
+    59 to "ganons_tower_climb",
+    60 to "light_world_2",
+    61 to "dark_world_2"
+)
+
+val TRACK_KEYS_SMZ3 =
+    TRACK_KEYS_ZELDA +
+    TRACK_KEYS_SUPER_METROID.mapKeys { it.key + 100 } +
+    (99 to "smz3_credits")
+
+val TRACK_KEYS = mapOf(
+    "The Legend of Zelda: A Link to the Past" to TRACK_KEYS_ZELDA,
+    "Super Metroid" to TRACK_KEYS_SUPER_METROID,
+    "Super Metroid / A Link to the Past Combination Randomizer" to TRACK_KEYS_SMZ3
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class PackInfo(
+    val album: String?,
+
+    @JsonProperty("pack_name")
+    val name: String,
+
+    val tracks: Map<String, TrackInfo>,
+
+    @JsonProperty("msu_type")
+    val type: String
+)
+
 data class Track(
-    val file: File
+    val file: File,
+
+    val packInfo: PackInfo?
 ) : Comparable<Track> {
     val number = """.*-(\d+)\.pcm""".toRegex().find(file.name)?.groupValues?.get(1)?.toInt() ?: 0
 
-    // TODO: Currently inaccurate for SM standalone packs. Switch to using key when available.
-    val nonLooping = number in NON_LOOPING_TRACKS
+    val key = TRACK_KEYS[packInfo?.type]?.get(number) ?: "unknown"
 
-    // TODO: Sort by MSU pack first, then track number.
-    override fun compareTo(other: Track) = compareValuesBy(this, other) { it.number }
+    val trackInfo = packInfo?.tracks?.get(key)
 
-    override fun toString() = file.name
+    val album = trackInfo?.album ?: packInfo?.album ?: file.name
+
+    val name = trackInfo?.name ?: "Unknown"
+
+    val nonLooping = key in NON_LOOPING_TRACKS
+
+    override fun compareTo(other: Track) = compareValuesBy(this, other, {it.packInfo?.name}, { it.number })
+
+    override fun toString() = "$album - $number - $key - $name"
 }
+
+data class TrackInfo(
+    val album: String?,
+
+    val name: String
+)
 
 var amplification = 1.0
 
@@ -97,13 +250,28 @@ fun bytesToSample(buffer: ByteArray, index: Int) =
                 (buffer[index].toInt() and 0xff)
     }
 
-fun findTracks(path: String) =
+fun findMetadata(path: String) =
+    File(path)
+        .walk()
+        .filter { it.name.endsWith(".yml") }
+        .map {
+            it.name to ObjectMapper(YAMLFactory()).registerKotlinModule().readValue<PackInfo>(it)
+        }
+
+fun findTracks(metadata: Map<String, PackInfo>, path: String) =
     File(path)
         .walk()
         .filterNot(File::isDirectory)
         .filter { it.name.endsWith(".pcm") }
-        // TODO: Also filter for MSU magic number and loop point
-        .map { Track(file = it) }
+        .map {
+            val metadataKey = """(.*)-\d+\.pcm""".toRegex().find(it.name)?.groupValues?.get(1)
+            val packInfo = metadata[metadataKey + ".yml"]
+
+            Track(
+                file = it,
+                packInfo = packInfo
+            )
+        }
         .sorted()
 
 /**
@@ -331,11 +499,14 @@ val paths = parseArguments(args.toMutableList())
 if (paths.isEmpty()) {
     printUsage()
 } else {
+    println("Loading MSU packs...")
+
+    val metadata = paths.flatMap { findMetadata(it) }.toMap()
+    val tracks = paths.flatMap { findTracks(metadata, it) }
+
     println("Press Ctrl-C to quit.")
     println()
 
-    val tracks = paths.flatMap { findTracks(it) }
-    
     if (shuffle) {
         tracks.shuffled()
     } else {
