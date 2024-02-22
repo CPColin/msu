@@ -325,7 +325,6 @@ fun parseArguments(args: MutableList<String>): List<String> {
     return paths
 }
 
-
 inline fun <reified T> parseNextArgument(arg: String, args: MutableList<String>): T {
     val nextArg = args.removeFirstOrNull()
 
@@ -406,6 +405,7 @@ fun playTrack(track: Track) {
     }
 
     audio.drain()
+    audio.close()
 
     println()
 }
