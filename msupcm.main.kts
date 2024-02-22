@@ -41,14 +41,6 @@ data class Msu(
      */
     val artist: String?,
 
-    /**
-     * When specified, indicates this pack is the child of the pack with the given filename.
-     */
-    @JsonProperty("child_of")
-    val childOf: String?,
-
-    val game: String,
-
     @JsonProperty("output_prefix")
     val outputPrefix: String,
 
@@ -75,6 +67,20 @@ data class Msu(
     val rmsTarget: Double?,
 
     val tracks: List<TrackBase>,
+
+    /**
+     * The type of this pack, which will be copied to the YAML file, to make it easier to determine which game(s) the
+     * pack is meant for, without resorting to guessing based on the presence of certain track numbers.
+     *
+     * Typical values include:
+     *
+     * - The Legend of Zelda: A Link to the Past
+     * - Super Metroid
+     * - Super Metroid / A Link to the Past Combination Randomizer
+     *
+     * See also: https://github.com/MattEqualsCoder/MSURandomizer/tree/main/Docs/YamlTemplates
+     */
+    val type: String,
 
     val url: String
 )
@@ -665,6 +671,7 @@ fun writeMsuTrackList(msu: Msu) {
         msu.packName?.let { file.write("pack_name: ${it.wrap()}\n") }
         msu.packAuthor?.let { file.write("pack_author: ${it.wrap()}\n") }
         msu.packVersion?.let { file.write("pack_version: $it\n") }
+        file.write("msu_type: ${msu.type.wrap()}\n")
         msu.artist?.let { file.write("artist: ${it.wrap()}\n") }
         msu.album?.let { file.write("album: ${it.wrap()}\n") }
         file.write("tracks:\n")
