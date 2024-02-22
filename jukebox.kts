@@ -56,7 +56,7 @@ data class Track(
     override fun toString() = file.name
 }
 
-// TODO: Implement a master amplification option and an argument for adjusting it.
+var amplification = 1.0
 
 var fadeSeconds = 10
 
@@ -146,9 +146,10 @@ fun parseArguments(args: MutableList<String>): List<String> {
 
     while (args.isNotEmpty()) {
         when (val arg = args.removeFirst()) {
-            "-fadeSeconds" -> fadeSeconds = parseIntArgument(arg, args)
+            "-amplification" -> amplification = parseNextArgument(arg, args)
+            "-fadeSeconds" -> fadeSeconds = parseNextArgument(arg, args)
             "-shuffle" -> shuffle = true
-            "-singleLoopMinutes" -> singleLoopMinutes = parseIntArgument(arg, args)
+            "-singleLoopMinutes" -> singleLoopMinutes = parseNextArgument(arg, args)
             else -> paths.add(arg)
         }
     }
@@ -156,20 +157,26 @@ fun parseArguments(args: MutableList<String>): List<String> {
     return paths
 }
 
-fun parseIntArgument(arg: String, args: MutableList<String>): Int {
+
+inline fun <reified T> parseNextArgument(arg: String, args: MutableList<String>): T {
     val nextArg = args.removeFirstOrNull()
 
     if (nextArg == null) {
         error("Expected another argument after $arg")
     }
 
-    val intArg = nextArg.toIntOrNull()
+    val parsedArg =
+        when (T::class) {
+            Double::class -> nextArg.toDoubleOrNull()
+            Int::class -> nextArg.toIntOrNull()
+            else -> error("Unsupported argument type: ${T::class}")
+        }
 
-    if (intArg == null) {
-        error("Expected a number after $arg but found '$nextArg'")
+    if (parsedArg == null) {
+        error("Expected a ${T::class} after $arg but found '$nextArg'")
     }
 
-    return intArg
+    return parsedArg as T
 }
 
 // TODO: This function is too long. Break it up.
@@ -194,15 +201,17 @@ fun playTrack(track: Track) {
             break
         }
 
-        if (loopsLeft <= 0) {
+        val fade = if (loopsLeft <= 0) {
             fadeStarted = fadeStarted ?: started.elapsedNow()
 
             val fadeElapsed = started.elapsedNow() - fadeStarted!!
 
-            val amplification = maxOf(0.0, (fadeSeconds.seconds - fadeElapsed).toDouble(DurationUnit.SECONDS) / fadeSeconds)
-
-            amplifyBuffer(buffer, amplification)
+            maxOf(0.0, (fadeSeconds.seconds - fadeElapsed).toDouble(DurationUnit.SECONDS) / fadeSeconds)
+        } else {
+            1.0
         }
+
+        amplifyBuffer(buffer, amplification * fade)
 
         if (fadeStarted != null && isSilence(buffer)) {
             break@endOfTrack
@@ -246,6 +255,10 @@ fun printUsage() {
         jukebox.kts [options] [paths]
 
         options
+
+            -amplification $amplification
+
+                Amplifies each track by the given value, in linear power (not decibels)
 
             -fadeSeconds $fadeSeconds
 
