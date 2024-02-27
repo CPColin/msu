@@ -26,6 +26,7 @@ Also available as standalone packs (SM has not been specfically tested):
 * **2023-06-30, v1.2:** Fixed an issue in the script that was applying `pad_start` at the end, too, instead of `pad_end`, causing the Mother Brain tracks to pause before looping
 * **2023-07-10, v1.3:** Moved "Raven" from Tower of Hera to Thieves' Town (replacing "Breezin") and added "Few Paths Forbidden" to Tower of Hera
 * **2023-08-15, v1.4:** Swapped PoD and Skull Woods tracks, shortened Zelda Credits, and added a BCU Easter egg
+* **2024-02-27, v1.4.1:** Added `msu_type` to the YAML so utilities don't have to guess (no audible changes)
 
 ### [Voss Gears and New Tetris Spheres](https://www.crappycomic.com/msu/Voss%20Gears%20and%20New%20Tetris%20Spheres.zip)
 
@@ -39,6 +40,7 @@ This one is not available as standalone packs, because I was already stretching 
 
 * **2024-02-16, v1.0:** Initial release
 * **2024-02-16, v1.1:** Fixed incorrect keys in the YAML that stopped certain tracks from playing
+* **2024-02-27, v1.1.1:** Added `msu_type` to the YAML so utilities don't have to guess (no audible changes)
 
 ## Scripts
 
