@@ -203,6 +203,7 @@ data class Track(
     override fun toString() = "$album - $number - $key - $name"
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TrackInfo(
     val album: String?,
 
