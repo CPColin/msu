@@ -217,7 +217,7 @@ var fadeSeconds = 10
 
 // TODO: Implement playlist looping (and re-shuffling).
 
-// TODO: Implement customizable loop count before fading out each track.
+var loopCount = 2
 
 var shuffle = false
 
@@ -352,6 +352,7 @@ fun parseArguments(args: MutableList<String>): List<String> {
         when (val arg = args.removeFirst()) {
             "-amplification" -> amplification = parseNextArgument(arg, args)
             "-fadeSeconds" -> fadeSeconds = parseNextArgument(arg, args)
+            "-loopCount" -> loopCount = parseNextArgument(arg, args)
             "-shuffle" -> shuffle = true
             "-singleLoopMinutes" -> singleLoopMinutes = parseNextArgument(arg, args)
             else -> paths.add(arg)
@@ -388,7 +389,7 @@ fun playTrack(track: Track) {
     val audio = openAudio()
     val buffer = ByteArray(audio.bufferSize)
     val (file, loopPoint) = openFile(track.file)
-    var loopsLeft = 2
+    var loopsLeft = loopCount
 
     var fadeStarted: Duration? = null
     val started = TimeSource.Monotonic.markNow()
@@ -449,6 +450,10 @@ fun printUsage() {
 
                 The number of seconds the fade at the end of a track should last
 
+            -loopCount $loopCount
+
+                The maximum number of times each track should loop before fading out
+
             -shuffle
 
                 Shuffles the order the tracks are played, instead of sorting them by
@@ -457,7 +462,7 @@ fun printUsage() {
             -singleLoopMinutes $singleLoopMinutes
 
                 The number of minutes after which a track will fade out after a single
-                loop, instead of after the second loop
+                loop, instead of after $loopCount loop(s)
         
         paths
 
