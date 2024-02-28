@@ -2,6 +2,7 @@
 
 @file:DependsOn("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.0")
 @file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
+@file:OptIn(kotlin.time.ExperimentalTime::class)
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -251,6 +252,12 @@ fun bytesToSample(buffer: ByteArray, index: Int) =
                 (buffer[index].toInt() and 0xff)
     }
 
+fun computeFade(started: TimeMark, fadeStarted: Duration): Double {
+    val fadeElapsed = started.elapsedNow() - fadeStarted!!
+
+    return maxOf(0.0, (fadeSeconds.seconds - fadeElapsed).toDouble(DurationUnit.SECONDS) / fadeSeconds)
+}
+
 fun findMetadata(path: String) =
     File(path)
         .walk()
@@ -280,6 +287,34 @@ fun findTracks(metadata: Map<String, PackInfo>, path: String) =
  * We're also not converting the bytes into samples first. This might cause false positives.
  */
 fun isSilence(buffer: ByteArray) = buffer.all { it in (-5.toByte()..5.toByte()) }
+
+/**
+ * Sets the given [file] back to the given [loopPoint], if necessary. Returns what should be the new [loopsLeft] value,
+ * depending on whether it just looped and when the track [started] playing. Returns `-1` if the track should stop
+ * playing immediately, because it does not loop.
+ */
+fun loopTrackIfNecessary(file: RandomAccessFile, track: Track, loopPoint: UInt, started: TimeMark, loopsLeft: Int) =
+    if (file.filePointer >= file.length()) {
+        if (track.nonLooping) {
+            // Stop playing this track immediately.
+            -1
+        } else {
+            printNow("..")
+
+            seekSample(file, loopPoint)
+
+            if (started.elapsedNow() >= singleLoopMinutes.minutes) {
+                // We're past the limit, so start fading out now.
+                0
+            } else {
+                // Otherwise, keep looping, but decrement the counter (don't go below zero though).
+                maxOf(0, loopsLeft - 1)
+            }
+        }
+    } else {
+        // We didn't loop this time, so return the original value.
+        loopsLeft
+    }
 
 /**
  * Opens an [audio output line][SourceDataLine] using a format that matches the MSU PCM standard:
@@ -347,8 +382,6 @@ inline fun <reified T> parseNextArgument(arg: String, args: MutableList<String>)
     return parsedArg as T
 }
 
-// TODO: This function is too long. Break it up.
-@OptIn(kotlin.time.ExperimentalTime::class)
 fun playTrack(track: Track) {
     printNow("Playing $track")
 
@@ -360,7 +393,7 @@ fun playTrack(track: Track) {
     var fadeStarted: Duration? = null
     val started = TimeSource.Monotonic.markNow()
 
-    while (true) {
+    while (loopsLeft >= 0) {
         val bytesRead = file.read(buffer)
 
         if (bytesRead == -1) {
@@ -369,14 +402,12 @@ fun playTrack(track: Track) {
             break
         }
 
-        val fade = if (loopsLeft <= 0) {
+        val fade = if (loopsLeft > 0) {
+            1.0
+        } else {
             fadeStarted = fadeStarted ?: started.elapsedNow()
 
-            val fadeElapsed = started.elapsedNow() - fadeStarted!!
-
-            maxOf(0.0, (fadeSeconds.seconds - fadeElapsed).toDouble(DurationUnit.SECONDS) / fadeSeconds)
-        } else {
-            1.0
+            computeFade(started, fadeStarted)
         }
 
         amplifyBuffer(buffer, amplification * fade)
@@ -387,22 +418,7 @@ fun playTrack(track: Track) {
 
         audio.write(buffer, 0, bytesRead)
 
-        if (file.filePointer >= file.length()) {
-            if (track.nonLooping) {
-                break
-            }
-
-            loopsLeft--
-
-            if (started.elapsedNow() >= singleLoopMinutes.minutes) {
-                // Subtract an additional loop if we're past the limit.
-                loopsLeft--
-            }
-
-            printNow("..")
-
-            seekSample(file, loopPoint)
-        }
+        loopsLeft = loopTrackIfNecessary(file, track, loopPoint, started, loopsLeft)
     }
 
     audio.drain()
