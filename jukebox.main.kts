@@ -360,7 +360,7 @@ fun playTrack(track: Track) {
     var fadeStarted: Duration? = null
     val started = TimeSource.Monotonic.markNow()
 
-    endOfTrack@ while (true) {
+    while (true) {
         val bytesRead = file.read(buffer)
 
         if (bytesRead == -1) {
@@ -382,14 +382,14 @@ fun playTrack(track: Track) {
         amplifyBuffer(buffer, amplification * fade)
 
         if (fadeStarted != null && isSilence(buffer)) {
-            break@endOfTrack
+            break
         }
 
         audio.write(buffer, 0, bytesRead)
 
         if (file.filePointer >= file.length()) {
             if (track.nonLooping) {
-                break@endOfTrack
+                break
             }
 
             loopsLeft--
