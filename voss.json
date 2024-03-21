@@ -139,8 +139,20 @@
       "key": "cave_1",
       "album": "Tetrisphere",
       "title": "Learn (A section)",
-      "file": "Tetrisphere/12 Learn.flac",
-      "trim_end": 1344431,
+      "sub_tracks": [
+        {
+          "file": "Tetrisphere/12 Learn.flac",
+          "trim_end": 1344431
+        },
+        {
+          "file": "Tetrisphere/12 Learn.flac",
+          "trim_start": 1008270,
+          "trim_end": 1029837,
+          "fade_out": 1000,
+          "pad_start": 1344431
+        }
+      ],
+      "loop": 21879,
       "amplification": -4.0
     },
     {
