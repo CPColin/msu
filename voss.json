@@ -410,10 +410,11 @@
       "track_number": 47,
       "key": "armos_knights",
       "album": "Tetrisphere",
-      "title": "Dog Robot",
-      "file": "Tetrisphere/20 Dog Robot.flac",
-      "trim_end": 3387810,
-      "amplification": 2.0
+      "title": "Cycl (A section)",
+      "file": "Racing Gears Advance/06 BGM #06.flac",
+      "trim_start": 2200,
+      "trim_end": 2543976,
+      "amplification": 1.0
     },
     {
       "track_number": 48,
@@ -864,7 +865,11 @@
     {
       "track_number": 139,
       "key": "hyper_beam",
-      "copy_of": 47
+      "album": "Tetrisphere",
+      "title": "Dog Robot",
+      "file": "Tetrisphere/20 Dog Robot.flac",
+      "trim_end": 3387810,
+      "amplification": 2.0
     },
     {
       "track_number": 140,
