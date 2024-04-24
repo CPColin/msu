@@ -42,6 +42,7 @@ This one is not available as standalone packs, because I was already stretching 
 * **2024-02-16, v1.1:** Fixed incorrect keys in the YAML that stopped certain tracks from playing
 * **2024-02-27, v1.1.1:** Added `msu_type` to the YAML so utilities don't have to guess (no audible changes)
 * **2024-03-21, v1.2:** Adjusted a few loops and gave Armos Knights a different track so Hyper Beam would be unique
+* **2024-04-24, v1.3:** Started the Helmasaur King music farther into the track so it's more intense
 
 ## Scripts
 
