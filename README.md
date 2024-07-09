@@ -28,6 +28,7 @@ Also available as standalone packs (SM has not been specfically tested):
 * **2023-08-15, v1.4:** Swapped PoD and Skull Woods tracks, shortened Zelda Credits, and added a BCU Easter egg
 * **2024-02-27, v1.4.1:** Added `msu_type` to the YAML so utilities don't have to guess (no audible changes)
 * **2024-05-04, v1.5:** Added the SoM Menu music to the end of the SM Title tracks, so it doesn't have to loop silence
+* **2024-07-09, v1.6:** Fixed the loop point on the Fairy track to include the pick-up notes from the original song's loop point. Also removed the "Hey" from Phantoon Battle.
 
 ### [Voss Gears and New Tetris Spheres](https://www.crappycomic.com/msu/Voss%20Gears%20and%20New%20Tetris%20Spheres.zip)
 
