@@ -85,4 +85,4 @@ Run the script with no arguments to see what of the above can be tweaked to your
 
 * Discord: CPColin
 * GitHub: https://github.com/CPColin/msu
-* Twitter: https://twitter.com/CPColin
+* Bluesky: https://cpcolin.crappycomic.com
