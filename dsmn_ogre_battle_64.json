@@ -1,0 +1,408 @@
+{
+  "pack_name": "Don't Stop Me Now: Ogre Battle 64 sub-pack",
+  "type": "sub-pack",
+  "album": "Ogre Battle 64: Person of Lordly Caliber",
+  "artist": "Masaharu Iwata, Hayato Matsuo, and Hitoshi Sakimoto",
+  "url": "https://fi.zophar.net/soundfiles/nintendo-64-usf/ogre-battle-64-person-of-lordly-caliber/ikgslxhd/Ogre%20Battle%2064%20-%20Person%20of%20Lordly%20Caliber%20%28FLAC%29.zophar.zip",
+  "output_prefix": "Don't Stop Me Now/ob64",
+  "rms_target": -24.0,
+  "tracks": [
+    {
+      "track_number": 1,
+      "file": "Ogre Battle 64/01 Overture.flac",
+      "title": "Overture"
+    },
+    {
+      "track_number": 2,
+      "file": "Ogre Battle 64/02 Premonition.flac",
+      "title": "Premonition"
+    },
+    {
+      "track_number": 3,
+      "file": "Ogre Battle 64/03 Entrance Parade.flac",
+      "title": "Entrance Parade",
+      "trim_end": 2857684,
+      "loop": 387519
+    },
+    {
+      "track_number": 4,
+      "file": "Ogre Battle 64/04 Blessed Memory.flac",
+      "title": "Blessed Memory",
+      "trim_end": 1303677,
+      "loop": 739828
+    },
+    {
+      "track_number": 5,
+      "file": "Ogre Battle 64/05 Fortune Teller 2.flac",
+      "title": "Fortune Teller 2",
+      "trim_end": 2801482
+    },
+    {
+      "track_number": 6,
+      "file": "Ogre Battle 64/06 Sally Forth.flac",
+      "title": "Sally Forth"
+    },
+    {
+      "track_number": 7,
+      "file": "Ogre Battle 64/07 Island Atlas.flac",
+      "title": "Island Atlas",
+      "trim_end": 1063140
+    },
+    {
+      "track_number": 8,
+      "file": "Ogre Battle 64/08 Warren Report.flac",
+      "title": "Warren Report",
+      "trim_end": 842461,
+      "loop": 49534
+    },
+    {
+      "track_number": 9,
+      "file": "Ogre Battle 64/09 Overhang.flac",
+      "title": "Overhang",
+      "trim_end": 2193636
+    },
+    {
+      "track_number": 10,
+      "file": "Ogre Battle 64/10 Stepping.flac",
+      "title": "Stepping",
+      "trim_end": 1768525,
+      "loop": 222757
+    },
+    {
+      "track_number": 11,
+      "file": "Ogre Battle 64/11 Glory.flac",
+      "title": "Glory"
+    },
+    {
+      "track_number": 12,
+      "file": "Ogre Battle 64/12 A Color of Chaos.flac",
+      "title": "A Color of Chaos"
+    },
+    {
+      "track_number": 13,
+      "file": "Ogre Battle 64/13 War Situation.flac",
+      "title": "War Situation",
+      "trim_end": 1680469,
+      "loop": 267550
+    },
+    {
+      "track_number": 14,
+      "file": "Ogre Battle 64/14 Revolt.flac",
+      "title": "Revolt",
+      "trim_end": 3060885,
+      "loop": 416352
+    },
+    {
+      "track_number": 15,
+      "file": "Ogre Battle 64/15 Accretion Disk.flac",
+      "title": "Accretion Disk",
+      "trim_end": 3120957,
+      "loop": 18770
+    },
+    {
+      "track_number": 16,
+      "file": "Ogre Battle 64/16 The Sensational World.flac",
+      "title": "The Sensational World",
+      "trim_end": 3890899,
+      "loop": 346064
+    },
+    {
+      "track_number": 17,
+      "file": "Ogre Battle 64/17 Over the World.flac",
+      "title": "Over the World",
+      "trim_end": 3955730,
+      "loop": 158984
+    },
+    {
+      "track_number": 18,
+      "file": "Ogre Battle 64/18 The World of Today.flac",
+      "title": "The World of Today",
+      "trim_end": 3929228,
+      "loop": 88113
+    },
+    {
+      "track_number": 19,
+      "file": "Ogre Battle 64/19 Under the World.flac",
+      "title": "Under the World",
+      "trim_end": 3736345,
+      "loop": 126139
+    },
+    {
+      "track_number": 20,
+      "file": "Ogre Battle 64/20 The Bloody World.flac",
+      "title": "The Bloody World",
+      "trim_end": 3466181,
+      "loop": 104952
+    },
+    {
+      "track_number": 21,
+      "file": "Ogre Battle 64/21 The World for the People.flac",
+      "title": "The World for the People",
+      "trim_end": 4253859,
+      "loop": 23551
+    },
+    {
+      "track_number": 22,
+      "file": "Ogre Battle 64/22 Decisive.flac",
+      "title": "Decisive",
+      "trim_end": 2467722,
+      "loop": 141205
+    },
+    {
+      "track_number": 23,
+      "file": "Ogre Battle 64/23 Deliverance.flac",
+      "title": "Deliverance",
+      "trim_end": 2716549,
+      "loop": 35658
+    },
+    {
+      "track_number": 24,
+      "file": "Ogre Battle 64/24 Rrrowf.flac",
+      "title": "Rrrowf",
+      "trim_end": 2553298,
+      "loop": 125026
+    },
+    {
+      "track_number": 25,
+      "file": "Ogre Battle 64/25 Billow of the Dark.flac",
+      "title": "Billow of the Dark",
+      "trim_end": 3217453,
+      "loop": 412110
+    },
+    {
+      "track_number": 26,
+      "file": "Ogre Battle 64/26 Distortion.flac",
+      "title": "Distortion",
+      "trim_end": 2290402
+    },
+    {
+      "track_number": 27,
+      "file": "Ogre Battle 64/27 Courageous.flac",
+      "title": "Courageous"
+    },
+    {
+      "track_number": 28,
+      "file": "Ogre Battle 64/28 Gracious.flac",
+      "title": "Gracious"
+    },
+    {
+      "track_number": 29,
+      "file": "Ogre Battle 64/29 Hopeful Future.flac",
+      "title": "Hopeful Future",
+      "trim_end": 1694840
+    },
+    {
+      "track_number": 30,
+      "file": "Ogre Battle 64/30 Winter Morning.flac",
+      "title": "Winter Morning",
+      "trim_end": 2325114,
+      "loop": 30037
+    },
+    {
+      "track_number": 31,
+      "file": "Ogre Battle 64/31 Vague.flac",
+      "title": "Vague",
+      "trim_end": 2579552
+    },
+    {
+      "track_number": 32,
+      "file": "Ogre Battle 64/32 Thrilling.flac",
+      "title": "Thrilling",
+      "trim_end": 1878615,
+      "loop": 102134
+    },
+    {
+      "track_number": 33,
+      "file": "Ogre Battle 64/33 Fact of Shock.flac",
+      "title": "Fact of Shock",
+      "trim_end": 1943682
+    },
+    {
+      "track_number": 34,
+      "file": "Ogre Battle 64/34 Notice of Death.flac",
+      "title": "Notice of Death",
+      "trim_end": 2314071,
+      "loop": 104209
+    },
+    {
+      "track_number": 35,
+      "file": "Ogre Battle 64/35 Diana.flac",
+      "title": "Diana",
+      "trim_end": 1797750,
+      "loop": 2800
+    },
+    {
+      "track_number": 36,
+      "file": "Ogre Battle 64/36 Will.flac",
+      "title": "Will",
+      "trim_end": 1630335,
+      "loop": 181516
+    },
+    {
+      "track_number": 37,
+      "file": "Ogre Battle 64/37 The Funeral.flac",
+      "title": "The Funeral",
+      "trim_end": 2403327
+    },
+    {
+      "track_number": 38,
+      "file": "Ogre Battle 64/38 The Fatty Rat.flac",
+      "title": "The Fatty Rat",
+      "trim_end": 2624360
+    },
+    {
+      "track_number": 39,
+      "file": "Ogre Battle 64/39 Wobble.flac",
+      "title": "Wobble",
+      "trim_end": 2288363,
+      "loop": 28692
+    },
+    {
+      "track_number": 40,
+      "file": "Ogre Battle 64/40 Deathrattle.flac",
+      "title": "Deathrattle",
+      "trim_end": 2621142,
+      "loop": 1455554
+    },
+    {
+      "track_number": 41,
+      "file": "Ogre Battle 64/41 Amazing Grace.flac",
+      "title": "Amazing Grace",
+      "trim_end": 1748096
+    },
+    {
+      "track_number": 42,
+      "file": "Ogre Battle 64/42 Revolted.flac",
+      "title": "Revolted",
+      "trim_end": 4859343,
+      "loop": 475388
+    },
+    {
+      "track_number": 43,
+      "file": "Ogre Battle 64/43 Far Away.flac",
+      "title": "Far Away",
+      "trim_end": 3938952,
+      "loop": 122144
+    },
+    {
+      "track_number": 44,
+      "file": "Ogre Battle 64/44 Theme of the Priest.flac",
+      "title": "Theme of the Priest",
+      "trim_end": 1565910,
+      "loop": 54135
+    },
+    {
+      "track_number": 45,
+      "file": "Ogre Battle 64/45 Prayer.flac",
+      "title": "Prayer",
+      "trim_end": 1657806,
+      "loop": 74043
+    },
+    {
+      "track_number": 46,
+      "file": "Ogre Battle 64/46 Agitation.flac",
+      "title": "Agitation",
+      "trim_end": 1309903,
+      "loop": 40045
+    },
+    {
+      "track_number": 47,
+      "file": "Ogre Battle 64/47 Insincerity.flac",
+      "title": "Insincerity",
+      "trim_end": 2113988,
+      "loop": 34989
+    },
+    {
+      "track_number": 48,
+      "file": "Ogre Battle 64/48 Religious Precepts.flac",
+      "title": "Religious Precepts",
+      "trim_end": 980719,
+      "loop": 108605
+    },
+    {
+      "track_number": 49,
+      "file": "Ogre Battle 64/49 Footsteps from Darkness.flac",
+      "title": "Footsteps from Darkness",
+      "trim_end": 2450746,
+      "loop": 445038
+    },
+    {
+      "track_number": 50,
+      "file": "Ogre Battle 64/50 Fog of Phantom.flac",
+      "title": "Fog of Phantom",
+      "trim_end": 5638836
+    },
+    {
+      "track_number": 51,
+      "file": "Ogre Battle 64/51 Blazing.flac",
+      "title": "Blazing",
+      "trim_end": 2913823,
+      "loop": 271395
+    },
+    {
+      "track_number": 52,
+      "file": "Ogre Battle 64/52 Death Agony.flac",
+      "title": "Death Agony",
+      "trim_end": 2390306
+    },
+    {
+      "track_number": 53,
+      "file": "Ogre Battle 64/53 Homage.flac",
+      "title": "Homage",
+      "trim_end": 2121135,
+      "loop": 1349
+    },
+    {
+      "track_number": 54,
+      "file": "Ogre Battle 64/54 Loki.flac",
+      "title": "Loki",
+      "trim_end": 2630829,
+      "loop": 577637
+    },
+    {
+      "track_number": 55,
+      "file": "Ogre Battle 64/55 Ebb Tide.flac",
+      "title": "Ebb Tide",
+      "trim_end": 1978930,
+      "loop": 1918
+    },
+    {
+      "track_number": 56,
+      "file": "Ogre Battle 64/56 World-shaking.flac",
+      "title": "World-shaking",
+      "trim_end": 3750370,
+      "loop": 1103503
+    },
+    {
+      "track_number": 58,
+      "file": "Ogre Battle 64/58 Alone.flac",
+      "title": "Alone",
+      "trim_end": 2355610,
+      "loop": 36322
+    },
+    {
+      "track_number": 59,
+      "file": "Ogre Battle 64/59 Terminally.flac",
+      "title": "Terminally",
+      "trim_end": 1799476,
+      "loop": 27176
+    },
+    {
+      "track_number": 60,
+      "file": "Ogre Battle 64/60 The Lingering Journey.flac",
+      "title": "The Lingering Journey",
+      "trim_end": 2679008,
+      "loop": 205547
+    },
+    {
+      "track_number": 61,
+      "file": "Ogre Battle 64/61 After Words.flac",
+      "title": "After Words"
+    },
+    {
+      "track_number": 91,
+      "file": "Ogre Battle 64/91 Quest Logo.flac",
+      "title": "Quest Logo"
+    }
+  ]
+}

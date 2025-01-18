@@ -1,0 +1,330 @@
+{
+  "pack_name": "Don't Stop Me Now: Tactics Ogre (SNES) sub-pack",
+  "type": "sub-pack",
+  "album": "Tactics Ogre: Let Us Cling Together",
+  "artist": "Masaharu Iwata and Hitoshi Sakimoto",
+  "url": "https://fi.zophar.net/soundfiles/nintendo-snes-spc/tactics-ogre-let-us-cling-together/jxgeirew/Tactics%20Ogre%20-%20Let%20Us%20Cling%20Together%20%28MP3%29.zophar.zip",
+  "output_prefix": "Don't Stop Me Now/to-snes",
+  "rms_target": -24.0,
+  "tracks": [
+    {
+      "track_number": 1,
+      "file": "Tactics Ogre (SNES)/01 Overture.mp3",
+      "title": "Overture",
+      "trim_end": 2767300
+    },
+    {
+      "track_number": 2,
+      "file": "Tactics Ogre (SNES)/02 Unit March.mp3",
+      "title": "Unit March",
+      "trim_end": 3258093,
+      "loop": 171715
+    },
+    {
+      "track_number": 3,
+      "file": "Tactics Ogre (SNES)/03 Chaotic Island.mp3",
+      "title": "Chaotic Island"
+    },
+    {
+      "track_number": 4,
+      "file": "Tactics Ogre (SNES)/04 Fortune Teller 2.mp3",
+      "title": "Fortune Teller 2",
+      "trim_end": 2652464
+    },
+    {
+      "track_number": 5,
+      "file": "Tactics Ogre (SNES)/05 Catastrophe.mp3",
+      "title": "Catastrophe"
+    },
+    {
+      "track_number": 6,
+      "file": "Tactics Ogre (SNES)/06 Island Atlas.mp3",
+      "title": "Island Atlas",
+      "trim_end": 1054280
+    },
+    {
+      "track_number": 7,
+      "file": "Tactics Ogre (SNES)/07 Prepare to Take the Field.mp3",
+      "title": "Prepare to Take the Field",
+      "trim_end": 1183094,
+      "loop": 455137
+    },
+    {
+      "track_number": 8,
+      "file": "Tactics Ogre (SNES)/08 Avilla Henya.mp3",
+      "title": "Avilla Henya",
+      "trim_end": 3726093
+    },
+    {
+      "track_number": 9,
+      "file": "Tactics Ogre (SNES)/09 Glory.mp3",
+      "title": "Glory",
+      "trim_end": 617202
+    },
+    {
+      "track_number": 10,
+      "file": "Tactics Ogre (SNES)/10 War Situation.mp3",
+      "title": "War Situation",
+      "trim_end": 1500884,
+      "loop": 168420
+    },
+    {
+      "track_number": 11,
+      "file": "Tactics Ogre (SNES)/11 Harvest Dance.mp3",
+      "title": "Harvest Dance",
+      "trim_end": 2222717,
+      "loop": 317293
+    },
+    {
+      "track_number": 12,
+      "file": "Tactics Ogre (SNES)/12 Restriction on Power.mp3",
+      "title": "Restriction on Power",
+      "trim_end": 1341425,
+      "loop": 88244
+    },
+    {
+      "track_number": 13,
+      "file": "Tactics Ogre (SNES)/13 Blasphemous Experiment.mp3",
+      "title": "Blasphemous Experiment",
+      "trim_end": 3767091,
+      "loop": 33325
+    },
+    {
+      "track_number": 14,
+      "file": "Tactics Ogre (SNES)/14 A Cygnet.mp3",
+      "title": "A Cygnet",
+      "trim_end": 1839034,
+      "loop": 30382
+    },
+    {
+      "track_number": 15,
+      "file": "Tactics Ogre (SNES)/15 VENDETTA!.mp3",
+      "title": "VENDETTA!",
+      "trim_end": 2958540,
+      "loop": 30290
+    },
+    {
+      "track_number": 16,
+      "file": "Tactics Ogre (SNES)/16 Theme of WLA.mp3",
+      "title": "Theme of WLA",
+      "trim_end": 1092259
+    },
+    {
+      "track_number": 17,
+      "file": "Tactics Ogre (SNES)/17 Fog of Phantom.mp3",
+      "title": "Fog of Phantom",
+      "trim_end": 5603649
+    },
+    {
+      "track_number": 18,
+      "file": "Tactics Ogre (SNES)/18 Footsteps from Darkness.mp3",
+      "title": "Footsteps from Darkness",
+      "trim_end": 2467958,
+      "loop": 448776
+    },
+    {
+      "track_number": 19,
+      "file": "Tactics Ogre (SNES)/19 Song of Tundra.mp3",
+      "title": "Song of Tundra",
+      "trim_end": 2725550,
+      "loop": 109162
+    },
+    {
+      "track_number": 20,
+      "file": "Tactics Ogre (SNES)/20 Religious Precepts.mp3",
+      "title": "Religious Precepts",
+      "trim_end": 897370
+    },
+    {
+      "track_number": 21,
+      "file": "Tactics Ogre (SNES)/21 Fight it Out!.mp3",
+      "title": "Fight It Out!",
+      "trim_end": 4606760,
+      "loop": 76648
+    },
+    {
+      "track_number": 22,
+      "file": "Tactics Ogre (SNES)/22 Retreat!.mp3",
+      "title": "Retreat!",
+      "trim_end": 266899
+    },
+    {
+      "track_number": 23,
+      "file": "Tactics Ogre (SNES)/23 A Color of Chaos.mp3",
+      "title": "A Color of Chaos",
+      "trim_end": 759702
+    },
+    {
+      "track_number": 24,
+      "file": "Tactics Ogre (SNES)/24 Blessed Memory.mp3",
+      "title": "Blessed Memory",
+      "trim_end": 788491,
+      "loop": 301521
+    },
+    {
+      "track_number": 25,
+      "file": "Tactics Ogre (SNES)/25 Warren Report.mp3",
+      "title": "Warren Report",
+      "trim_end": 996574,
+      "loop": 199848
+    },
+    {
+      "track_number": 26,
+      "file": "Tactics Ogre (SNES)/26 Three Kings.mp3",
+      "title": "Three Kings",
+      "trim_end": 3911857,
+      "loop": 186073
+    },
+    {
+      "track_number": 27,
+      "file": "Tactics Ogre (SNES)/27 Insincerity.mp3",
+      "title": "Insincerity",
+      "trim_end": 2048761
+    },
+    {
+      "track_number": 28,
+      "file": "Tactics Ogre (SNES)/28 Breath of the Earth.mp3",
+      "title": "Breath of the Earth",
+      "trim_end": 4794335,
+      "loop": 93485
+    },
+    {
+      "track_number": 29,
+      "file": "Tactics Ogre (SNES)/29 Agitation.mp3",
+      "title": "Agitation",
+      "trim_end": 1214483,
+      "loop": 71516
+    },
+    {
+      "track_number": 30,
+      "file": "Tactics Ogre (SNES)/30 Air Land.mp3",
+      "title": "Air Land",
+      "trim_end": 2550882,
+      "loop": 36205
+    },
+    {
+      "track_number": 31,
+      "file": "Tactics Ogre (SNES)/31 Theme of the Priest.mp3",
+      "title": "Theme of the Priest",
+      "trim_end": 1444939,
+      "loop": 119247
+    },
+    {
+      "track_number": 32,
+      "file": "Tactics Ogre (SNES)/32 Fact of Shock.mp3",
+      "title": "Fact of Shock",
+      "trim_end": 1932415
+    },
+    {
+      "track_number": 33,
+      "file": "Tactics Ogre (SNES)/33 Chivalry and Savagery.mp3",
+      "title": "Chivalry and Savagery",
+      "trim_end": 3667291,
+      "loop": 34839
+    },
+    {
+      "track_number": 34,
+      "file": "Tactics Ogre (SNES)/34 Notice of Death.mp3",
+      "title": "Notice of Death",
+      "trim_end": 2416099,
+      "loop": 307085
+    },
+    {
+      "track_number": 35,
+      "file": "Tactics Ogre (SNES)/35 Limitation.mp3",
+      "title": "Limitation",
+      "trim_end": 3391047,
+      "loop": 58215
+    },
+    {
+      "track_number": 36,
+      "file": "Tactics Ogre (SNES)/36 Prayer.mp3",
+      "title": "Prayer",
+      "trim_end": 1673983,
+      "loop": 35100
+    },
+    {
+      "track_number": 37,
+      "file": "Tactics Ogre (SNES)/37 Theme of the Black Knights.mp3",
+      "title": "Theme of the Black Knights",
+      "trim_end": 3203926,
+      "loop": 47780
+    },
+    {
+      "track_number": 38,
+      "file": "Tactics Ogre (SNES)/38 Box of Sentiment.mp3",
+      "title": "Box of Sentiment",
+      "trim_end": 876515,
+      "amplification": 1.0
+    },
+    {
+      "track_number": 39,
+      "file": "Tactics Ogre (SNES)/39 Emotion and Absense of Mind.mp3",
+      "title": "Emotion and Absense of Mind",
+      "trim_end": 3165330,
+      "loop": 1145667
+    },
+    {
+      "track_number": 40,
+      "file": "Tactics Ogre (SNES)/40 Deathrattle.mp3",
+      "title": "Deathrattle",
+      "trim_end": 2089262,
+      "loop": 895470
+    },
+    {
+      "track_number": 41,
+      "file": "Tactics Ogre (SNES)/41 Unsealed.mp3",
+      "title": "Unsealed",
+      "trim_end": 8327167,
+      "loop": 1397484
+    },
+    {
+      "track_number": 42,
+      "file": "Tactics Ogre (SNES)/42 Reminiscence.mp3",
+      "title": "Reminiscence",
+      "trim_end": 2849748
+    },
+    {
+      "track_number": 43,
+      "file": "Tactics Ogre (SNES)/43 Awakening.mp3",
+      "title": "Awakening",
+      "trim_end": 1853932,
+      "loop": 37532
+    },
+    {
+      "track_number": 44,
+      "file": "Tactics Ogre (SNES)/44 Coronation.mp3",
+      "title": "Coronation",
+      "trim_end": 1207641
+    },
+    {
+      "track_number": 45,
+      "file": "Tactics Ogre (SNES)/45 Passing Moment.mp3",
+      "title": "Passing Moment"
+    },
+    {
+      "track_number": 991,
+      "file": "Tactics Ogre (SNES)/99 Class Change.mp3",
+      "title": "Class Change",
+      "trim_end": 164447
+    },
+    {
+      "track_number": 992,
+      "file": "Tactics Ogre (SNES)/99 ''Fight it Out!''.mp3",
+      "title": "\"Fight It Out!\"",
+      "trim_end": 31757
+    },
+    {
+      "track_number": 993,
+      "file": "Tactics Ogre (SNES)/99 Hidden Treasure.mp3",
+      "title": "Hidden Treasure",
+      "trim_end": 175207
+    },
+    {
+      "track_number": 994,
+      "file": "Tactics Ogre (SNES)/99 Level Up!.mp3",
+      "title": "Level Up!",
+      "trim_end": 79145
+    }
+  ]
+}

@@ -46,6 +46,16 @@ This one is not available as standalone packs, because I was already stretching 
 * **2024-03-21, v1.2:** Adjusted a few loops and gave Armos Knights a different track so Hyper Beam would be unique
 * **2024-04-24, v1.3:** Started the Helmasaur King music farther into the track so it's more intense
 
+### [Don't Stop Me Now: Music from the Ogre Battle Series](https://www.crappycomic.com/msu/Don't%20Stop%20Me%20Now.zip)
+
+Songs from the Ogre Battle series, including Ogre Battle: The March of the Black Queen, Tactics Ogre: Let Us Cling Together, and Ogre Battle 64: Person of Lordly Caliber, along with one song from Tactics Ogre: The Knight of Lodis.
+This pack is compatible with SMZ3 Cas' Randomizer and (presumably) mainline SMZ3.
+There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/dsmn.yml).
+
+#### Version history
+
+* **2025-01-30, v1.0:** Initial release
+
 ## Scripts
 
 I wrote a few Kotlin scripts to help out with the process.

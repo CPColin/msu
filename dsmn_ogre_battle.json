@@ -1,0 +1,172 @@
+{
+  "pack_name": "Don't Stop Me Now: Ogre Battle sub-pack",
+  "type": "sub-pack",
+  "album": "Ogre Battle: The March of the Black Queen",
+  "artist": "Masaharu Iwata, Hayato Matsuo, and Hitoshi Sakimoto",
+  "url": "https://fi.zophar.net/soundfiles/nintendo-snes-spc/ogre-battle-the-march-of-the-black-queen/znxnccgz/Ogre%20Battle%20-%20The%20March%20of%20the%20Black%20Queen%20%28MP3%29.zophar.zip",
+  "output_prefix": "Don't Stop Me Now/ob",
+  "rms_target": -24.0,
+  "tracks": [
+    {
+      "track_number": 1,
+      "file": "Ogre Battle/01 Quest Logo.mp3",
+      "title": "Quest Logo",
+      "trim_end": 325478,
+      "fade_out": 44100
+    },
+    {
+      "track_number": 2,
+      "file": "Ogre Battle/02 Overture.mp3",
+      "title": "Overture"
+    },
+    {
+      "track_number": 3,
+      "file": "Ogre Battle/03 Beginning of the Tale.mp3",
+      "title": "Beginning of the Tale"
+    },
+    {
+      "track_number": 4,
+      "file": "Ogre Battle/04 Entrance Parade.mp3",
+      "title": "Entrance Parade",
+      "trim_end": 2779024,
+      "loop": 326461
+    },
+    {
+      "track_number": 5,
+      "file": "Ogre Battle/05 Old Man's Prayer.mp3",
+      "title": "Old Man's Prayer",
+      "trim_end": 1422732
+    },
+    {
+      "track_number": 6,
+      "file": "Ogre Battle/06 Atlas.mp3",
+      "title": "Atlas",
+      "trim_end": 2203431,
+      "loop": 67561
+    },
+    {
+      "track_number": 7,
+      "file": "Ogre Battle/07 Thunder.mp3",
+      "title": "Thunder",
+      "trim_end": 2920115,
+      "loop": 320207
+    },
+    {
+      "track_number": 8,
+      "file": "Ogre Battle/08 Guerrilla War.mp3",
+      "title": "Guerrilla War",
+      "trim_end": 3048710
+    },
+    {
+      "track_number": 9,
+      "file": "Ogre Battle/09 Dangerous.mp3",
+      "title": "Dangerous",
+      "trim_end": 133627
+    },
+    {
+      "track_number": 10,
+      "file": "Ogre Battle/10 Rest in Peace.mp3",
+      "title": "Rest in Peace",
+      "trim_end": 908793
+    },
+    {
+      "track_number": 11,
+      "file": "Ogre Battle/11 A Brief Respite.mp3",
+      "title": "A Brief Respite",
+      "trim_end": 932201
+    },
+    {
+      "track_number": 12,
+      "file": "Ogre Battle/12 Viking Spirits.mp3",
+      "title": "Viking Spirits",
+      "trim_end": 2947917
+    },
+    {
+      "track_number": 13,
+      "file": "Ogre Battle/13 Do or Die.mp3",
+      "title": "Do or Die",
+      "trim_end": 2248540,
+      "loop": 250289
+    },
+    {
+      "track_number": 14,
+      "file": "Ogre Battle/14 Brass of Victory.mp3",
+      "title": "Brass of Victory",
+      "trim_end": 147729
+    },
+    {
+      "track_number": 15,
+      "file": "Ogre Battle/15 Thrill of Liberation.mp3",
+      "title": "Thrill of Liberation",
+      "trim_end": 500518
+    },
+    {
+      "track_number": 16,
+      "file": "Ogre Battle/16 Wall of Defense.mp3",
+      "title": "Wall of Defense",
+      "trim_end": 2934352
+    },
+    {
+      "track_number": 17,
+      "file": "Ogre Battle/17 Autumn Sky - Womanheart.mp3",
+      "title": "Autumn Sky - Womanheart",
+      "trim_end": 2943758,
+      "loop": 268016
+    },
+    {
+      "track_number": 18,
+      "file": "Ogre Battle/18 Sand Storm.mp3",
+      "title": "Sand Storm",
+      "trim_end": 3488216
+    },
+    {
+      "track_number": 19,
+      "file": "Ogre Battle/19 Shimmering Heat.mp3",
+      "title": "Shimmering Heat",
+      "trim_end": 874036,
+      "loop": 162492
+    },
+    {
+      "track_number": 20,
+      "file": "Ogre Battle/20 Santa's Coming.mp3",
+      "title": "Santa's Coming",
+      "trim_end": 3398179
+    },
+    {
+      "track_number": 21,
+      "file": "Ogre Battle/21 Go-Go March.mp3",
+      "title": "Go-Go March",
+      "trim_end": 3101927
+    },
+    {
+      "track_number": 22,
+      "file": "Ogre Battle/22 Love Me Tonight.mp3",
+      "title": "Love Me Tonight",
+      "trim_end": 4066066
+    },
+    {
+      "track_number": 23,
+      "file": "Ogre Battle/23 Wave of Darkness.mp3",
+      "title": "Wave of Darkness",
+      "trim_end": 2948993,
+      "loop": 121983
+    },
+    {
+      "track_number": 24,
+      "file": "Ogre Battle/24 Morning Star.mp3",
+      "title": "Morning Star",
+      "trim_end": 666309
+    },
+    {
+      "track_number": 25,
+      "file": "Ogre Battle/25 Festival Drums.mp3",
+      "title": "Festival Drums",
+      "trim_end": 1398189
+    },
+    {
+      "track_number": 26,
+      "file": "Ogre Battle/26 Finale.mp3",
+      "title": "Finale"
+    }
+  ]
+}

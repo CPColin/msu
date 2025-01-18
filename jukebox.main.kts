@@ -201,7 +201,7 @@ data class Track(
 
     override fun compareTo(other: Track) = compareValuesBy(this, other, {it.packInfo?.name}, { it.number })
 
-    override fun toString() = "$album - $number - $key - $name"
+    override fun toString() = "$number - $key - $album - $name"
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)

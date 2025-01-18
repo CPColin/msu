@@ -1,0 +1,670 @@
+{
+  "pack_name": "Don't Stop Me Now: Music from the Ogre Battle Series",
+  "pack_author": "CPColin",
+  "pack_version": 1,
+  "type": "Super Metroid / A Link to the Past Combination Randomizer",
+  "album": "The Ogre Battle Series",
+  "artist": "Masaharu Iwata, Hayato Matsuo, and Hitoshi Sakimoto",
+  "url": "https://github.com/CPColin/msu",
+  "output_prefix": "Don't Stop Me Now/dsmn",
+  "rms_target": -24.0,
+  "tracks": [
+    {
+      "track_number": 2,
+      "key": "light_world",
+      "album": "Ogre Battle (N64 + SNES)",
+      "title": "Revolt + Thunder",
+      "sub_tracks": [
+        {
+          "file": "Ogre Battle 64/14 Revolt.flac",
+          "trim_end": 2023776,
+          "fade_out": 22050,
+          "amplification": 0.75
+        },
+        {
+          "file": "Ogre Battle/07 Thunder.mp3",
+          "trim_start": 1938539,
+          "trim_end": 4582770,
+          "fade_in": 22050,
+          "fade_out": 44100,
+          "pad_start": 1979676,
+          "amplification": 1.0
+        },
+        {
+          "file": "Ogre Battle 64/14 Revolt.flac",
+          "trim_start": 1977088,
+          "trim_end": 3060885,
+          "fade_in": 22050,
+          "pad_start": 4579807,
+          "amplification": 0.75
+        }
+      ],
+      "loop": 416352,
+      "amplification": 0.8
+    },
+    {
+      "track_number": 4,
+      "key": "bunny_theme",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#14"
+    },
+    {
+      "track_number": 5,
+      "key": "lost_woods",
+      "inherit_from": "dsmn_ogre_battle_64.json#8"
+    },
+    {
+      "track_number": 7,
+      "key": "kakariko",
+      "inherit_from": "dsmn_ogre_battle_64.json#10"
+    },
+    {
+      "track_number": 8,
+      "key": "mirror",
+      "inherit_from": "dsmn_ogre_battle.json#1",
+      "trim_end": 222493,
+      "fade_out": 1000
+    },
+    {
+      "track_number": 9,
+      "key": "dark_world",
+      "inherit_from": "dsmn_ogre_battle_64.json#16"
+    },
+    {
+      "track_number": 10,
+      "key": "pedestal_pull",
+      "inherit_from": "dsmn_ogre_battle_64.json#11",
+      "trim_start": 20507,
+      "fade_in": 10000,
+      "trim_end": 431720,
+      "fade_out": 44100
+    },
+    {
+      "track_number": 11,
+      "key": "zelda_game_over",
+      "inherit_from": "dsmn_ogre_battle.json#10",
+      "loop": 908780
+    },
+    {
+      "track_number": 12,
+      "key": "guards",
+      "sub_tracks": [
+        {
+          "inherit_from": "dsmn_tactics_ogre_snes.json#992",
+	  "pad_start": 44100,
+	  "amplification": 1.0
+        },
+        {
+          "inherit_from": "dsmn_tactics_ogre_gba.json#14",
+          "pad_start": 88200,
+	  "amplification": 0.75
+        }
+      ],
+      "loop": 86106,
+      "album": "Tactics Ogre (SNES + GBA)",
+      "artist": "Masaharu Iwata and Hitoshi Sakimoto",
+      "title": "\"Fight It Out\" + Sudden Change"
+    },
+    {
+      "track_number": 13,
+      "key": "dark_death_mountain",
+      "inherit_from": "dsmn_ogre_battle_64.json#43",
+      "trim_start": 955126,
+      "fade_in": 1000,
+      "amplification": 0.5
+    },
+    {
+      "track_number": 14,
+      "key": "minigame",
+      "inherit_from": "dsmn_ogre_battle.json#12",
+      "amplification": 1.25
+    },
+    {
+      "track_number": 15,
+      "key": "dark_woods",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#3",
+      "title": "Chaotic Island (C section)",
+      "trim_start": 3002772,
+      "trim_end": 7233667
+    },
+    {
+      "track_number": 16,
+      "key": "hyrule_castle",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#2",
+      "trim_start": 171715
+    },
+    {
+      "track_number": 18,
+      "key": "cave_1",
+      "inherit_from": "dsmn_ogre_battle.json#5"
+    },
+    {
+      "track_number": 19,
+      "key": "boss_victory",
+      "inherit_from": "dsmn_ogre_battle.json#24",
+      "trim_end": 446912,
+      "fade_out": 44100
+    },
+    {
+      "track_number": 20,
+      "key": "sanctuary",
+      "inherit_from": "dsmn_ogre_battle_64.json#48",
+      "amplification": 0.75
+    },
+    {
+      "track_number": 23,
+      "key": "shop",
+      "inherit_from": "dsmn_ogre_battle.json#19",
+      "trim_start": 162127,
+      "amplification": 1.5
+    },
+    {
+      "track_number": 24,
+      "key": "cave_2",
+      "inherit_from": "dsmn_ogre_battle.json#11"
+    },
+    {
+      "track_number": 26,
+      "key": "crystal_retrieved",
+      "inherit_from": "dsmn_ogre_battle.json#24",
+      "trim_start": 552362,
+      "fade_in": 88200,
+      "loop": 666300
+    },
+    {
+      "track_number": 27,
+      "key": "fairy",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#43",
+      "amplification": 1.4
+    },
+    {
+      "track_number": 28,
+      "key": "agahnims_floor",
+      "inherit_from": "dsmn_ogre_battle_64.json#44"
+    },
+    {
+      "track_number": 29,
+      "key": "ganon_reveal",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#33",
+      "trim_start": 1956602,
+      "trim_end": 2269828,
+      "loop": 1956602,
+      "fade_out": 88200
+    },
+    {
+      "track_number": 30,
+      "key": "ganons_message",
+      "inherit_from": "dsmn_ogre_battle.json#23",
+      "title": "Wave of Darkness (intro)",
+      "trim_end": 320169,
+      "loop": 213389
+    },
+    {
+      "track_number": 31,
+      "key": "ganon_battle",
+      "inherit_from": "dsmn_ogre_battle.json#23",
+      "trim_start": 320169
+    },
+    {
+      "track_number": 32,
+      "key": "triforce_room",
+      "inherit_from": "dsmn_ogre_battle_64.json#4"
+    },
+    {
+      "track_number": 33,
+      "key": "epilogue",
+      "title": "Thrill of Liberation + Passing Moment + Gracious",
+      "album": "Ogre Battle + Tactics Ogre (SNES) + Ogre Battle 64",
+      "sub_tracks": [
+        {
+          "inherit_from": "dsmn_ogre_battle.json#15",
+          "amplification": 0.825
+        },
+        {
+          "inherit_from": "dsmn_tactics_ogre_snes.json#45",
+          "pad_start": 500000,
+          "amplification": 1.0
+        },
+        {
+          "inherit_from": "dsmn_ogre_battle_64.json#28",
+          "pad_start": 9927431,
+          "amplification": 0.75
+        }
+      ]
+    },
+    {
+      "track_number": 35,
+      "key": "eastern_palace",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#42",
+      "amplification": 0.85
+    },
+    {
+      "track_number": 36,
+      "key": "desert_palace",
+      "inherit_from": "dsmn_ogre_battle_64.json#51"
+    },
+    {
+      "track_number": 37,
+      "key": "agahnims_tower",
+      "inherit_from": "dsmn_ogre_battle.json#16"
+    },
+    {
+      "track_number": 38,
+      "key": "swamp_palace",
+      "inherit_from": "dsmn_ogre_battle_64.json#30"
+    },
+    {
+      "track_number": 39,
+      "key": "palace_of_darkness",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#15"
+    },
+    {
+      "track_number": 40,
+      "key": "misery_mire",
+      "inherit_from": "dsmn_ogre_battle_64.json#20",
+      "amplification": 0.625
+    },
+    {
+      "track_number": 41,
+      "key": "skull_woods",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#3",
+      "title": "Chaotic Island (A section)",
+      "trim_end": 1362872,
+      "loop": 584554
+    },
+    {
+      "track_number": 42,
+      "key": "ice_palace",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#19",
+      "amplification": 1.25
+    },
+    {
+      "track_number": 43,
+      "key": "tower_of_hera",
+      "inherit_from": "dsmn_ogre_battle_64.json#55"
+    },
+    {
+      "track_number": 44,
+      "key": "thieves_town",
+      "inherit_from": "dsmn_ogre_battle_64.json#18"
+    },
+    {
+      "track_number": 45,
+      "key": "turtle_rock",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#28",
+      "amplification": 1.0
+    },
+    {
+      "track_number": 46,
+      "key": "ganons_tower",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#41",
+      "amplification": 0.9
+    },
+    {
+      "track_number": 47,
+      "key": "armos_knights",
+      "inherit_from": "dsmn_ogre_battle.json#13"
+    },
+    {
+      "track_number": 48,
+      "key": "lanmolas",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#30"
+    },
+    {
+      "track_number": 49,
+      "key": "agahnim_1",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#21",
+      "amplification": 1.0
+    },
+    {
+      "track_number": 50,
+      "key": "arrghus",
+      "inherit_from": "dsmn_ogre_battle_64.json#54"
+    },
+    {
+      "track_number": 51,
+      "key": "helmasaur_king",
+      "inherit_from": "dsmn_ogre_battle_64.json#23",
+      "amplification": 0.75
+    },
+    {
+      "track_number": 52,
+      "key": "vitreous",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#37"
+    },
+    {
+      "track_number": 53,
+      "key": "mothula",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#3",
+      "title": "Chaotic Island (B section)",
+      "trim_start": 1362872,
+      "trim_end": 3002772
+    },
+    {
+      "track_number": 54,
+      "key": "kholdstare",
+      "inherit_from": "dsmn_ogre_battle_64.json#21",
+      "amplification": 0.75
+    },
+    {
+      "track_number": 55,
+      "key": "moldorm",
+      "inherit_from": "dsmn_ogre_battle_64.json#46"
+    },
+    {
+      "track_number": 56,
+      "key": "blind",
+      "inherit_from": "dsmn_ogre_battle_64.json#35",
+      "amplification": 0.825
+    },
+    {
+      "track_number": 57,
+      "key": "trinexx",
+      "inherit_from": "dsmn_ogre_battle_64.json#26"
+    },
+    {
+      "track_number": 58,
+      "key": "agahnim_2",
+      "inherit_from": 49
+    },
+    {
+      "track_number": 59,
+      "key": "ganons_tower_climb",
+      "album": "Ogre Battle (N64 + SNES)",
+      "title": "Accretion Disk + Go-Go March",
+      "sub_tracks": [
+        {
+          "file": "Ogre Battle 64/15 Accretion Disk.flac",
+          "trim_end": 3120957,
+          "fade_out": 14000,
+          "amplification": 0.825
+        },
+        {
+          "file": "Ogre Battle/21 Go-Go March.mp3",
+          "trim_end": 3115927,
+          "fade_in": 1400,
+          "fade_out": 14000,
+          "pad_start": 3106957,
+          "amplification": 1.0
+        },
+        {
+          "file": "Ogre Battle 64/15 Accretion Disk.flac",
+          "trim_start": 3102187,
+          "trim_end": 3120957,
+          "fade_in": 2800,
+          "pad_start": 6208114,
+          "amplification": 0.825
+        }
+      ],
+      "loop": 18770
+    },
+    {
+      "track_number": 60,
+      "key": "light_world_2",
+      "inherit_from": "dsmn_ogre_battle_64.json#42"
+    },
+    {
+      "track_number": 61,
+      "key": "dark_world_2",
+      "inherit_from": "dsmn_ogre_battle_64.json#3"
+    },
+    {
+      "track_number": 99,
+      "key": "smz3_credits",
+      "inherit_from": "dsmn_ogre_battle_64.json#61"
+    },
+    {
+      "track_number": 101,
+      "key": "samus_fanfare",
+      "inherit_from": "dsmn_ogre_battle_64.json#6",
+      "title": "Sally Forth (outro)",
+      "trim_start": 2002170,
+      "amplification": 0.75
+    },
+    {
+      "track_number": 103,
+      "key": "item_room",
+      "inherit_from": "dsmn_ogre_battle_64.json#13",
+      "amplification": 0.825
+    },
+    {
+      "track_number": 104,
+      "key": "metroid_opening_with_intro",
+      "album": "Ogre Battle 64: Person of Lordly Caliber",
+      "artist": "Masaharu Iwata, Hayato Matsuo, and Hitoshi Sakimoto",
+      "title": "Quest Logo + A Color of Chaos + Overture + Island Atlas",
+      "sub_tracks": [
+        {
+          "inherit_from": "dsmn_ogre_battle_64.json#91",
+          "amplification": 1.0
+        },
+        {
+          "inherit_from": "dsmn_ogre_battle_64.json#12",
+          "pad_start": 222570,
+          "fade_out": 88200,
+          "amplification": 0.8
+        },
+        {
+          "inherit_from": "dsmn_ogre_battle_64.json#1",
+          "pad_start": 979716,
+          "amplification": 0.8
+        },
+        {
+          "inherit_from": "dsmn_ogre_battle_64.json#7",
+          "pad_start": 3868593,
+          "amplification": 0.8
+        }
+      ],
+      "loop": 3868593,
+      "amplification": 0.7
+    },
+    {
+      "track_number": 105,
+      "key": "metroid_opening_without_intro",
+      "inherit_from": 104,
+      "title": "Overture + Island Atlas",
+      "trim_start": 979716
+    },
+    {
+      "track_number": 106,
+      "key": "crateria_landing_with_thunder",
+      "inherit_from": "dsmn_ogre_battle_64.json#58"
+    },
+    {
+      "track_number": 108,
+      "key": "crateria_space_pirates_appear",
+      "inherit_from": "dsmn_ogre_battle_64.json#47",
+      "amplification": 0.75
+    },
+    {
+      "track_number": 109,
+      "key": "golden_statues",
+      "inherit_from": "dsmn_ogre_battle_64.json#31",
+      "amplification": 0.825
+    },
+    {
+      "track_number": 110,
+      "key": "samus_aran_theme",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#11"
+    },
+    {
+      "track_number": 111,
+      "key": "green_brinstar",
+      "inherit_from": "dsmn_ogre_battle_64.json#17"
+    },
+    {
+      "track_number": 112,
+      "key": "red_brinstar",
+      "inherit_from": "dsmn_ogre_battle_64.json#38",
+      "amplification": 0.8
+    },
+    {
+      "track_number": 113,
+      "key": "upper_norfair",
+      "inherit_from": "dsmn_ogre_battle_64.json#50",
+      "amplification": 0.75
+    },
+    {
+      "track_number": 114,
+      "key": "lower_norfair",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#13"
+    },
+    {
+      "track_number": 115,
+      "key": "inner_maridia",
+      "inherit_from": "dsmn_ogre_battle_64.json#39"
+    },
+    {
+      "track_number": 116,
+      "key": "outer_maridia",
+      "inherit_from": "dsmn_ogre_battle_64.json#9"
+    },
+    {
+      "track_number": 117,
+      "key": "tourian",
+      "inherit_from": "dsmn_ogre_battle_64.json#52",
+      "amplification": 0.625
+    },
+    {
+      "track_number": 118,
+      "key": "mother_brain_battle",
+      "inherit_from": "dsmn_ogre_battle_64.json#25"
+    },
+    {
+      "track_number": 119,
+      "key": "big_boss_battle_1",
+      "inherit_from": "dsmn_ogre_battle_64.json#32"
+    },
+    {
+      "track_number": 120,
+      "key": "evacuation",
+      "inherit_from": "dsmn_ogre_battle_64.json#56"
+    },
+    {
+      "track_number": 121,
+      "key": "chozo_statue_awakens",
+      "inherit_from": "dsmn_ogre_battle_64.json#32",
+      "title": "Thrilling (B section)",
+      "trim_start": 1011438,
+      "trim_end": 1819405,
+      "loop": 1011438
+    },
+    {
+      "track_number": 122,
+      "key": "big_boss_battle_2",
+      "inherit_from": "dsmn_ogre_battle.json#8",
+      "amplification": 1.25
+    },
+    {
+      "track_number": 123,
+      "key": "tension",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#7",
+      "trim_start": 1183094,
+      "trim_end": 1911273,
+      "loop": 1183094
+    },
+    {
+      "track_number": 124,
+      "key": "plant_miniboss",
+      "inherit_from": "dsmn_ogre_battle.json#25"
+    },
+    {
+      "track_number": 126,
+      "key": "wrecked_ship_powered_off",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#12",
+      "amplification": 1.0
+    },
+    {
+      "track_number": 127,
+      "key": "wrecked_ship_powered_on",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#8",
+      "amplification": 1.4
+    },
+    {
+      "track_number": 129,
+      "key": "death_cry",
+      "album": "Ogre Battle: The March of the Black Queen",
+      "artist": "Masaharu Iwata, Hayato Matsuo, and Hitoshi Sakimoto",
+      "title": "Dangerous + (SFX) Death + (SFX) Boo",
+      "sub_tracks": [
+        {
+          "inherit_from": "dsmn_ogre_battle.json#9"
+        },
+        {
+          "file": "SFX/Ogre Battle - Female Death.flac",
+          "pad_start": 76749,
+          "amplification": 1.5
+        },
+        {
+          "file": "SFX/Ogre Battle - Boo.flac",
+          "pad_start": 127776,
+          "amplification": 2.25
+        }
+      ]
+    },
+    {
+      "track_number": 130,
+      "key": "metroid_credits",
+      "inherit_from": "dsmn_ogre_battle_64.json#29",
+      "trim_end": 906044,
+      "fade_out": 220500
+    },
+    {
+      "track_number": 131,
+      "key": "kraid_incoming",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#26",
+      "title": "Three Kings (intro)",
+      "trim_end": 1583849,
+      "loop": 93921,
+      "amplification": 1.25
+    },
+    {
+      "track_number": 132,
+      "key": "kraid_battle",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#26",
+      "trim_start": 1583849,
+      "amplification": 1.25
+    },
+    {
+      "track_number": 133,
+      "key": "phantoon_incoming",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#38"
+    },
+    {
+      "track_number": 134,
+      "key": "phantoon_battle",
+      "inherit_from": "dsmn_ogre_battle_64.json#19",
+      "amplification": 0.55
+    },
+    {
+      "track_number": 135,
+      "key": "draygon_battle",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#35"
+    },
+    {
+      "track_number": 136,
+      "key": "ridley_battle",
+      "inherit_from": "dsmn_ogre_battle_64.json#24"
+    },
+    {
+      "track_number": 137,
+      "key": "baby_incoming",
+      "inherit_from": "dsmn_ogre_battle_64.json#49"
+    },
+    {
+      "track_number": 138,
+      "key": "the_baby",
+      "inherit_from": "dsmn_tactics_ogre_snes.json#16"
+    },
+    {
+      "track_number": 139,
+      "key": "hyper_beam",
+      "inherit_from": "dsmn_ogre_battle_64.json#22",
+      "pad_start": 150000
+    },
+    {
+      "track_number": 140,
+      "key": "metroid_game_over",
+      "inherit_from": "dsmn_ogre_battle_64.json#40"
+    }
+  ]
+}
