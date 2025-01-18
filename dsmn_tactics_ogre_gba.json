@@ -1,0 +1,18 @@
+{
+  "pack_name": "Don't Stop Me Now: Tactics Ogre (GBA) sub-pack",
+  "type": "sub-pack",
+  "album": "Tactics Ogre: The Knight of Lodis",
+  "artist": "Masaharu Iwata and Hitoshi Sakimoto",
+  "url": "https://fi.zophar.net/soundfiles/gameboy-advance-gsf/tactics-ogre-the-knight-of-lodis/koipyusn/Tactics%20Ogre%20-%20The%20Knight%20of%20Lodis%20%28FLAC%29.zophar.zip",
+  "output_prefix": "Don't Stop Me Now/to-gba",
+  "rms_target": -24.0,
+  "tracks": [
+    {
+      "track_number": 14,
+      "file": "Tactics Ogre (GBA)/14 Sudden Change.flac",
+      "title": "Sudden Change",
+      "trim_end": 2328846,
+      "loop": 42006
+    }
+  ]
+}

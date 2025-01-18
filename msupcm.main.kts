@@ -2,10 +2,9 @@
 
 @file:DependsOn("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
 
+import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
@@ -66,7 +65,7 @@ data class Msu(
     @JsonProperty("rms_target")
     val rmsTarget: Double?,
 
-    val tracks: List<TrackBase>,
+    val tracks: List<Track>,
 
     /**
      * The type of this pack, which will be copied to the YAML file, to make it easier to determine which game(s) the
@@ -103,220 +102,105 @@ class SampleSequence(private val pcmData: ByteArray, private val left: Boolean):
     }
 }
 
-@JsonSubTypes(
-    JsonSubTypes.Type(Track::class),
-    JsonSubTypes.Type(TrackCopy::class),
-    JsonSubTypes.Type(TrackImport::class),
-    JsonSubTypes.Type(TrackMix::class)
-)
-@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
-sealed interface TrackBase {
+class Track {
     /**
      * The name of the album that the music in this track came from. This value overrides [Msu.album].
      */
-    val album: String?
+    @JsonProperty("album")
+    val _album: String? = null
 
     /**
      * Amplification that should be applied to this track, in decibels or linear power. This value overrides
      * [rmsTarget], [Msu.amplification], and [Msu.rmsTarget].
      */
-    val amplification: Double?
+    @JsonProperty("amplification")
+    val _amplification: Double? = null
 
     /**
      * The original artist who composed this track. This value overrides [Msu.artist].
      */
-    val artist: String?
+    @JsonProperty("artist")
+    val _artist: String? = null
 
     /**
      * When specified, indicates that this track should fade in (linearly) at the start for the given number of samples.
      */
-    val fadeIn: Int?
+    @JsonProperty("fade_in")
+    val _fadeIn: Int? = null
 
     /**
      * When specified, indicates that this track should fade out (linearly) at the end for the given number of samples.
      */
-    val fadeOut: Int?
+    @JsonProperty("fade_out")
+    val _fadeOut: Int? = null
+
+    /**
+     * When specified, indicates that the source audio for this track should come from a file with the given name. This
+     * value is ignored when either [inheritFrom] or [subTracks] is specified.
+     */
+    @JsonProperty("file")
+    val _filename: String? = null
+
+    /**
+     * When specified, indicates which parent track to inherit property values from. An integer value here identifies
+     * another track in this MSU. A string value separated by `#` indicates another JSON file and the track within it.
+     */
+    @JsonProperty("inherit_from")
+    @JsonAlias("copy_of", "import_from")
+    val _inheritFrom: String? = null
 
     /**
      * The key that should be used for this track in the track list.
      */
-    val key: String?
+    @JsonProperty("key")
+    val _key: String? = null
 
-    val loopPoint: Int?
-
-    /**
-     * The [Msu] pack this track belongs to.
-     */
-    val msu: Msu
+    @JsonProperty("loop")
+    val _loopPoint: Int? = null
 
     /**
      * When specified, indicates that this track should end with the given number of silent samples. The [loopPoint] may
      * be placed within these silent samples.
      */
-    val padEnd: Int?
+    @JsonProperty("pad_end")
+    val _padEnd: Int? = null
 
     /**
      * When specified, indicates that this track should start with the given number of silent samples. The [loopPoint]
      * is relative to the start of the _unpadded_ track and thus may not be placed within these silent samples.
      */
-    val padStart: Int?
+    @JsonProperty("pad_start")
+    val _padStart: Int? = null
 
     /**
      * Target root-mean-square normalization value, in decibels or linear power. Overrides both [Msu.rmsTarget] and
      * [Msu.amplification], when present.
      */
-    val rmsTarget: Double?
-
-    val title: String?
-
-    val trackNumber: Int?
-
-    val trimEnd: Int?
-
-    val trimStart: Int
-}
-
-data class Track(
-    override val album: String?,
-
-    override val amplification: Double?,
-
-    override val artist: String?,
-
-    @JsonProperty("fade_in")
-    override val fadeIn: Int?,
-
-    @JsonProperty("fade_out")
-    override val fadeOut: Int?,
-
-    @JsonProperty("file")
-    val filename: String,
-
-    override val key: String?,
-
-    @JsonProperty("loop")
-    override val loopPoint: Int?,
-
-    @JsonProperty("pad_end")
-    override val padEnd: Int?,
-
-    @JsonProperty("pad_start")
-    override val padStart: Int?,
-
     @JsonProperty("rms_target")
-    override val rmsTarget: Double?,
-
-    override val title: String?,
-
-    @JsonProperty("track_number")
-    override val trackNumber: Int?,
-
-    @JsonProperty("trim_end")
-    override val trimEnd: Int?,
-
-    @JsonProperty("trim_start")
-    override val trimStart: Int
-) : TrackBase {
-    override lateinit var msu: Msu
-}
-
-data class TrackCopy(
-    @JsonProperty("copy_of")
-    val copyOf: Int,
-
-    override val key: String,
-
-    @JsonProperty("track_number")
-    override val trackNumber: Int
-) : TrackBase {
-    lateinit var track: TrackBase
-
-    override val album get() = track.album
-    override val amplification get() = track.amplification
-    override val artist get() = track.artist
-    override val fadeIn get() = track.fadeIn
-    override val fadeOut get() = track.fadeOut
-    override val loopPoint get() = track.loopPoint
-    override val msu get() = track.msu
-    override val padEnd get() = track.padEnd
-    override val padStart get() = track.padStart
-    override val rmsTarget get() = track.rmsTarget
-    override val title get() = track.title
-    override val trimEnd get() = track.trimEnd
-    override val trimStart get() = track.trimStart
-}
-
-data class TrackImport(
-    /**
-     * Indicates which parent JSON file and track number, separated by `#` to import this track from.
-     */
-    @JsonProperty("import_from")
-    val importFrom: String,
-
-    @JsonProperty("track_number")
-    override val trackNumber: Int
-) : TrackBase {
-    lateinit var track: TrackBase
-
-    override val album get() = track.album ?: track.msu.album
-    override val amplification get() = track.amplification
-    override val artist get() = track.artist ?: track.msu.artist
-    override val fadeIn get() = track.fadeIn
-    override val fadeOut get() = track.fadeOut
-    override val key get() = track.key
-    override val loopPoint get() = track.loopPoint
-    override val msu get() = track.msu
-    override val padEnd get() = track.padEnd
-    override val padStart get() = track.padStart
-    override val rmsTarget get() = track.rmsTarget
-    override val title get() = track.title
-    override val trimEnd get() = track.trimEnd
-    override val trimStart get() = track.trimStart
-}
-
-data class TrackMix(
-    override val album: String?,
-
-    override val amplification: Double?,
-
-    override val artist: String?,
-
-    @JsonProperty("fade_in")
-    override val fadeIn: Int?,
-
-    @JsonProperty("fade_out")
-    override val fadeOut: Int?,
-
-    override val key: String?,
-
-    @JsonProperty("loop")
-    override val loopPoint: Int?,
-
-    @JsonProperty("pad_end")
-    override val padEnd: Int?,
-
-    @JsonProperty("pad_start")
-    override val padStart: Int?,
-
-    @JsonProperty("rms_target")
-    override val rmsTarget: Double?,
+    val _rmsTarget: Double? = null
 
     @JsonProperty("sub_tracks")
-    val subTracks: List<TrackBase>,
+    val _subTracks: List<Track>? = null
 
-    override val title: String?,
+    @JsonProperty("title")
+    val _title: String? = null
 
     @JsonProperty("track_number")
-    override val trackNumber: Int?,
+    val _trackNumber: Int? = null
 
     @JsonProperty("trim_end")
-    override val trimEnd: Int?,
+    val _trimEnd: Int? = null
 
     @JsonProperty("trim_start")
-    override val trimStart: Int
-) : TrackBase {
-    override lateinit var msu: Msu
+    val _trimStart: Int? = null
+
+    /**
+     * The [Msu] pack this track belongs to.
+     */
+    lateinit var _msu: Msu
 }
+
+val msuCache = mutableMapOf<String, Msu>()
 
 fun byteCountToSampleCount(byteCount: Int) = byteCount / SAMPLE_BYTES / CHANNELS
 
@@ -336,8 +220,8 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
  * Computes and returns the amplification factor, in linear power, appropriate for the given [pcmData] using the values
  * from the given [Track] and its [Msu] pack, choosing the first available value, with the following priority:
  *
- * - [TrackBase.amplification]
- * - [TrackBase.rmsTarget]
+ * - [Track.amplification]
+ * - [Track.rmsTarget]
  * - [Msu.amplification]
  * - [Msu.rmsTarget]
  * - `1.0` (no change from input)
@@ -345,7 +229,7 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
  * If one of the `rmsTarget` values is chosen, the current RMS value of the [pcmData] is computed and the returned
  * amplification value is what's needed to hit the chosen RMS target.
  */
-fun computeAmplification(pcmData: ByteArray, track: TrackBase) =
+fun computeAmplification(pcmData: ByteArray, track: Track) =
     when {
         track.amplification != null -> track.amplification!!.toLinear()
         track.rmsTarget != null -> track.rmsTarget!!.toLinear() / computeRootMeanSquare(pcmData)
@@ -425,34 +309,21 @@ fun Double.toDecibels(): Double = if (this < 0) { this } else { 20.0 * log10(thi
 fun Double.toLinear(): Double = if (this >= 0) { this } else { 10.0.pow(this / 20.0) }
 
 /**
- * Loads and returns the [Msu] with the given [filename], filling in any [TrackCopy] values with their source [Track]
- * values.
+ * Loads and returns the [Msu] with the given [filename].
  */
 fun loadMsu(filename: String): Msu {
-    val mapper = jacksonObjectMapper()
-    val msu = mapper.readValue<Msu>(File(filename))
-    val parentMsus = mutableMapOf<String, Msu>()
+    return msuCache.getOrPut(filename) {
+        val mapper = jacksonObjectMapper()
+        val msu = mapper.readValue<Msu>(File(filename))
 
-    msu.tracks.forEach { track ->
-        when (track) {
-            is Track -> track.msu = msu
-            is TrackCopy -> track.track = msu.tracks.find { it.trackNumber == track.copyOf }!!
-            is TrackImport -> {
-                val (parentFilename, parentTrackNumber) = track.importFrom.split("#")
-                val parentMsu = parentMsus.getOrPut(parentFilename) { loadMsu(parentFilename) }
+        msu.tracks.forEach { track ->
+            track._msu = msu
 
-                track.track = parentMsu.tracks.find { it.trackNumber.toString() == parentTrackNumber }!!
-            }
-            is TrackMix -> {
-                track.msu = msu
-                // Assuming sub-tracks don't copy or import, for now.
-                track.subTracks.forEach { (it as Track).msu = msu }
-            }
-            else -> error("TrackBase is sealed, so we shouldn't need this")
+            track.subTracks?.forEach { it._msu = msu }
         }
-    }
 
-    return msu
+        msu
+    }
 }
 
 /**
@@ -460,7 +331,7 @@ fun loadMsu(filename: String): Msu {
  * converting the sample back to a 16-bit value, and writing it back into the array. We're doing the mixing in floating
  * point because repeated conversion back into [Int] values could lose precision.
  */
-fun mixPcmData(pcmData: ByteArray, track: TrackBase) {
+fun mixPcmData(pcmData: ByteArray, track: Track) {
     val amplification = computeAmplification(pcmData, track)
     var index = 0
     val totalSampleCount = byteCountToSampleCount(pcmData.size)
@@ -507,7 +378,7 @@ fun processTrack(filename: String, trackNumber: Int, raw: Boolean = false) {
     processTrack(msu, msu.tracks.find { it.trackNumber == trackNumber }!!, raw)
 }
 
-fun processTrack(msu: Msu, track: TrackBase, raw: Boolean = false) {
+fun processTrack(msu: Msu, track: Track, raw: Boolean = false) {
     println("Processing #${track.trackNumber} - ${track.key}")
 
     val rawPcmData = track.loadPcmData()
@@ -525,7 +396,7 @@ fun processTracks(filename: String) {
     msu.tracks.forEach { processTrack(msu, it) }
 }
 
-fun renderSubTracks(subTracks: List<TrackBase>): ByteArray {
+fun renderSubTracks(subTracks: List<Track>): ByteArray {
     val pcmDatas = subTracks.map { renderTrack(it, it.loadPcmData()).first }
     val pcmData = ByteArray(pcmDatas.maxOf { it.size })
 
@@ -544,7 +415,7 @@ fun renderSubTracks(subTracks: List<TrackBase>): ByteArray {
     return pcmData
 }
 
-fun renderTrack(track: TrackBase, rawPcmData: ByteArray): Pair<ByteArray, Int> {
+fun renderTrack(track: Track, rawPcmData: ByteArray): Pair<ByteArray, Int> {
     val padEnd = track.padEnd ?: 0
     val padStart = track.padStart ?: 0
     val pcmData = if (track.loopPoint == null || track.loopPoint!! >= track.trimStart) {
@@ -589,36 +460,59 @@ fun sampleCountToByteCount(sampleCount: Int) = sampleCount * SAMPLE_BYTES * CHAN
  */
 fun sampleToBytes(sample: Int) = sample.toByte() to (sample shr 8).toByte()
 
+// This is all terrible. I would love to have a better way for tracks to inherit values from their parents.
+val Track.amplification get(): Double? = this._amplification ?: loadParentTrack()?.amplification
+val Track.album get(): String? = this._album ?: loadParentTrack()?.album ?: this._msu.album ?: loadParentTrack()?._msu?.album
+val Track.artist get(): String? = this._artist ?: loadParentTrack()?.artist ?: this._msu.artist ?: loadParentTrack()?._msu?.artist
+val Track.fadeIn get(): Int? = this._fadeIn ?: loadParentTrack()?.fadeIn
+val Track.fadeOut get(): Int? = this._fadeOut ?: loadParentTrack()?.fadeOut
+val Track.filename get(): String? = this._filename ?: loadParentTrack()?.filename
+val Track.inheritFrom get(): String? = this._inheritFrom ?: loadParentTrack()?._inheritFrom
+val Track.key get(): String? = this._key ?: loadParentTrack()?.key
+val Track.loopPoint get(): Int? = this._loopPoint ?: loadParentTrack()?.loopPoint
+val Track.msu get(): Msu = this._msu
+val Track.padEnd get(): Int? = this._padEnd ?: loadParentTrack()?.padEnd
+val Track.padStart get(): Int? = this._padStart ?: loadParentTrack()?.padStart
+val Track.rmsTarget get(): Double? = this._rmsTarget ?: loadParentTrack()?.rmsTarget
+val Track.subTracks get(): List<Track>? = this._subTracks ?: loadParentTrack()?.subTracks
+val Track.title get(): String? = this._title ?: loadParentTrack()?.title
+val Track.trackNumber get(): Int? = this._trackNumber ?: loadParentTrack()?.trackNumber
+val Track.trimEnd get(): Int? = this._trimEnd ?: loadParentTrack()?.trimEnd
+val Track.trimStart get(): Int = this._trimStart ?: loadParentTrack()?.trimStart ?: 0
+
 /**
- * Loads the PCM data for this track, be it from the source file, the copied or imported track, or from mixing the
- * sub-tracks of this track.
+ * Loads the PCM data for this track, be it from the source file, the parent track, or from mixing the sub-tracks of
+ * this track.
  *
- * This would be a member of [TrackBase], but that makes Jackson get very confused about the subtypes, for some reason.
- * I'm sick of trying to get Jackson to play along when I'd rather bang my head against *actual* functionality, so hell
- * with it.
+ * This would be a member of [Track], but that makes Jackson get very confused, for some reason. I'm sick of trying to
+ * get Jackson to play along when I'd rather bang my head against *actual* functionality, so hell with it.
  */
-fun TrackBase.loadPcmData(): ByteArray =
-    when (this) {
-        is Track -> convertToPcmData(this.filename)
-        is TrackCopy -> this.track.loadPcmData()
-        is TrackImport -> this.track.loadPcmData()
-        is TrackMix -> renderSubTracks(this.subTracks)
-        else -> error("TrackBase is sealed, so we shouldn't need this")
+fun Track.loadPcmData(): ByteArray =
+    subTracks?.let(::renderSubTracks)
+        ?: loadParentTrack()?.loadPcmData()
+        ?: convertToPcmData(filename!!)
+
+fun Track.loadParentTrack() =
+    if (_inheritFrom == null) {
+        null
+    } else if (_inheritFrom.contains("#")) {
+        val (parentFilename, parentTrackNumber) = _inheritFrom.split("#")
+        val parentMsu = loadMsu(parentFilename)
+
+        parentMsu.tracks.find { it.trackNumber.toString() == parentTrackNumber }
+    } else {
+        msu.tracks.find { it.trackNumber.toString() == _inheritFrom }
     }
 
 /**
  * Returns the source of the audio data for this track.
  *
- * This would also be part of [TrackBase], but would likely lead to the same Jackson problems.
+ * This would also be part of [Track], but would likely lead to the same Jackson problems.
  */
-fun TrackBase.source(): String =
-    when (this) {
-        is Track -> this.filename
-        is TrackCopy -> this.track.source()
-        is TrackImport -> this.track.source()
-        is TrackMix -> this.subTracks.joinToString(", ") { it.source() }
-        else -> error("TrackBase is sealed, so we shouldn't need this")
-    }
+fun Track.source(): String =
+    subTracks?.let { it.joinToString(", ") { track -> track.source() } }
+        ?: loadParentTrack()?.source()
+        ?: filename!!
 
 fun trimPcmData(pcmData: ByteArray, sampleCountStart: Int, sampleCountEnd: Int?) =
     pcmData.copyOfRange(
@@ -642,7 +536,7 @@ fun writeMsuFile(msu: Msu) {
     file.createNewFile()
 }
 
-fun writeMsuPcm(msu: Msu, track: TrackBase, pcmData: ByteArray, loopPoint: Int, raw: Boolean) {
+fun writeMsuPcm(msu: Msu, track: Track, pcmData: ByteArray, loopPoint: Int, raw: Boolean) {
     val outputFile = File("${msu.outputPrefix}-${track.trackNumber}.pcm")
 
     outputFile.parentFile?.mkdirs()
