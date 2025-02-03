@@ -196,10 +196,10 @@ data class TrackInfo(
     val trimStart: Int?,
 )
 
-class Track(val msu: Msu, trackInfo: TrackInfo) {
-    val album: String? by lazy { trackInfo.album ?: parentTrack?.album ?: msu.album ?: parentTrack?.msu?.album }
-    val amplification: Double? by lazy { trackInfo.amplification ?: parentTrack?.amplification }
-    val artist: String? by lazy { trackInfo.artist ?: parentTrack?.artist ?: msu.artist ?: parentTrack?.msu?.artist }
+class Track(msu: Msu, trackInfo: TrackInfo) {
+    val album: String? by lazy { trackInfo.album ?: parentTrack?.album ?: msu.album }
+    val amplification: Double? by lazy { trackInfo.amplification ?: parentTrack?.amplification ?: msu.amplification }
+    val artist: String? by lazy { trackInfo.artist ?: parentTrack?.artist ?: msu.artist }
     val fadeIn: Int? by lazy { trackInfo.fadeIn ?: parentTrack?.fadeIn }
     val fadeOut: Int? by lazy { trackInfo.fadeOut ?: parentTrack?.fadeOut }
     private val filename: String? by lazy { trackInfo.filename ?: parentTrack?.filename }
@@ -219,7 +219,7 @@ class Track(val msu: Msu, trackInfo: TrackInfo) {
             msu.tracks.find { it.trackNumber.toString() == trackInfo.inheritFrom }
         }
     }
-    val rmsTarget: Double? by lazy { trackInfo.rmsTarget ?: parentTrack?.rmsTarget }
+    val rmsTarget: Double? by lazy { trackInfo.rmsTarget ?: parentTrack?.rmsTarget ?: msu.rmsTarget }
     private val subTracks: List<Track>? by lazy {
         (trackInfo.subTracks?.map { Track(msu, it) } ?: parentTrack?.subTracks)
     }
@@ -270,19 +270,15 @@ fun bytesToSample(pcmData: ByteArray, index: Int) =
  *
  * - [Track.amplification]
  * - [Track.rmsTarget]
- * - [Msu.amplification]
- * - [Msu.rmsTarget]
  * - `1.0` (no change from input)
  *
- * If one of the `rmsTarget` values is chosen, the current RMS value of the [pcmData] is computed and the returned
- * amplification value is what's needed to hit the chosen RMS target.
+ * If the `rmsTarget` value is chosen, the current RMS value of the [pcmData] is computed and the returned amplification
+ * value is what's needed to hit the chosen RMS target.
  */
 fun computeAmplification(pcmData: ByteArray, track: Track) =
     when {
         track.amplification != null -> track.amplification!!.toLinear()
         track.rmsTarget != null -> track.rmsTarget!!.toLinear() / computeRootMeanSquare(pcmData)
-        track.msu.amplification != null -> track.msu.amplification.toLinear()
-        track.msu.rmsTarget != null -> track.msu.rmsTarget.toLinear() / computeRootMeanSquare(pcmData)
         else -> 1.0
     }
 
