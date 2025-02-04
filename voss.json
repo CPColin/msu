@@ -206,7 +206,7 @@
       "key": "crystal_retrieved",
       "album": "Tetrisphere",
       "title": "(SFX) Clearing Blocks",
-      "file": "SFX/Tetrisphere clearing blocks.wav",
+      "file": "SFX/Tetrisphere clearing blocks.flac",
       "fade_out": 22050,
       "amplification": -4.0
     },
@@ -775,7 +775,7 @@
       "key": "death_cry",
       "album": "Tetrisphere",
       "title": "(SFX) Death",
-      "file": "SFX/Tetrisphere death.wav",
+      "file": "SFX/Tetrisphere death.flac",
       "trim_end": 176400,
       "fade_out": 44100,
       "amplification": -5.5
