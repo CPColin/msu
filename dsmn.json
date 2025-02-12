@@ -90,16 +90,16 @@
       "sub_tracks": [
         {
           "inherit_from": "dsmn_tactics_ogre_snes.json#992",
-	  "pad_start": 44100,
-	  "amplification": 1.0
+          "pad_start": 44100,
+          "amplification": 1.0
         },
         {
           "inherit_from": "dsmn_tactics_ogre_gba.json#14",
           "pad_start": 88200,
-	  "amplification": 0.75
+          "amplification": 0.75
         }
       ],
-      "loop": 86106,
+      "loop": 130206,
       "album": "Tactics Ogre (SNES + GBA)",
       "artist": "Masaharu Iwata and Hitoshi Sakimoto",
       "title": "\"Fight It Out\" + Sudden Change"

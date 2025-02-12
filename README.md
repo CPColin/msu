@@ -55,6 +55,7 @@ There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/
 #### Version history
 
 * **2025-01-30, v1.0:** Initial release
+* **2025-02-11, v1.1:** Fixed loop on Kakariko Guards to account for the extra second of silence at the start
 
 ## Scripts
 
