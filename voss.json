@@ -1,7 +1,7 @@
 {
   "pack_name": "Voss Gears and New Tetris Spheres",
   "pack_author": "CPColin",
-  "pack_version": 3,
+  "pack_version": 4,
   "type": "Super Metroid / A Link to the Past Combination Randomizer",
   "artist": "Neil Voss",
   "url": "https://fi.zophar.net/soundfiles/nintendo-64-usf/tetrisphere/rwonrzrg/Tetrisphere%20%28FLAC%29.zophar.zip;https://fi.zophar.net/soundfiles/nintendo-64-usf/new-tetris-the/tpidixfx/New%20Tetris%2C%20The%20%28FLAC%29.zophar.zip;https://fi.zophar.net/soundfiles/gameboy-advance-gsf/racing-gears-advance/nnrikwjv/Racing%20Gears%20Advance%20%28FLAC%29.zophar.zip",
@@ -23,7 +23,7 @@
       "album": "Tetrisphere",
       "title": "SnowyMushrooms",
       "file": "Tetrisphere/19 SnowyMushrooms.flac",
-      "trim_end": 2823355,
+      "trim_end": 2822077,
       "amplification": 1.5
     },
     {
