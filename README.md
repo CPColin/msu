@@ -57,6 +57,7 @@ There's a track list in the ZIP and also [here](https://www.crappycomic.com/msu/
 
 * **2025-01-30, v1.0:** Initial release
 * **2025-02-11, v1.1:** Fixed loop on Kakariko Guards to account for the extra second of silence at the start
+* **2025-08-15, v1.2:** Swapped in a new track for Eastern Palace that's more exciting
 
 ## Scripts
 
