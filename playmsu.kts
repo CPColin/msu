@@ -190,12 +190,9 @@ fun writeLoop(filename: String, outputFilename: String) {
     }
 }
 
-if (args.size == 1) {
-    playFile(args[0])
-} else if (args.size == 2 && args[1] == "-loop") {
-    playLoop(args[0])
-} else if (args.size == 3 && args[1] == "-writeloop") {
-    writeLoop(args[0], args[2])
-} else {
-    printUsage()
+when (args.size) {
+    1 -> playFile(args[0])
+    2 if args[1] == "-loop" -> playLoop(args[0])
+    3 if args[1] == "-writeloop" -> writeLoop(args[0], args[2])
+    else -> printUsage()
 }

@@ -566,12 +566,9 @@ fun writeMsuTrackList(msu: Msu) {
     }
 }
 
-if (args.size == 1) {
-    processTracks(args[0])
-} else if (args.size == 2) {
-    processTrack(args[0], args[1].toInt())
-} else if (args.size == 3 && args[2] == "-raw"){
-    processTrack(args[0], args[1].toInt(), true)
-} else {
-    printUsage()
+when (args.size) {
+    1 -> processTracks(args[0])
+    2 -> processTrack(args[0], args[1].toInt())
+    3 if args[2] == "-raw" -> processTrack(args[0], args[1].toInt(), true)
+    else -> printUsage()
 }
